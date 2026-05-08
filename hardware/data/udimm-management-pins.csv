@@ -1,0 +1,11 @@
+DIMM_Pin,Signal,Wire_Color,Function,Harness_Connection
+1,VIN_BULK,RED,5V module input,MOSFET switched 5V output
+4,HSCL,YELLOW,sideband clock,PCA9306 SCL2 1.8V side
+5,HSDA,GREEN,sideband data,PCA9306 SDA2 1.8V side
+8,GND,BLACK,ground,common ground
+10,GND,BLACK,ground,common ground
+145,VIN_BULK,RED,5V module input,MOSFET switched 5V output
+146,VIN_BULK,RED,5V module input,MOSFET switched 5V output
+147,PWR_GOOD,PURPLE,hub status to ESP32,10k pull-up to 3.3V + GPIO34
+148,HSA,BLUE,mode/address strap,1k series to GPIO27 + 100k pull-up to 3.3V
+151,PWR_EN,WHITE,hub enable,10k pull-up to 3.3V + GPIO33

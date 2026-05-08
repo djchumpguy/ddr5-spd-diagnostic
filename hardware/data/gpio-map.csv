@@ -1,0 +1,12 @@
+Function,ESP32_GPIO,Direction,Active_State,Notes
+I2C SDA,21,bidirectional,,3.3V side of PCA9306
+I2C SCL,22,output,,3.3V side of PCA9306
+HSA control,27,output/open or input,LOW=write/offline; released=input normal,HSA sampled at cold power-up
+DIMM full power control,32,output,HIGH=off; LOW=on,Controls MOSFET high-side switch
+PWR_EN,33,output/open,LOW=disable; released/high=enable,Hub enable only
+PWR_GOOD,34,input,HIGH=ready-ish; LOW=fault/not ready,GPIO34 input-only
+READY LED,26,output,HIGH=on,White LED
+PROCESS LED,25,output,pulse,Yellow LED
+SUCCESS LED,19,output,HIGH=latched,Green LED
+FAIL LED,23,output,HIGH/blink,Red LED
+DANGER WRITE LED,18,output,HIGH=write danger,Blue LED
