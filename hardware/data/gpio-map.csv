@@ -5,8 +5,3 @@ DIMM VIN_BULK switch,32,Recommended convenience,Output,Controls optional MOSFET 
 PWR_EN / VR enable,33,Optional,Output/open-drain style,PMIC VR enable / DRAM rail enable; not required for basic SPD/PMIC sideband access; LOW disables switching regulators; released/HIGH enables through pull-up
 PWR_GOOD,34,Recommended readiness indicator,Input,"Useful readiness/wiring indicator; in this lab every PWR_GOOD LOW case traced to wiring/readiness setup, not a confirmed SPD/PMIC failure; do not trust bus results while LOW"
 HSA experiment,27,Optional,Output or input/released,Used during ESP32-controlled HSA testing only; preferred bench method is manual HSA strap plus full VIN_BULK cold reset
-Ready LED,26,Optional debug,Output,Temporary bring-up/debug indicator only; not required for DDR5 communication
-Processing LED,25,Optional debug,Output,Temporary bring-up/debug indicator only; not required for DDR5 communication
-Success LED,19,Optional debug,Output,Temporary bring-up/debug indicator only; not required for DDR5 communication
-Failure LED,23,Optional debug,Output,Temporary bring-up/debug indicator only; not required for DDR5 communication
-Danger/write LED,18,Optional debug,Output,Temporary bring-up/debug indicator only; not required for DDR5 communication
