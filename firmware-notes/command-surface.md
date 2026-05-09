@@ -5,7 +5,7 @@ This repo does not yet include the firmware source, but the docs should preserve
 The diagnostic tool should default to:
 
 ```text
-observe → dump → compare → repeat-test → only then consider writes
+observe → check ready state → dump → compare → repeat-test → only then consider writes
 ```
 
 Writes should be treated as a separate danger zone, not as normal workflow.
@@ -17,8 +17,8 @@ Writes should be treated as a separate danger zone, not as normal workflow.
 | Full DIMM power | GPIO32 controls the MOSFET-switched VIN_BULK rail. HIGH = DIMM off, LOW = DIMM on. |
 | HSA mode | Manual HSA strapping became the preferred bench-test method. GPIO27 HSA control was tested but is optional/experimental. |
 | HSA reset requirement | HSA is sampled at power-up. Changing HSA requires a true VIN_BULK cold power cycle. |
-| PWR_EN / VR enable | GPIO33 was wired/tested, but it should not be treated as hub enable. It controls PMIC VR enable / DRAM rail bring-up behavior and is not required for basic SPD/PMIC sideband communication. |
-| PWR_GOOD | GPIO34 can read PMIC power-good/status behavior. Useful for VR/DRAM-rail experiments, but not required for simple SPD/PMIC sideband reads. |
+| PWR_EN / VR enable | GPIO33 was wired/tested, but it should not be treated as SPD hub enable. It controls PMIC VR enable / DRAM rail bring-up behavior and is not required for basic SPD/PMIC sideband access. |
+| PWR_GOOD | GPIO34 reads PWR_GOOD. In this lab, every case where PWR_GOOD was pulled LOW traced back to wiring/readiness setup, not a confirmed SPD hub or PMIC failure. |
 | I2C wiring | PCA9306 level shifting remains the safer reference design, but direct ESP32 3.3 V open-drain I2C to DIMM HSDA/HSCL worked in the lab setup. |
 | LEDs | LEDs were optional debug indicators during bring-up and software testing, not required hardware. |
 
@@ -38,19 +38,50 @@ not:
 SPD hub enable
 ```
 
-For the ESP32 diagnostic workflow, the tool talks to the SPD hub and PMIC over the sideband bus. Those management-side paths can be available before enabling the DRAM switching rails. PWR_EN is only useful when intentionally experimenting with PMIC output regulators / DRAM rail bring-up behavior.
+The ESP32 diagnostic workflow primarily talks to the SPD hub and PMIC over the sideband bus. PWR_EN is useful when intentionally experimenting with PMIC output regulators / DRAM rail bring-up behavior, but it is not required for basic SPD/PMIC sideband access.
 
-So for basic SPD/PMIC diagnostics:
+## Important PWR_GOOD correction
+
+PWR_GOOD is a useful readiness/wiring indicator, but it should not be overinterpreted.
+
+Project observation:
+
+```text
+Every time PWR_GOOD was pulled LOW in this lab setup, the cause was a wiring/readiness issue.
+```
+
+So for this harness, treat PWR_GOOD LOW as:
+
+```text
+Stop and check wiring / power / pull-ups / harness state first.
+```
+
+Do not treat PWR_GOOD LOW as immediate proof of a bad SPD hub, bad PMIC, or bad DRAM.
+
+| PWR_GOOD state | Tool interpretation |
+|---|---|
+| HIGH | Harness/DIMM management state appears ready enough to attempt SPD/PMIC access. |
+| LOW | Do not trust bus results yet. Check wiring, power routing, pull-ups, ground, VIN_BULK switch state, HSA strap state, and PWR_GOOD pull-up. |
+
+Recommended firmware behavior:
+
+- Show PWR_GOOD prominently in `powerdiag`.
+- Warn before `scan`, `spd dump`, `pmicdump`, `compare`, or write commands if PWR_GOOD is LOW.
+- Do not treat a failed scan with PWR_GOOD LOW as proof that the SPD hub or PMIC is dead.
+- After `dimm_power cycle`, wait for PWR_GOOD to settle before trusting scan/read results.
+- If PWR_GOOD stays LOW, troubleshoot wiring/readiness before continuing.
+
+For basic SPD/PMIC diagnostics:
 
 ```text
 Required:
 - VIN_BULK / management power present
 - HSA strap set before power-up
 - Sideband I2C working
+- PWR_GOOD high before trusting access
 
 Not required:
-- PWR_EN toggling
-- DRAM rail enable
+- PWR_EN toggling for DRAM rails
 - LED panel
 ```
 
@@ -64,7 +95,7 @@ Prefer explicit names:
 |---|---|
 | `dimm_power` | GPIO32 / switched VIN_BULK full DIMM power |
 | `vr_enable` | GPIO33 / PWR_EN / PMIC regulator enable for DRAM rails |
-| `pwr_good` | GPIO34 / PWR_GOOD status |
+| `pwr_good` | GPIO34 / PWR_GOOD readiness/wiring indicator |
 | `hsa_state` | Recorded/manual HSA strap condition |
 | `hsa_gpio` | Optional GPIO27 HSA experiment, if firmware supports it |
 | `bus_scan` | Current active sideband scan |
@@ -79,9 +110,9 @@ These commands should be safe by default and should not alter SPD, PMIC configur
 
 | Command idea | Purpose |
 |---|---|
-| `scan` | Scan active bus state. |
-| `mapall` | Current-mode read-only address mapping. Should not change HSA or power state. |
-| `reg read <addr> <reg>` | Generic register read. |
+| `scan` | Scan active bus state. Warn if PWR_GOOD is LOW. |
+| `mapall` | Current-mode read-only address mapping. Should not change HSA or power state. Warn if PWR_GOOD is LOW. |
+| `reg read <addr> <reg>` | Generic register read. Warn if PWR_GOOD is LOW. |
 | `biosread <offset>` | BIOS-style one-byte legacy SPD read. |
 | `biosdump` | BIOS-style SPD dump path. |
 | `spd read <offset>` | Read SPD byte/range. |
@@ -90,7 +121,7 @@ These commands should be safe by default and should not alter SPD, PMIC configur
 | `pmicdump` | PMIC register dump. |
 | `timespd` | SPD timing/stability test. |
 | `timereg` | Register timing/stability test. |
-| `powerdiag` | Report GPIO32 power state, optional GPIO33 VR enable state, optional GPIO34 PWR_GOOD state, and recorded HSA note. |
+| `powerdiag` | Report GPIO32 power state, optional GPIO33 VR enable state, GPIO34 PWR_GOOD state, and recorded HSA note. |
 | `compare` | Compare current stick against stored known-good SPD. Read-only against the module. |
 | `verifygood` | Verify target matches stored good SPD. Read-only against the module. |
 
@@ -100,12 +131,12 @@ Power/mode commands are not necessarily destructive, but they change experiment 
 
 | Command idea | Purpose | Safety notes |
 |---|---|---|
-| `dimm_power on` | Turn on GPIO32-switched VIN_BULK. | GPIO32 LOW = DIMM on in the current harness. |
+| `dimm_power on` | Turn on GPIO32-switched VIN_BULK. | GPIO32 LOW = DIMM on in the current harness. Then wait/check PWR_GOOD. |
 | `dimm_power off` | Turn off GPIO32-switched VIN_BULK. | GPIO32 HIGH = DIMM off in the current harness. |
-| `dimm_power cycle` | Cold-cycle VIN_BULK. | Required after changing HSA strap state. |
+| `dimm_power cycle` | Cold-cycle VIN_BULK. | Required after changing HSA strap state. Then wait/check PWR_GOOD. |
 | `vr_enable on` | Release/enable PWR_EN through pull-up. | Optional. Enables PMIC regulator / DRAM rail path; not required for basic SPD/PMIC reads. |
 | `vr_enable off` | Pull PWR_EN low. | Optional. Disables PMIC switching regulators / DRAM rails. |
-| `powerdiag` | Print power/control/status state. | Should show GPIO32, optional GPIO33, optional GPIO34, and recorded HSA note. |
+| `powerdiag` | Print power/control/status state. | Should show GPIO32, optional GPIO33, GPIO34 PWR_GOOD, and recorded HSA note. |
 
 ## HSA handling
 
@@ -150,8 +181,8 @@ These commands interact with stored reference data but should avoid writing to t
 |---|---|---|
 | `capturegood` | Store known-good SPD to ESP32 NVS. | Should require confirmation and print source stick reminder. |
 | `cleargood` | Clear stored known-good SPD. | Should require confirmation. |
-| `compare` | Compare current stick against stored good SPD. | Read-only against target stick. |
-| `verifygood` | Verify target matches stored good SPD. | Read-only against target stick. |
+| `compare` | Compare current stick against stored good SPD. | Read-only against target stick. Warn if PWR_GOOD is LOW. |
+| `verifygood` | Verify target matches stored good SPD. | Read-only against target stick. Warn if PWR_GOOD is LOW. |
 
 ## Dangerous / write-capable commands
 
@@ -159,9 +190,9 @@ These must be strongly gated and should never run from casual button clicks.
 
 | Command idea | Purpose | Required gating |
 |---|---|---|
-| `reg write <addr> <reg> <value>` | Generic register write. | Require explicit write mode and confirmation. |
-| `spd write <offset> <value>` | Write SPD byte/range. | Require backup, target confirmation, and write-mode confirmation. |
-| `writegood` | Write stored good SPD payload to target stick. | Require known-good exists, target identity confirmation, full backup, and final confirmation. |
+| `reg write <addr> <reg> <value>` | Generic register write. | Require explicit write mode and confirmation. Block or hard-warn if PWR_GOOD is LOW. |
+| `spd write <offset> <value>` | Write SPD byte/range. | Require backup, target confirmation, write-mode confirmation, and PWR_GOOD sanity. |
+| `writegood` | Write stored good SPD payload to target stick. | Require known-good exists, target identity confirmation, full backup, final confirmation, and PWR_GOOD sanity. |
 | `autofix` | Attempt automated recovery sequence. | Should remain strongly gated; never casual. |
 | `protect clone` | Future MR12/MR13 protection map clone command. | Historical/caution only; not part of current final diagnosis path. |
 | `pmic write` | Write PMIC register/config. | Require explicit PMIC write unlock / lab mode confirmation. |
@@ -195,6 +226,7 @@ Do not present MR12/MR13 cloning as the normal fix path.
 dimm_power off
 set HSA strap manually
 dimm_power cycle
+wait/check PWR_GOOD
 powerdiag
 scan
 mapall
@@ -213,6 +245,7 @@ dimm_power off
 set HSA strap manually
 hsa note low|resistor|high|floating
 dimm_power cycle
+wait/check PWR_GOOD
 powerdiag
 scan
 record observed hub address
@@ -222,6 +255,7 @@ record observed hub address
 
 ```text
 dimm_power cycle
+wait/check PWR_GOOD
 scan
 pmicid
 pmicdump
@@ -241,6 +275,7 @@ dimm_power off
 install target stick
 set HSA for intended write/offline state
 dimm_power cycle
+wait/check PWR_GOOD
 scan
 spd dump          # backup target before writes
 compare
@@ -254,7 +289,8 @@ For a web UI or serial CLI:
 
 - Show current GPIO32 DIMM power state.
 - Show GPIO33 as optional `vr_enable`, not `hub_enable`.
-- Show GPIO34 PWR_GOOD state only as optional PMIC/rail status.
+- Show GPIO34 PWR_GOOD prominently as readiness/wiring status.
+- Warn if PWR_GOOD is LOW before bus reads/writes.
 - Show recorded HSA note.
 - Show whether VIN_BULK has been cold-cycled since HSA note changed.
 - Put write commands behind a separate danger section.
@@ -266,6 +302,8 @@ For a web UI or serial CLI:
 The diagnostic firmware should be boring by default:
 
 ```text
+power on
+wait for PWR_GOOD
 read first
 dump first
 compare first
@@ -274,5 +312,7 @@ write only when absolutely intentional
 ```
 
 PWR_EN is not part of the required SPD/PMIC read path. Treat it as optional VR/DRAM-rail experimentation, not hub enable.
+
+PWR_GOOD is the useful readiness/wiring signal. If it is LOW, stop and check the harness before trusting the bus result.
 
 The tool exists to prevent guessing, not to automate expensive mistakes at microcontroller speed.
