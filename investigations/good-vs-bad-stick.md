@@ -13,10 +13,10 @@ Earlier testing found a mismatch in SPD hub write-protection registers **MR12/MR
 The comparison was performed using the ESP32 DDR5 diagnostic harness with:
 
 - ESP32 SPD/PMIC tool
-- HSA mode control
-- Full DIMM power cycling through `DIMM_PWR`
-- `PWR_EN` hub enable control
-- `PWR_GOOD` status readback
+- Manual HSA strap testing, with GPIO27 HSA control treated as historical/optional experiment
+- VIN_BULK cold power cycling, either switched or manual depending harness setup
+- `PWR_EN` treated as optional PMIC VR / DRAM rail enable, not SPD hub enable
+- `PWR_GOOD` readiness/wiring status readback
 - SPD hub register reads
 - PMIC register reads
 - `timereg` stability tests
