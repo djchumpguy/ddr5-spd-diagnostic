@@ -4,15 +4,10 @@ Current priority: keep the diagnostic-tool documentation internally consistent b
 
 ## High priority — diagnostic repo cleanup
 
+- [ ] Add/verify `.gitignore` blocks raw logs, private PDFs, binary dumps, and bulky media.
 - [ ] Search repo for stale wording:
   - `hub enable`
   - `hub_enable`
-  - `LED`
-  - `GPIO18`
-  - `GPIO19`
-  - `GPIO23`
-  - `GPIO25`
-  - `GPIO26`
 - [ ] Confirm all docs describe `PWR_EN` as optional PMIC VR / DRAM rail enable, not SPD hub enable.
 - [ ] Confirm all docs describe `PWR_GOOD LOW` as a wiring/readiness issue observed in this lab, not immediate proof of bad silicon.
 - [ ] Confirm all docs say HSA changes require a true VIN_BULK cold power cycle.
