@@ -1,0 +1,34 @@
+# Raw/private logs and captures
+logs/raw/
+logs/private/
+*.log
+*.bin
+*.raw
+*.capture
+*.pcap
+*.pcapng
+
+# Private source/reference material
+sources/private/
+sources/**/*.pdf
+*.pdf
+
+# Bulky/raw media
+assets/raw/
+assets/**/*.raw
+assets/**/*.mov
+assets/**/*.mp4
+
+# OS/editor cruft
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Build/cache artifacts
+__pycache__/
+*.pyc
+node_modules/
+dist/
+build/
+.pio/
