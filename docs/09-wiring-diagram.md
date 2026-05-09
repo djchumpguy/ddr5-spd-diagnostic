@@ -15,53 +15,45 @@ Key points:
 
 ```mermaid
 flowchart LR
-    %% Power options
-    PSU5[Stable 5V supply] --> POWERCHOICE{VIN_BULK power method}
+    PSU5["Stable 5 V supply"] --> POWERCHOICE{"VIN_BULK power method"}
 
-    POWERCHOICE --> MANUAL[Direct or manual-switched 5V]
-    MANUAL --> VIN[DIMM VIN_BULK pins 1 / 145 / 146]
+    POWERCHOICE --> MANUAL["Direct or manual-switched 5 V"]
+    MANUAL --> VIN["DIMM VIN_BULK pins 1 / 145 / 146"]
 
-    POWERCHOICE --> MOSFET[MOSFET high-side switch]
-    GPIO32[ESP32 GPIO32 optional VIN_BULK switch control] --> MOSFET
+    POWERCHOICE --> MOSFET["Optional MOSFET high-side switch"]
+    GPIO32["ESP32 GPIO32 optional VIN_BULK switch control"] --> MOSFET
     MOSFET --> VIN
 
-    %% Common ground
-    ESP32GND[ESP32 GND] --- GND[Common ground]
-    PSUGND[5V supply GND] --- GND
-    DIMMGND[DIMM GND pins 8 / 10] --- GND
-    PCA_GND[PCA9306 GND if used] --- GND
-    MOSGND[MOSFET control GND if used] --- GND
+    ESP32GND["ESP32 GND"] --- GND["Common ground"]
+    PSUGND["5 V supply GND"] --- GND
+    DIMMGND["DIMM GND pins 8 / 10"] --- GND
+    PCAGND["PCA9306 GND if used"] --- GND
+    MOSGND["MOSFET control GND if used"] --- GND
 
-    %% HSA manual strap
-    HSA[DIMM HSA pin 148] --> HSASTRAP{Manual HSA strap at power-up}
-    HSASTRAP --> HSALOW[Hard-low / GND: observed 0x50]
-    HSASTRAP --> HSARES[Resistor / slot-style strap: observed 0x53]
-    HSASTRAP --> HSAHIGH[Floating or high-ish: older observed 0x57]
+    HSA["DIMM HSA pin 148"] --> HSASTRAP{"Manual HSA strap at power-up"}
+    HSASTRAP --> HSALOW["Hard-low / GND observed 0x50"]
+    HSASTRAP --> HSARES["Resistor / slot-style strap observed 0x53"]
+    HSASTRAP --> HSAHIGH["Floating or high-ish older observed 0x57"]
 
-    %% Optional GPIO27 experiment
-    GPIO27[ESP32 GPIO27 optional HSA experiment] -. 1k .-> HSA
-    HSA -. optional 100k pull-up .-> V33[3.3V]
+    GPIO27["ESP32 GPIO27 optional HSA experiment"] -. "1k series" .-> HSA
+    HSA -. "optional 100k pull-up" .-> V33["3.3 V"]
 
-    %% PWR_EN optional VR enable
-    GPIO33[ESP32 GPIO33 optional VR enable] --> PWREN[DIMM PWR_EN pin 151]
-    PWREN -- 10k pull-up --> V33
-    PWREN --> VRNOTE[PWR_EN = PMIC VR / DRAM rail enable, not SPD hub enable]
+    GPIO33["ESP32 GPIO33 optional VR enable"] --> PWREN["DIMM PWR_EN pin 151"]
+    PWREN -- "10k pull-up" --> V33
+    PWREN --> VRNOTE["PWR_EN equals PMIC VR / DRAM rail enable"]
 
-    %% PWR_GOOD readiness
-    PWRGOOD[DIMM PWR_GOOD pin 147] --> GPIO34[ESP32 GPIO34 input]
-    PWRGOOD -- 10k pull-up --> V33
-    PWRGOOD --> PGNOTE[PWR_GOOD HIGH before trusting SPD/PMIC reads]
+    PWRGOOD["DIMM PWR_GOOD pin 147"] --> GPIO34["ESP32 GPIO34 input"]
+    PWRGOOD -- "10k pull-up" --> V33
+    PWRGOOD --> PGNOTE["PWR_GOOD high before trusting SPD / PMIC reads"]
 
-    %% I2C conservative level-shifted path
-    GPIO21[ESP32 GPIO21 SDA] --> PCA1[PCA9306 3.3V side]
-    GPIO22[ESP32 GPIO22 SCL] --> PCA1
-    PCA1 --> PCA2[PCA9306 DIMM-side lower-voltage side]
-    PCA2 --> HSDA[DIMM HSDA pin 5]
-    PCA2 --> HSCL[DIMM HSCL pin 4]
+    GPIO21["ESP32 GPIO21 SDA"] --> PCA1["PCA9306 3.3 V side"]
+    GPIO22["ESP32 GPIO22 SCL"] --> PCA1
+    PCA1 --> PCA2["PCA9306 DIMM-side lower-voltage side"]
+    PCA2 --> HSDA["DIMM HSDA pin 5"]
+    PCA2 --> HSCL["DIMM HSCL pin 4"]
 
-    %% Direct lab-proven I2C shortcut
-    GPIO21 -. direct 3.3V open-drain lab shortcut .-> HSDA
-    GPIO22 -. direct 3.3V open-drain lab shortcut .-> HSCL
+    GPIO21 -. "direct 3.3 V open-drain lab shortcut" .-> HSDA
+    GPIO22 -. "direct 3.3 V open-drain lab shortcut" .-> HSCL
 ```
 
 ## Power-cycle rule
@@ -89,36 +81,36 @@ PWR_EN alone is not enough to force the SPD hub to re-sample HSA.
 
 ```mermaid
 flowchart LR
-    PSU5[Stable 5V supply] --> SWITCH[Optional manual switch]
-    SWITCH --> VIN[DIMM VIN_BULK pins 1 / 145 / 146]
+    PSU5["Stable 5 V supply"] --> SWITCH["Optional manual switch"]
+    SWITCH --> VIN["DIMM VIN_BULK pins 1 / 145 / 146"]
 
-    PSUGND[5V supply GND] --- GND[Common ground]
-    ESP32GND[ESP32 GND] --- GND
-    DIMMGND[DIMM GND pins 8 / 10] --- GND
+    PSUGND["5 V supply GND"] --- GND["Common ground"]
+    ESP32GND["ESP32 GND"] --- GND
+    DIMMGND["DIMM GND pins 8 / 10"] --- GND
 
-    HSA[DIMM HSA pin 148] --> STRAP[Manual HSA strap]
+    HSA["DIMM HSA pin 148"] --> STRAP["Manual HSA strap"]
 
-    PWRGOOD[DIMM PWR_GOOD pin 147] --> GPIO34[ESP32 GPIO34]
-    PWRGOOD -- 10k pull-up --> V33[3.3V]
+    PWRGOOD["DIMM PWR_GOOD pin 147"] --> GPIO34["ESP32 GPIO34"]
+    PWRGOOD -- "10k pull-up" --> V33["3.3 V"]
 
-    GPIO21[ESP32 GPIO21 SDA] -. direct 3.3V open-drain .-> HSDA[DIMM HSDA pin 5]
-    GPIO22[ESP32 GPIO22 SCL] -. direct 3.3V open-drain .-> HSCL[DIMM HSCL pin 4]
+    GPIO21["ESP32 GPIO21 SDA"] -. "direct 3.3 V open-drain" .-> HSDA["DIMM HSDA pin 5"]
+    GPIO22["ESP32 GPIO22 SCL"] -. "direct 3.3 V open-drain" .-> HSCL["DIMM HSCL pin 4"]
 ```
 
 ## Conservative level-shifted sideband wiring
 
 ```mermaid
 flowchart LR
-    GPIO21[ESP32 GPIO21 SDA] --> PCA3V[PCA9306 3.3V side]
-    GPIO22[ESP32 GPIO22 SCL] --> PCA3V
+    GPIO21["ESP32 GPIO21 SDA"] --> PCA3V["PCA9306 3.3 V side"]
+    GPIO22["ESP32 GPIO22 SCL"] --> PCA3V
 
-    PCA3V --> PCADIMM[PCA9306 DIMM-side lower-voltage side]
-    PCADIMM --> HSDA[DIMM HSDA pin 5]
-    PCADIMM --> HSCL[DIMM HSCL pin 4]
+    PCA3V --> PCADIMM["PCA9306 DIMM-side lower-voltage side"]
+    PCADIMM --> HSDA["DIMM HSDA pin 5"]
+    PCADIMM --> HSCL["DIMM HSCL pin 4"]
 
-    V33[3.3V pull-ups] --> PCA3V
-    VDIMM[DIMM-side pull-ups] --> PCADIMM
-    GND[Common ground] --- PCA3V
+    V33["3.3 V pull-ups"] --> PCA3V
+    VDIMM["DIMM-side pull-ups"] --> PCADIMM
+    GND["Common ground"] --- PCA3V
     GND --- PCADIMM
 ```
 
@@ -126,7 +118,7 @@ flowchart LR
 
 ```text
 VIN_BULK:
-  stable 5V direct/manual OR optional GPIO32 MOSFET switch
+  stable 5 V direct/manual OR optional GPIO32 MOSFET switch
 
 HSA:
   manual strap preferred
@@ -143,5 +135,5 @@ PWR_GOOD:
 
 I2C:
   PCA9306 safer reference
-  direct 3.3V open-drain worked in this lab setup
+  direct 3.3 V open-drain worked in this lab setup
 ```
