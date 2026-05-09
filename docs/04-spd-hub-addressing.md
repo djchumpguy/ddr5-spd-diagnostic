@@ -30,9 +30,9 @@ PWR_EN alone is not enough. Use a real VIN_BULK cold-cycle through the DIMM powe
 
 | HSA condition at power-up | Observed hub address / behavior | Project interpretation |
 |---|---|---|
-| Direct hard-low / tied to GND | `0x50` | Offline / write-programmer style behavior; write-protect override path |
-| Resistor-selected low strap / slot-ID style strap | `0x53` | Later/current normal-runtime observation for this harness |
-| Floating or high-ish HSA | `0x57` | Older observation; useful context, not the current default assumption |
+| Direct hard-low / tied to GND | `0x50` | Direct-GND / hard-low / offline tester behavior; write-protect override path |
+| Resistor-selected low strap / slot-ID style strap | `0x53` | HSA resistor strap / HID-selected observed harness state |
+| Floating or high-ish HSA | `0x57` | HSA floating/high-ish observed behavior |
 
 ## Current preferred bench workflow
 
@@ -60,7 +60,7 @@ Pin 148 HSA ---- 100k ---- 3.3V
 
 | GPIO27 state | HSA result | Intended test mode |
 |---|---|---|
-| LOW / output-low | HSA forced low | Offline / write-style test |
+| LOW / output-low | HSA forced low | Direct-GND / offline tester test |
 | INPUT / released | Pulled high by 100k | Normal / high-HSA test |
 
 Because HSA must be re-sampled at power-up, GPIO27 control still requires a full VIN_BULK power cycle after each state change.
@@ -75,7 +75,7 @@ This mode is useful for recovery/programming style work, but it should not be co
 
 ### `0x53`
 
-`0x53` became the later/current normal-runtime observation for this harness when using the practical HSA strap behavior.
+`0x53` became the HSA resistor strap / HID-selected observed harness state when using the practical HSA strap behavior.
 
 Treat `0x53` as the current expected hub address for the documented normal test setup unless a new capture shows otherwise.
 
@@ -109,7 +109,7 @@ For every scan, dump, PMIC read, or recovery attempt, record:
 - PWR_GOOD state
 - Observed hub address
 - Observed PMIC/local-device address
-- Whether the scan was normal mode or offline/write mode
+- Whether the scan was normal mode or direct-GND/offline tester mode
 
 ## Local device / PMIC note
 

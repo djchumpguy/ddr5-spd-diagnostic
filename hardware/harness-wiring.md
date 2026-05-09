@@ -133,7 +133,7 @@ Pin 148 HSA ---- 100k ---- 3.3V
 
 | GPIO27 state | HSA result | Intended test mode |
 |---|---|---|
-| LOW / output-low | HSA forced low | Write / offline tester style test |
+| LOW / output-low | HSA forced low | Direct-GND / offline tester test |
 | INPUT / released | Pulled high by 100k | Normal / high-HSA test |
 
 This GPIO27 method worked as a control experiment, but it is not required for basic bench testing. Manual HSA strapping plus a full VIN_BULK reset is simpler and avoids confusion.
@@ -144,9 +144,9 @@ The SPD hub address seen on the bus changed depending on the HSA condition prese
 
 | HSA condition at power-up | Observed address / behavior | Notes |
 |---|---|---|
-| Direct hard-low / tied to GND | `0x50` | Offline / write-programmer style behavior; write-protect override path |
-| Resistor-selected low strap / slot-ID style strap | `0x53` observed in later normal runtime setup | Treat this as the later/current normal-mode observation for this harness |
-| Floating or high-ish HSA | `0x57` observed earlier | Older observation; useful context, not the current default assumption |
+| Direct hard-low / tied to GND | `0x50` | Direct-GND / hard-low / offline tester behavior; write-protect override path |
+| Resistor-selected low strap / slot-ID style strap | `0x53` observed in later normal runtime setup | HSA resistor strap / HID-selected observed harness state |
+| Floating or high-ish HSA | `0x57` observed earlier | HSA floating/high-ish observed behavior |
 
 Important notes:
 

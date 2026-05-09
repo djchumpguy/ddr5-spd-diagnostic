@@ -74,9 +74,9 @@ Address behavior is empirical harness state. Do not treat these as universal DDR
 
 | HSA condition at power-up | Observed hub address / behavior | Notes |
 |---|---|---|
-| Direct hard-low / tied to GND | `0x50` | Offline / write-programmer style behavior; write-protect override path |
-| Resistor-selected low strap / slot-ID style strap | `0x53` | Later/current normal-runtime observation for this harness |
-| Floating or high-ish HSA | `0x57` | Older observation; useful context, not the current default assumption |
+| Direct hard-low / tied to GND | `0x50` | Direct-GND / hard-low / offline tester behavior; write-protect override path |
+| Resistor-selected low strap / slot-ID style strap | `0x53` | HSA resistor strap / HID-selected observed harness state |
+| Floating or high-ish HSA | `0x57` | HSA floating/high-ish observed behavior |
 
 Project notes also include PMIC/local-device addresses such as `0x4F` and later `0x4B`. Do not interpret PMIC address changes without also recording the HSA strap, hub address, and power-cycle method.
 

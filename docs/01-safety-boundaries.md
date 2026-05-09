@@ -199,7 +199,7 @@ Read-only commands and workflows should not alter:
 
 1. Read and archive the full SPD before attempting any write.
 2. Capture relevant register state before and after changes.
-3. Treat write/offline mode as a separate state requiring a deliberate VIN_BULK cold power cycle.
+3. Treat direct-GND/offline tester mode as a separate state requiring a deliberate VIN_BULK cold power cycle.
 4. Keep a hardware way to remove DIMM VIN_BULK immediately.
 5. Never mix “probe what happens” and “write” in the same command path.
 6. Never make write commands look visually similar to read/dump commands.

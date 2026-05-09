@@ -20,7 +20,7 @@ The comparison was performed using the ESP32 DDR5 diagnostic harness with:
 - SPD hub register reads
 - PMIC register reads
 - `timereg` stability tests
-- Normal mode and write/offline mode comparisons
+- Normal mode and direct-GND/offline tester mode comparisons
 
 ## Current evidence table
 
@@ -82,9 +82,9 @@ Observed address behavior evolved during the project. Keep these notes explicit 
 
 | Address | Meaning / context |
 |---|---|
-| `0x50` | Offline/write/direct-GND HSA style access observed during programming/recovery work |
-| `0x53` | Later normal/runtime hub address observed with the actual harness mode wiring |
-| `0x57` | Older high/floating-HSA observation; do not assume this is the current default |
+| `0x50` | Direct-GND / hard-low / offline tester access observed during programming/recovery work |
+| `0x53` | HSA resistor strap / HID-selected observed harness state with the actual harness mode wiring |
+| `0x57` | HSA floating/high-ish observed behavior; do not assume this is the current default |
 
 ## MR11 note
 

@@ -116,9 +116,9 @@ PWR_EN alone is not enough to force a new HSA sample.
 
 | HSA condition at power-up | Observed address / behavior | Notes |
 |---|---|---|
-| Direct hard-low / tied to GND | `0x50` | Offline / write-programmer style behavior |
-| Resistor-selected low strap / slot-ID style strap | `0x53` | Later/current normal-runtime observation for this harness |
-| Floating or high-ish HSA | `0x57` | Older observation; context only, not current default assumption |
+| Direct hard-low / tied to GND | `0x50` | Direct-GND / hard-low / offline tester behavior |
+| Resistor-selected low strap / slot-ID style strap | `0x53` | HSA resistor strap / HID-selected observed harness state |
+| Floating or high-ish HSA | `0x57` | HSA floating/high-ish observed behavior |
 
 ## Optional GPIO27 HSA experiment
 
@@ -131,7 +131,7 @@ Pin 148 HSA ---- 100k ---- 3.3V
 
 | GPIO27 state | HSA result | Intended test mode |
 |---|---|---|
-| LOW / output-low | HSA forced low | Offline / write-style test |
+| LOW / output-low | HSA forced low | Direct-GND / offline tester test |
 | INPUT / released | Pulled high by 100k | Normal / high-HSA test |
 
 Even with GPIO27 control, HSA changes still require a true VIN_BULK cold power cycle.

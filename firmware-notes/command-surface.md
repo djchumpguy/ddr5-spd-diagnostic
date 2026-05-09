@@ -191,9 +191,9 @@ The tool should print these as reminders when scanning or changing HSA notes:
 
 | HSA condition at power-up | Observed hub address / behavior |
 |---|---|
-| Direct hard-low / tied to GND | `0x50` offline/write-programmer style behavior |
-| Resistor-selected low strap / slot-ID style strap | `0x53` later/current normal-runtime observation |
-| Floating or high-ish HSA | `0x57` older observation / historical context |
+| Direct hard-low / tied to GND | `0x50` | Direct-GND / hard-low / offline tester behavior |
+| Resistor-selected low strap / slot-ID style strap | `0x53` | HSA resistor strap / HID-selected observed harness state |
+| Floating or high-ish HSA | `0x57` | HSA floating/high-ish observed behavior |
 
 The firmware should not assume the address alone identifies the mode. Address interpretation requires the HSA strap condition and whether a full VIN_BULK cold power cycle occurred.
 
@@ -315,7 +315,7 @@ This is not required for basic SPD/PMIC sideband communication. Use it only when
 capturegood        # known-good stick only
 remove VIN_BULK
 install target stick
-set HSA for intended write/offline state
+set HSA for intended direct-GND/offline tester state
 restore VIN_BULK
 wait/check PWR_GOOD
 scan

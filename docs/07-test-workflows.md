@@ -173,7 +173,7 @@ Note only persistent differences
 - If PWR_GOOD is LOW, stop and troubleshoot wiring/readiness first.
 - Do not treat one failed read as evidence of a dead SPD hub or PMIC.
 - Repeat timing tests before trusting an intermittent difference.
-- Do not compare normal-mode data against offline/write-style data without recording HSA state.
+- Do not compare normal-mode data against direct-GND/offline tester data without recording HSA state.
 
 ## Workflow 4 — HSA address experiment
 
@@ -200,9 +200,9 @@ Record observed hub address
 
 | HSA condition at power-up | Observed hub address / behavior | Notes |
 |---|---|---|
-| Direct hard-low / tied to GND | `0x50` | Offline / write-programmer style behavior |
-| Resistor-selected low strap / slot-ID style strap | `0x53` | Later/current normal-runtime observation for this harness |
-| Floating or high-ish HSA | `0x57` | Older observation; useful context, not current default assumption |
+| Direct hard-low / tied to GND | `0x50` | Direct-GND / hard-low / offline tester behavior |
+| Resistor-selected low strap / slot-ID style strap | `0x53` | HSA resistor strap / HID-selected observed harness state |
+| Floating or high-ish HSA | `0x57` | HSA floating/high-ish observed behavior |
 
 ### Notes
 
@@ -302,7 +302,7 @@ Goal:
 capturegood        # known-good stick only, done earlier
 Remove VIN_BULK
 Install target stick
-Set HSA for intended write/offline state
+Set HSA for intended direct-GND/offline tester state
 Restore VIN_BULK
 Wait/check PWR_GOOD
 powerdiag
@@ -312,7 +312,7 @@ pmicdump
 compare
 Confirm target identity
 Confirm known-good reference
-Confirm write/offline intent
+Confirm direct-GND/offline tester intent
 writegood         # only after confirmations
 verifygood
 ```
@@ -358,12 +358,12 @@ MR13 = 0x3C
 ### Historical draft sequence
 
 ```text
-Enter offline/write-style mode intentionally
+Enter direct-GND/offline tester mode intentionally
 Read MR12/MR13 before write
 Confirm current SPD payload matches known-good
 Write MR12/MR13 to target protection map
 Power-cycle VIN_BULK
-Read MR12/MR13 in offline/write-style mode
+Read MR12/MR13 in direct-GND/offline tester mode
 Power-cycle VIN_BULK into normal read mode
 Read MR12/MR13 normal mode
 Test motherboard boot

@@ -51,9 +51,9 @@ Observed address behavior changed depending on HSA state at power-up:
 
 | HSA condition at power-up | Observed address / behavior | Notes |
 |---|---|---|
-| Direct hard-low / tied to GND | `0x50` | Offline / write-programmer style behavior. |
-| Resistor-selected low strap / slot-ID style strap | `0x53` | Later/current normal-runtime observation for this harness. |
-| Floating or high-ish HSA | `0x57` | Older observation; useful context, not the current default assumption. |
+| Direct hard-low / tied to GND | `0x50` | Direct-GND / hard-low / offline tester behavior. |
+| Resistor-selected low strap / slot-ID style strap | `0x53` | HSA resistor strap / HID-selected observed harness state. |
+| Floating or high-ish HSA | `0x57` | HSA floating/high-ish observed behavior. |
 
 ## Key project corrections
 

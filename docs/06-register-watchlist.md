@@ -123,9 +123,9 @@ Observed project address behavior:
 
 | HSA condition at power-up | Observed hub address / behavior |
 |---|---|
-| Direct hard-low / tied to GND | `0x50` offline/write-programmer style behavior |
-| Resistor-selected low strap / slot-ID style strap | `0x53` later/current normal-runtime observation |
-| Floating or high-ish HSA | `0x57` older observation / historical context |
+| Direct hard-low / tied to GND | `0x50` | Direct-GND / hard-low / offline tester behavior |
+| Resistor-selected low strap / slot-ID style strap | `0x53` | HSA resistor strap / HID-selected observed harness state |
+| Floating or high-ish HSA | `0x57` | HSA floating/high-ish observed behavior |
 
 HSA is sampled at power-up. After changing HSA, perform a true VIN_BULK cold power cycle before capturing registers.
 
@@ -137,7 +137,7 @@ Stick ID:
 Tool / firmware version:
 
 Mode:
-  normal-read | hsa-address-test | offline-write-style | pmic-vr-experiment
+  normal-read | hsa-address-test | direct-gnd-offline-tester | pmic-vr-experiment
 
 VIN_BULK method:
   GPIO32 switch | manual switch | bench supply toggle | direct 5V feed | other

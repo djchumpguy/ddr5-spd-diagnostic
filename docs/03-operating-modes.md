@@ -118,9 +118,9 @@ Record observed hub address
 
 | HSA condition at power-up | Observed hub address / behavior | Notes |
 |---|---|---|
-| Direct hard-low / tied to GND | `0x50` | Offline / write-programmer style behavior |
-| Resistor-selected low strap / slot-ID style strap | `0x53` | Later/current normal-runtime observation for this harness |
-| Floating or high-ish HSA | `0x57` | Older observation; useful context, not current default assumption |
+| Direct hard-low / tied to GND | `0x50` | Direct-GND / hard-low / offline tester behavior |
+| Resistor-selected low strap / slot-ID style strap | `0x53` | HSA resistor strap / HID-selected observed harness state |
+| Floating or high-ish HSA | `0x57` | HSA floating/high-ish observed behavior |
 
 ### Notes
 
@@ -128,7 +128,7 @@ Record observed hub address
 - Do not compare address scans unless HSA strap condition and VIN_BULK cycle method are recorded.
 - PWR_EN alone is not enough to force a new HSA sample.
 
-## Mode 3 — Offline / write-style recovery mode
+## Mode 3 — Direct-GND / offline tester recovery mode
 
 Use this only when deliberately entering programming/recovery workflows.
 
@@ -136,13 +136,13 @@ This mode is dangerous because it can alter SPD contents, hub state, protection 
 
 ### Goal
 
-Enter a known write/offline-style condition and perform readback before any write.
+Enter a known direct-GND/offline tester condition and perform readback before any write.
 
 ### Sequence
 
 ```text
 Remove VIN_BULK
-Set HSA hard-low / intended offline-write strap
+Set HSA hard-low / intended direct-GND/offline strap
 Restore VIN_BULK
 Wait/check PWR_GOOD
 Run powerdiag
@@ -173,7 +173,7 @@ I UNDERSTAND THIS CAN DAMAGE THE MODULE
 
 ### Notes
 
-- HSA hard-low behavior was associated with `0x50` offline/write-programmer style access.
+- HSA hard-low behavior was associated with `0x50` direct-GND/offline tester access.
 - Do not present MR12/MR13 protection cloning as the normal fix path.
 - MR12/MR13 mismatch is historical context, not the current active root cause.
 
@@ -275,7 +275,7 @@ HSA change:
   Wait/check PWR_GOOD
   Scan/read
 
-Write/offline:
+Direct-GND/offline tester:
   HSA hard-low before power-up
   Cold-cycle VIN_BULK
   Read back first
