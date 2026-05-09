@@ -16,11 +16,43 @@ Writes should be treated as a separate danger zone, not as normal workflow.
 |---|---|
 | Full DIMM power | GPIO32 controls the MOSFET-switched VIN_BULK rail. HIGH = DIMM off, LOW = DIMM on. |
 | HSA mode | Manual HSA strapping became the preferred bench-test method. GPIO27 HSA control was tested but is optional/experimental. |
-| HSA reset requirement | HSA is sampled at power-up. Changing HSA requires a true VIN_BULK cold power cycle. PWR_EN alone is not enough. |
-| Hub enable | GPIO33 / PWR_EN controls hub enable only. It is not a substitute for full DIMM power removal. |
-| PWR_GOOD | GPIO34 reads PWR_GOOD status. |
+| HSA reset requirement | HSA is sampled at power-up. Changing HSA requires a true VIN_BULK cold power cycle. |
+| PWR_EN / VR enable | GPIO33 was wired/tested, but it should not be treated as hub enable. It controls PMIC VR enable / DRAM rail bring-up behavior and is not required for basic SPD/PMIC sideband communication. |
+| PWR_GOOD | GPIO34 can read PMIC power-good/status behavior. Useful for VR/DRAM-rail experiments, but not required for simple SPD/PMIC sideband reads. |
 | I2C wiring | PCA9306 level shifting remains the safer reference design, but direct ESP32 3.3 V open-drain I2C to DIMM HSDA/HSCL worked in the lab setup. |
 | LEDs | LEDs were optional debug indicators during bring-up and software testing, not required hardware. |
+
+## Important PWR_EN correction
+
+Earlier notes called GPIO33 / PWR_EN “hub enable.” That wording is misleading.
+
+For this diagnostic tool, PWR_EN should be treated as:
+
+```text
+PMIC VR enable / DRAM rail enable
+```
+
+not:
+
+```text
+SPD hub enable
+```
+
+For the ESP32 diagnostic workflow, the tool talks to the SPD hub and PMIC over the sideband bus. Those management-side paths can be available before enabling the DRAM switching rails. PWR_EN is only useful when intentionally experimenting with PMIC output regulators / DRAM rail bring-up behavior.
+
+So for basic SPD/PMIC diagnostics:
+
+```text
+Required:
+- VIN_BULK / management power present
+- HSA strap set before power-up
+- Sideband I2C working
+
+Not required:
+- PWR_EN toggling
+- DRAM rail enable
+- LED panel
+```
 
 ## Firmware naming rule
 
@@ -31,7 +63,7 @@ Prefer explicit names:
 | Name | Meaning |
 |---|---|
 | `dimm_power` | GPIO32 / switched VIN_BULK full DIMM power |
-| `hub_enable` | GPIO33 / PWR_EN |
+| `vr_enable` | GPIO33 / PWR_EN / PMIC regulator enable for DRAM rails |
 | `pwr_good` | GPIO34 / PWR_GOOD status |
 | `hsa_state` | Recorded/manual HSA strap condition |
 | `hsa_gpio` | Optional GPIO27 HSA experiment, if firmware supports it |
@@ -39,13 +71,11 @@ Prefer explicit names:
 | `spd_dump` | SPD EEPROM dump |
 | `pmic_dump` | PMIC register dump |
 
-Do not name GPIO33/PWR_EN commands as if they fully power-cycle the DIMM. That mistake wastes time and makes HSA behavior look haunted.
-
-## Command groups
+Avoid naming GPIO33 as `hub_enable`. It is not needed for the sideband-only SPD/PMIC read workflow and does not replace a full VIN_BULK reset.
 
 ## Safe / read-only discovery
 
-These commands should be safe by default and should not alter SPD, PMIC configuration, or protection state.
+These commands should be safe by default and should not alter SPD, PMIC configuration, protection state, or DRAM rail enable state.
 
 | Command idea | Purpose |
 |---|---|
@@ -60,7 +90,7 @@ These commands should be safe by default and should not alter SPD, PMIC configur
 | `pmicdump` | PMIC register dump. |
 | `timespd` | SPD timing/stability test. |
 | `timereg` | Register timing/stability test. |
-| `powerdiag` | Report GPIO states, DIMM power state, hub enable state, and PWR_GOOD. |
+| `powerdiag` | Report GPIO32 power state, optional GPIO33 VR enable state, optional GPIO34 PWR_GOOD state, and recorded HSA note. |
 | `compare` | Compare current stick against stored known-good SPD. Read-only against the module. |
 | `verifygood` | Verify target matches stored good SPD. Read-only against the module. |
 
@@ -73,9 +103,9 @@ Power/mode commands are not necessarily destructive, but they change experiment 
 | `dimm_power on` | Turn on GPIO32-switched VIN_BULK. | GPIO32 LOW = DIMM on in the current harness. |
 | `dimm_power off` | Turn off GPIO32-switched VIN_BULK. | GPIO32 HIGH = DIMM off in the current harness. |
 | `dimm_power cycle` | Cold-cycle VIN_BULK. | Required after changing HSA strap state. |
-| `hub_enable on` | Release/enable PWR_EN through pull-up. | Does not re-sample HSA. |
-| `hub_enable off` | Pull PWR_EN low / disable hub. | Does not replace a full VIN_BULK reset. |
-| `powerdiag` | Print power/control/status state. | Should show GPIO32, GPIO33, GPIO34, and any recorded HSA note. |
+| `vr_enable on` | Release/enable PWR_EN through pull-up. | Optional. Enables PMIC regulator / DRAM rail path; not required for basic SPD/PMIC reads. |
+| `vr_enable off` | Pull PWR_EN low. | Optional. Disables PMIC switching regulators / DRAM rails. |
+| `powerdiag` | Print power/control/status state. | Should show GPIO32, optional GPIO33, optional GPIO34, and recorded HSA note. |
 
 ## HSA handling
 
@@ -135,6 +165,7 @@ These must be strongly gated and should never run from casual button clicks.
 | `autofix` | Attempt automated recovery sequence. | Should remain strongly gated; never casual. |
 | `protect clone` | Future MR12/MR13 protection map clone command. | Historical/caution only; not part of current final diagnosis path. |
 | `pmic write` | Write PMIC register/config. | Require explicit PMIC write unlock / lab mode confirmation. |
+| `vr_enable on` | Enable PMIC regulators / DRAM rails. | Not an SPD read requirement; log this separately when testing rail bring-up. |
 
 Suggested dangerous-write confirmation text:
 
@@ -187,6 +218,21 @@ scan
 record observed hub address
 ```
 
+### Optional DRAM rail / VR enable experiment
+
+```text
+dimm_power cycle
+scan
+pmicid
+pmicdump
+vr_enable on
+powerdiag
+pmicdump
+vr_enable off
+```
+
+This is not required for basic SPD/PMIC sideband communication. Use it only when intentionally observing PMIC regulator / DRAM rail behavior.
+
 ### Recovery/write workflow
 
 ```text
@@ -207,8 +253,8 @@ verifygood
 For a web UI or serial CLI:
 
 - Show current GPIO32 DIMM power state.
-- Show GPIO33 hub enable state.
-- Show GPIO34 PWR_GOOD state.
+- Show GPIO33 as optional `vr_enable`, not `hub_enable`.
+- Show GPIO34 PWR_GOOD state only as optional PMIC/rail status.
 - Show recorded HSA note.
 - Show whether VIN_BULK has been cold-cycled since HSA note changed.
 - Put write commands behind a separate danger section.
@@ -226,5 +272,7 @@ compare first
 repeat-test first
 write only when absolutely intentional
 ```
+
+PWR_EN is not part of the required SPD/PMIC read path. Treat it as optional VR/DRAM-rail experimentation, not hub enable.
 
 The tool exists to prevent guessing, not to automate expensive mistakes at microcontroller speed.
