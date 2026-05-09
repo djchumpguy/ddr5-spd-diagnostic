@@ -14,7 +14,13 @@ DDR5 UDIMM VIN_BULK input pins:
 
 These three red wires are tied together as the module's VIN_BULK rail.
 
-## Full DIMM power switching
+## DIMM power options
+
+The lab harness used ESP32-controlled full DIMM power switching, but this is a convenience feature, not the only valid way to power the module.
+
+### Option A — ESP32-controlled VIN_BULK switch
+
+This is the documented/automated harness setup:
 
 ```text
 Breadboard PSU +5V
@@ -30,9 +36,49 @@ ESP32 control:
 | GPIO32 HIGH | DIMM off |
 | GPIO32 LOW | DIMM on |
 
-This is the real cold-power control used when changing HSA strap state.
+This setup is useful because the firmware can cold-cycle VIN_BULK for repeat testing and HSA strap changes.
+
+### Option B — direct 5 V / manual power feed
+
+The DIMM VIN_BULK rail can also be powered directly from a stable 5 V source or through a manual switch:
+
+```text
+Stable +5V supply
+   → optional manual switch
+   → DIMM pin 1 / pin 145 / pin 146
+```
+
+This is valid for basic bench testing as long as:
+
+- The 5 V source is stable.
+- Grounds are common.
+- The DIMM is fully power-cycled after changing HSA strap state.
+- The user waits/checks PWR_GOOD before trusting bus results.
+
+In this direct/manual setup, GPIO32 is not required. The operator performs the cold power cycle manually instead of the ESP32.
+
+## HSA power-cycle rule
 
 Changing HSA without a true VIN_BULK power cycle may not take effect, because the SPD hub samples HSA during power-up.
+
+The required behavior is:
+
+```text
+Change HSA strap
+→ fully remove VIN_BULK
+→ restore VIN_BULK
+→ wait/check PWR_GOOD
+→ scan/read
+```
+
+That full VIN_BULK reset can be done either by:
+
+- ESP32-controlled GPIO32 MOSFET switch
+- Manual inline switch
+- Turning the 5 V bench supply output off/on
+- Physically removing/restoring the VIN_BULK feed
+
+PWR_EN alone is not enough to force a new HSA sample.
 
 ## Ground
 
@@ -46,10 +92,10 @@ Known harness ground pins:
 All grounds must be common:
 
 - DIMM GND
-- Breadboard PSU GND
+- Breadboard PSU / 5 V supply GND
 - ESP32 GND
 - PCA9306 GND, when used
-- MOSFET control circuit ground
+- MOSFET control circuit ground, when used
 - Optional LED grounds, if debug LEDs are installed
 
 ## Control and status pins
@@ -65,15 +111,17 @@ The manual strap method was easier and more reliable for testing because the SPD
 
 #### Current preferred bench-test method
 
-Use manual HSA strap control, then cold-cycle VIN_BULK with GPIO32.
+Use manual HSA strap control, then cold-cycle VIN_BULK.
 
 ```text
 Set HSA strap manually
-→ Turn DIMM off with GPIO32
-→ Wait for full power-down
-→ Turn DIMM on with GPIO32
+→ Fully remove VIN_BULK
+→ Restore VIN_BULK
+→ Wait/check PWR_GOOD
 → Scan bus / read hub address
 ```
+
+The VIN_BULK cycle can be done by GPIO32-controlled MOSFET switching or manually with a 5 V supply/switch.
 
 #### Optional ESP32-controlled HSA experiment
 
@@ -120,10 +168,12 @@ In short: the same stick can appear at different addresses depending on whether 
 
 | GPIO33 state | Result |
 |---|---|
-| LOW / output-low | Hub disabled |
-| HIGH / released | Hub enabled via pull-up |
+| LOW / output-low | PMIC switching regulators / DRAM rails disabled |
+| HIGH / released | PMIC VR enable allowed through pull-up |
 
-PWR_EN is hub-enable control. It is not a substitute for full DIMM power removal.
+PWR_EN should be treated as optional PMIC VR enable / DRAM rail enable.
+
+It is not required for basic SPD hub / PMIC sideband communication in this diagnostic setup, and it is not a substitute for full DIMM power removal.
 
 ### PWR_GOOD — pin 147
 
@@ -135,10 +185,31 @@ PWR_EN is hub-enable control. It is not a substitute for full DIMM power removal
 
 GPIO34 is input-only, which makes it a good fit for PWR_GOOD.
 
-| PWR_GOOD state | Meaning |
+PWR_GOOD is useful as a readiness/wiring indicator before trusting SPD/PMIC communication.
+
+Project observation:
+
+```text
+Every time PWR_GOOD was pulled LOW in this lab setup, the cause was a wiring/readiness issue.
+```
+
+| PWR_GOOD state | Meaning in this harness |
 |---|---|
-| HIGH | Hub powered / internal rails likely stable |
-| LOW | Disabled / not ready / fault |
+| HIGH | Harness/DIMM management state appears ready enough to attempt SPD/PMIC access |
+| LOW | Stop and check wiring/readiness before trusting bus results |
+
+If PWR_GOOD is LOW, do not treat failed SPD/PMIC reads as proof that the SPD hub or PMIC is dead.
+
+Check:
+
+- VIN_BULK supply or switch state
+- Ground continuity
+- PWR_GOOD pull-up
+- Sideband pull-ups
+- HSA strap state
+- DIMM seating / edge connector contact
+- MOSFET switch wiring, if used
+- Any accidental shorts or missing common ground
 
 ## I2C / sideband bus
 
@@ -217,12 +288,25 @@ They are not required for DDR5 SPD/PMIC communication, HSA testing, power cyclin
 | White | 26 | Ready / idle |
 | Yellow | 25 | Processing / pulse |
 | Green | 19 | Last command success |
-| Red | 23 | Failure / not ready / PWR_GOOD blink |
+| Red | 23 | Failure / not ready/PWR_GOOD blink |
 | Blue | 18 | Danger / write active |
 
 These GPIOs can be omitted or repurposed if the firmware is adjusted.
 
 ## Quick schematic
+
+### VIN_BULK — optional ESP32-controlled switch
+
+```text
+PSU +5V ---- MOSFET high-side switch ---- Pin 1 / 145 / 146
+GPIO32 ---- MOSFET control circuit
+```
+
+### VIN_BULK — direct/manual feed
+
+```text
+Stable +5V ---- optional manual switch ---- Pin 1 / 145 / 146
+```
 
 ### Manual HSA strap
 
@@ -230,7 +314,7 @@ These GPIOs can be omitted or repurposed if the firmware is adjusted.
 Pin 148 HSA ---- manual strap / resistor / high / floating test condition
 ```
 
-After changing this strap, cold-cycle VIN_BULK with GPIO32.
+After changing this strap, cold-cycle VIN_BULK.
 
 ### Optional GPIO27 HSA experiment
 
@@ -239,25 +323,18 @@ Pin 148 ---- 1k ---- GPIO27
 Pin 148 ---- 100k ---- 3.3V
 ```
 
-### PWR_EN
+### PWR_EN / optional VR enable
 
 ```text
 Pin 151 ---- GPIO33
 Pin 151 ---- 10k ---- 3.3V
 ```
 
-### PWR_GOOD
+### PWR_GOOD / readiness wiring indicator
 
 ```text
 Pin 147 ---- GPIO34
 Pin 147 ---- 10k ---- 3.3V
-```
-
-### Full DIMM power
-
-```text
-PSU +5V ---- MOSFET high-side switch ---- Pin 1 / 145 / 146
-GPIO32 ---- MOSFET control circuit
 ```
 
 ### I2C — conservative level-shifted wiring
