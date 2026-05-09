@@ -1,0 +1,116 @@
+# Final Diagnosis — DRAM Failure from Boot Sniffer Data
+
+## Status
+
+This is the current high-level conclusion for the DDR5 diagnostic project.
+
+The final/ultimate finding is that the suspect module failure points to **DRAM-side failure**, based on sniffer data captured during motherboard boot initialization.
+
+This replaces earlier working hypotheses that focused on SPD hub state, PMIC state, or SPD write-protection register mismatches.
+
+## Conclusion
+
+The suspect stick appears to fail during motherboard initialization because the DRAM-side bring-up/training process does not complete correctly.
+
+The SPD hub, SPD payload, PMIC communication, and basic sideband bus behavior were investigated and did not remain the active root cause.
+
+## Evidence path
+
+The investigation moved through several layers:
+
+| Layer | Result / interpretation |
+|---|---|
+| ESP32 sideband communication | Functional enough for repeat reads and diagnostics |
+| SPD payload | Recovered / matched against known-good reference during testing |
+| SPD hub register access | Readable and stable enough for comparison |
+| PMIC communication | Readable; no persistent PMIC-only root cause identified |
+| MR11 | Matched; not active root cause |
+| MR12/MR13 | Historical mismatch only; later resolved / no longer active |
+| Motherboard boot sniffer data | Showed the meaningful divergence pointing toward DRAM-side failure |
+
+## Why this matters
+
+Earlier stages of the project made the bad stick look like it might be failing because of corrupted SPD contents, SPD hub mode state, write-protection/finalization state, or PMIC setup.
+
+The boot sniffer data moved the diagnosis past that.
+
+The important distinction is:
+
+```text
+SPD/PMIC sideband access can look healthy
+while the DRAM array / training / initialization path still fails.
+```
+
+That means a stick can have:
+
+- readable SPD
+- matching recovered SPD payload
+- stable hub reads
+- PMIC visibility
+- corrected/historical MR12/MR13 state
+
+…and still fail as a RAM module because the actual DRAM-side initialization path fails.
+
+## Current interpretation
+
+Treat the suspect stick as a DRAM-failed module, not merely a corrupted-SPD module.
+
+The ESP32 harness and sniffer work were still valuable because they ruled out easier causes and showed where the failure moved during real motherboard boot behavior.
+
+## Relationship to MR12/MR13 investigation
+
+The older MR12/MR13 mismatch was a useful intermediate clue, but it is not the final diagnosis.
+
+Current handling:
+
+- Keep MR12/MR13 notes as historical investigation context.
+- Do not present MR12/MR13 as the active cause.
+- Do not restart the diagnosis from SPD protection state unless new captures show a fresh mismatch.
+
+## Relationship to HSA/addressing notes
+
+HSA strap state and hub address behavior remain important for reproducing ESP32 reads and avoiding false conclusions.
+
+However, the HSA/addressing behavior explains sideband access differences, not the final DRAM-side boot failure.
+
+## What to preserve from sniffer captures
+
+When adding or summarizing boot sniffer logs, preserve:
+
+- Good-stick boot sequence summary
+- Bad-stick boot sequence summary
+- First meaningful divergence point
+- PMIC enable / VR enable sequence observations
+- SPD hub address used during motherboard access
+- Any repeated NACK/ACK pattern differences
+- Timing/order differences around DRAM initialization
+- Whether the bad stick reaches VR enable before divergence
+- Whether failure happens after sideband setup appears successful
+
+## Recommended repo language
+
+Use language like:
+
+```text
+Final diagnosis: DRAM-side failure inferred from motherboard boot sniffer data.
+```
+
+Avoid saying:
+
+```text
+The stick failed because of MR12/MR13.
+```
+
+or:
+
+```text
+The stick is only SPD-corrupted.
+```
+
+Those were earlier hypotheses, not the final state.
+
+## Short version
+
+The bad stick was not just an SPD/PMIC paperwork problem.
+
+The sideband path was debugged deeply enough to show the failure belongs to the DRAM-side bring-up/training path observed during real motherboard boot sniffing.
