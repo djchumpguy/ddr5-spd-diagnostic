@@ -21,7 +21,6 @@ Writes should be treated as a separate danger zone, not as normal workflow.
 | PWR_EN / VR enable | GPIO33 was wired/tested, but it should not be treated as SPD hub enable. It controls PMIC VR enable / DRAM rail bring-up behavior and is not required for basic SPD/PMIC sideband access. |
 | PWR_GOOD | GPIO34 reads PWR_GOOD. In this lab, every case where PWR_GOOD was pulled LOW traced back to wiring/readiness setup, not a confirmed SPD hub or PMIC failure. |
 | I2C wiring | PCA9306 level shifting remains the safer reference design, but direct ESP32 3.3 V open-drain I2C to DIMM HSDA/HSCL worked in the lab setup. |
-| LEDs | LEDs were optional debug indicators during bring-up and software testing, not required hardware. |
 
 ## Important VIN_BULK power correction
 
@@ -105,7 +104,6 @@ Required:
 Not required:
 - GPIO32 switching, if power is manually controlled
 - PWR_EN toggling for DRAM rails
-- LED panel
 ```
 
 ## Firmware naming rule
@@ -340,7 +338,6 @@ For a web UI or serial CLI:
 - Show whether VIN_BULK has been cold-cycled since HSA note changed, if the tool can know.
 - Put write commands behind a separate danger section.
 - Do not make write buttons visually similar to read/dump buttons.
-- Treat LEDs as optional debug outputs, not required system state.
 
 ## Short version
 
