@@ -12,7 +12,8 @@ diagnostic project in one place:
 - HSA strap behavior and address changes
 - PMIC bring-up and status behavior
 - Good-vs-bad module investigation notes
-- Safe workflows for reading, dumping, comparing, and eventually writing SPD-related state
+- Safe workflows for reading, dumping, comparing, and eventually writing
+  SPD-related state
 
 > ⚠️ This is hardware-debug documentation, not a finished consumer repair guide.
 > DDR5 modules can be damaged by incorrect voltage, wiring, write mode, or PMIC
@@ -81,7 +82,8 @@ Observed address behavior changed depending on HSA state at power-up:
 
 ## Key project corrections
 
-- The technically conservative I2C wiring uses a PCA9306 or equivalent level shifter.
+- The technically conservative I2C wiring uses a PCA9306 or equivalent level
+  shifter.
 - The actual lab setup also worked with ESP32 3.3 V open-drain I2C connected
   directly to DIMM HSDA/HSCL.
 - Direct 3.3 V sideband wiring is documented as a lab-proven shortcut for this
@@ -94,7 +96,8 @@ Observed address behavior changed depending on HSA state at power-up:
   it as immediate proof of bad SPD/PMIC/DRAM.
 - HSA behavior must be recorded with the strap condition and whether a full
   VIN_BULK cold reset was performed.
-- MR12/MR13 mismatch is historical investigation context, not the current active root cause.
+- MR12/MR13 mismatch is historical investigation context, not the current active
+  root cause.
 - Final diagnosis is likely DRAM-side failure inferred from good-vs-bad
   motherboard boot sniffer divergence after SPD/PMIC communication appeared
   normal.
