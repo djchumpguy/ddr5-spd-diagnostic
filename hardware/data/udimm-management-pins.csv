@@ -1,11 +1,11 @@
 DIMM_Pin,Signal,Wire_Color,Function,Harness_Connection
-1,VIN_BULK,RED,5V module input,MOSFET switched 5V output
-4,HSCL,YELLOW,sideband clock,PCA9306 SCL2 1.8V side
-5,HSDA,GREEN,sideband data,PCA9306 SDA2 1.8V side
-8,GND,BLACK,ground,common ground
-10,GND,BLACK,ground,common ground
-145,VIN_BULK,RED,5V module input,MOSFET switched 5V output
-146,VIN_BULK,RED,5V module input,MOSFET switched 5V output
-147,PWR_GOOD,PURPLE,hub status to ESP32,10k pull-up to 3.3V + GPIO34
-148,HSA,BLUE,mode/address strap,1k series to GPIO27 + 100k pull-up to 3.3V
-151,PWR_EN,WHITE,hub enable,10k pull-up to 3.3V + GPIO33
+1,VIN_BULK,RED,5 V module input,"Tied with pins 145/146; feed from stable 5 V, manual switch, or optional GPIO32-controlled MOSFET switch"
+4,HSCL,YELLOW,Sideband clock,"ESP32 GPIO22 SCL; PCA9306 level-shifted wiring is safer, direct 3.3 V open-drain wiring worked in lab"
+5,HSDA,GREEN,Sideband data,"ESP32 GPIO21 SDA; PCA9306 level-shifted wiring is safer, direct 3.3 V open-drain wiring worked in lab"
+8,GND,BLACK,Ground,Common ground
+10,GND,BLACK,Ground,Common ground
+145,VIN_BULK,RED,5 V module input,"Tied with pins 1/146; feed from stable 5 V, manual switch, or optional GPIO32-controlled MOSFET switch"
+146,VIN_BULK,RED,5 V module input,"Tied with pins 1/145; feed from stable 5 V, manual switch, or optional GPIO32-controlled MOSFET switch"
+147,PWR_GOOD,PURPLE,Readiness/wiring indicator,"10k pull-up to 3.3 V plus ESP32 GPIO34; if LOW, check wiring/readiness before trusting SPD/PMIC reads"
+148,HSA,BLUE,Address/mode strap sampled at power-up,Preferred bench method is manual strap; optional GPIO27 experiment only; HSA changes require full VIN_BULK cold cycle
+151,PWR_EN,WHITE,Optional PMIC VR / DRAM rail enable,10k pull-up to 3.3 V plus ESP32 GPIO33; not SPD hub enable and not required for basic SPD/PMIC sideband access
