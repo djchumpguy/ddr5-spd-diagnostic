@@ -18,23 +18,25 @@ This is a hardware-debug notebook and workflow repo, not a polished consumer rep
 | Component | Role | Status |
 |---|---|---|
 | DDR5 UDIMM test harness | Breaks out management pins and VIN_BULK power | Core hardware |
-| ESP32 controller | I2C master, power control, status readback, firmware test platform | Core hardware |
-| MOSFET high-side switch | Full DIMM VIN_BULK cold power cycling | Required |
+| ESP32 controller | I2C master, optional VIN_BULK switch control, status readback, firmware test platform | Core hardware |
+| VIN_BULK power feed | Supplies DIMM pins 1, 145, and 146 | Required |
+| MOSFET high-side switch | Optional automated VIN_BULK cold power cycling | Recommended convenience |
 | Manual HSA strap | Practical bench method for selecting HSA state before power-up | Preferred for testing |
 | PCA9306 level shifter | Conservative 3.3 V ↔ lower-voltage sideband interface | Safer reference design |
 | Direct ESP32 I2C wiring | 3.3 V ESP32 SDA/SCL directly to HSDA/HSCL | Worked in this lab setup |
-| LED status panel | Visual software/connection debug while developing | Optional debug only |
-| Passive sniffer | Captures motherboard boot sideband traffic | Optional investigation tool |
+| Passive sniffer | Captures motherboard boot sideband traffic | Separate investigation tool |
 
 ## Working mental model
 
 DDR5 sideband debug has several separate control layers that are easy to accidentally blur together:
 
-1. **Full DIMM power** — VIN_BULK to module pins 1, 145, and 146.
-2. **SPD hub enable/status** — PWR_EN and PWR_GOOD.
-3. **HSA strap state** — sampled by the SPD hub at power-up.
-4. **Sideband bus access** — HSDA/HSCL through either level-shifted or direct open-drain wiring.
-5. **Local devices behind the hub** — PMIC and other sideband clients reached through hub behavior.
+1. **VIN_BULK power** — 5 V feed to module pins 1, 145, and 146.
+2. **Full VIN_BULK cold cycling** — required after changing HSA strap state.
+3. **PWR_EN / VR enable** — PMIC regulator / DRAM rail enable; not SPD hub enable.
+4. **PWR_GOOD** — useful readiness/wiring indicator before trusting bus results.
+5. **HSA strap state** — sampled by the SPD hub at power-up.
+6. **Sideband bus access** — HSDA/HSCL through either level-shifted or direct open-drain wiring.
+7. **Local devices behind the hub** — PMIC and other sideband clients reached through hub behavior.
 
 The harness treats those separately.
 
@@ -42,7 +44,9 @@ The biggest practical rule:
 
 > Changing HSA after the hub has already sampled it does not reliably change the active mode or address. Change the HSA strap, then perform a real VIN_BULK cold power cycle.
 
-PWR_EN is useful, but PWR_EN is not a substitute for removing/restoring VIN_BULK.
+That cold cycle can be done by GPIO32-controlled switching, a manual inline switch, a bench supply toggle, or removing/restoring the 5 V feed.
+
+PWR_EN is useful for PMIC regulator / DRAM rail experiments, but PWR_EN is not a substitute for removing/restoring VIN_BULK.
 
 ## HSA testing model
 
@@ -56,10 +60,10 @@ The project tested HSA control through ESP32 GPIO27, but manual HSA strapping be
 Manual HSA workflow:
 
 ```text
-Power DIMM off with GPIO32
+Remove VIN_BULK
 → Set HSA strap manually
-→ Power DIMM on with GPIO32
-→ Wait for readiness / PWR_GOOD behavior
+→ Restore VIN_BULK
+→ Wait/check PWR_GOOD
 → Scan bus
 → Record observed address
 ```
@@ -103,14 +107,17 @@ Current project memory says:
 - MR12 and MR13 now match between good and bad sticks.
 - The old mismatch should not be treated as active unless new captures show it diverging again.
 - The good-vs-bad investigation page is preserved as a lab history record.
+- The final/current diagnosis is likely DRAM-side failure inferred from good-vs-bad motherboard boot sniffer divergence after SPD/PMIC communication appeared normal.
 
 ## Guiding rules
 
 1. Prefer read-only discovery first.
-2. Separate full VIN_BULK power cycling from PWR_EN hub enable toggling.
+2. Separate VIN_BULK power cycling from PWR_EN / VR enable toggling.
 3. Record the HSA strap condition before trusting address scans.
 4. After changing HSA, perform a real VIN_BULK cold power cycle.
-5. Never write until the known-good reference has been captured and backed up.
-6. Log exact mode, HSA state, power-cycle sequence, address, register, and value for every test.
-7. Do not treat one successful read as proof of electrical robustness; run repeat/timing tests.
-8. Treat every write operation like a loaded potato cannon.
+5. Wait/check PWR_GOOD before trusting scan/read results.
+6. If PWR_GOOD is LOW, check wiring/readiness before blaming silicon.
+7. Never write until the known-good reference has been captured and backed up.
+8. Log exact mode, HSA state, power-cycle sequence, address, register, and value for every test.
+9. Do not treat one successful read as proof of electrical robustness; run repeat/timing tests.
+10. Treat every write operation like a loaded potato cannon.
