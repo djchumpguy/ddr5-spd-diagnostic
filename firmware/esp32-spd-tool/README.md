@@ -1,14 +1,22 @@
 # ESP32 SPD Tool Firmware
 
-Prototype PlatformIO/Arduino ESP32 firmware for the DDR5 SPD/PMIC diagnostic tool.
+Prototype PlatformIO/Arduino ESP32 firmware for the DDR5 SPD/PMIC diagnostic
+tool.
 
-This firmware is the working implementation for the Web UI and serial fallback command interface described by the repository notes. The docs remain the current interpretation of the lab setup; this firmware is the code that exercises that setup on the bench.
+This firmware is the working implementation for the Web UI and serial fallback
+command interface described by the repository notes. The docs remain the current
+interpretation of the lab setup; this firmware is the code that exercises that
+setup on the bench.
 
 ## Status
 
-This is prototype lab firmware, not a finished consumer repair product. It is intended for controlled DDR5 SPD/PMIC sideband investigation with a known harness, careful power handling, and read/compare-first workflows.
+This is prototype lab firmware, not a finished consumer repair product. It is
+intended for controlled DDR5 SPD/PMIC sideband investigation with a known
+harness, careful power handling, and read/compare-first workflows.
 
-Dangerous write-capable commands are intentionally hidden behind advanced/danger help and explicit confirmation gates. Keep that behavior intact unless you are doing a deliberate lab-only experiment.
+Dangerous write-capable commands are intentionally hidden behind advanced/danger
+help and explicit confirmation gates. Keep that behavior intact unless you are
+doing a deliberate lab-only experiment.
 
 ## Features
 
@@ -16,7 +24,8 @@ Dangerous write-capable commands are intentionally hidden behind advanced/danger
 - Serial fallback command interface at `115200`
 - SPD/HUB scan, read, dump, compare, verify, and known-good reference capture
 - PMIC ID, register dump, reference save, compare, and clear workflows
-- Read-only auto-detection of SPD/HUB, PMIC, temperature, reserved, and unknown device roles
+- Read-only auto-detection of SPD/HUB, PMIC, temperature, reserved, and unknown
+  device roles
 - VIN_BULK switch control support
 - PWR_GOOD readiness/status reporting
 - HSA GPIO release/ground experimental control
@@ -63,7 +72,9 @@ Default access point settings:
 - Password: `spdtool123`
 - Web UI: `http://192.168.4.1/`
 
-The Web UI exposes the same lab-oriented diagnostic surface as the serial fallback: status, scan/detect, SPD/HUB dump and compare workflows, PMIC reference workflows, power controls, and log output.
+The Web UI exposes the same lab-oriented diagnostic surface as the serial
+fallback: status, scan/detect, SPD/HUB dump and compare workflows, PMIC
+reference workflows, power controls, and log output.
 
 ## Notes on included/excluded files
 
