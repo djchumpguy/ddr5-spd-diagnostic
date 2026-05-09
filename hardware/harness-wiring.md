@@ -96,7 +96,6 @@ All grounds must be common:
 - ESP32 GND
 - PCA9306 GND, when used
 - MOSFET control circuit ground, when used
-- Optional LED grounds, if debug LEDs are installed
 
 ## Control and status pins
 
@@ -276,22 +275,6 @@ Observed result:
 - Direct 3.3 V wiring should be treated as a lab-proven shortcut for this specific setup, not a universal DDR5 DIMM rule.
 
 Do not confuse the I2C shortcut with the power/control pins. VIN_BULK, PWR_EN, PWR_GOOD, HSA, and PMIC behavior still need to be handled according to their own voltage and mode requirements.
-
-## Optional debug LEDs
-
-The LEDs were used as temporary diagnostic indicators during wiring bring-up, connection testing, and software development.
-
-They are not required for DDR5 SPD/PMIC communication, HSA testing, power cycling, or normal operation of the harness.
-
-| LED | GPIO | Original debug meaning |
-|---|---:|---|
-| White | 26 | Ready / idle |
-| Yellow | 25 | Processing / pulse |
-| Green | 19 | Last command success |
-| Red | 23 | Failure / not ready/PWR_GOOD blink |
-| Blue | 18 | Danger / write active |
-
-These GPIOs can be omitted or repurposed if the firmware is adjusted.
 
 ## Quick schematic
 
