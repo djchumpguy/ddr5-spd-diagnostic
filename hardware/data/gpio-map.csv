@@ -1,8 +1,8 @@
 Function,GPIO,Required,Direction,Notes
-I2C SDA,21,Yes,Bidirectional open-drain,ESP32 SDA for DDR5 sideband bus; direct 3.3 V lab wiring worked, PCA9306 level shifting remains safer reference
-I2C SCL,22,Yes,Output open-drain,ESP32 SCL for DDR5 sideband bus; direct 3.3 V lab wiring worked, PCA9306 level shifting remains safer reference
-DIMM full power switch,32,Yes,Output,Controls MOSFET high-side VIN_BULK switch; HIGH = DIMM off, LOW = DIMM on
-PWR_EN,33,Recommended,Output/open-drain style,Hub enable control; LOW disables hub, released/HIGH enables through pull-up; not a substitute for full VIN_BULK reset
+I2C SDA,21,Yes,Bidirectional open-drain,ESP32 SDA for DDR5 sideband bus; direct 3.3 V lab wiring worked; PCA9306 level shifting remains safer reference
+I2C SCL,22,Yes,Output open-drain,ESP32 SCL for DDR5 sideband bus; direct 3.3 V lab wiring worked; PCA9306 level shifting remains safer reference
+DIMM full power switch,32,Yes,Output,Controls MOSFET high-side VIN_BULK switch; HIGH = DIMM off; LOW = DIMM on
+PWR_EN,33,Recommended,Output/open-drain style,Hub enable control; LOW disables hub; released/HIGH enables through pull-up; not a substitute for full VIN_BULK reset
 PWR_GOOD,34,Recommended,Input,Status input from PWR_GOOD pull-up; GPIO34 is input-only and suitable here
 HSA experiment,27,Optional,Output or input/released,Used during ESP32-controlled HSA testing only; preferred bench method is manual HSA strap plus full VIN_BULK cold reset
 Ready LED,26,Optional debug,Output,Temporary bring-up/debug indicator only; not required for DDR5 communication
