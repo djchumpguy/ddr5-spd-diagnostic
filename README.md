@@ -72,6 +72,7 @@ Observed address behavior changed depending on HSA state at power-up:
 ```text
 docs/                  Main technical notes and workflows
 hardware/              Harness wiring, pin references, CSV tables
+firmware/              Prototype ESP32 diagnostic firmware
 firmware-notes/        ESP32 command surface and behavior notes
 investigations/        Good/bad stick findings and historical hypotheses
 logs/                  Place future sanitized captures here; raw logs are ignored by default
@@ -79,6 +80,16 @@ assets/                Diagrams/photos/screenshots; raw bulky assets ignored by 
 sources/               Source reference index; do not commit copyrighted PDFs by default
 scripts/               Helper scripts for validation/export
 ```
+
+## Firmware
+
+The ESP32 diagnostic firmware source is included under:
+
+[`firmware/esp32-spd-tool/`](firmware/esp32-spd-tool/)
+
+It is prototype PlatformIO/Arduino firmware for the DDR5 SPD/PMIC diagnostic tool. It provides the Web UI, serial fallback command interface, SPD/HUB read/dump/compare workflows, PMIC ID/dump/reference workflows, read-only device role auto-detection, VIN_BULK switch support, PWR_GOOD status reporting, and experimental HSA GPIO release/ground control.
+
+The documentation in this repo is the current interpretation of the lab setup and DDR5 sideband behavior. The firmware is the working implementation used by the tool, but it should still be treated as lab firmware rather than a polished consumer repair product.
 
 ## Start here
 
@@ -99,4 +110,4 @@ Keep PDFs locally and cite/link them in `sources/source-index.md`.
 
 ## Status
 
-This is an information repo seed. Firmware source can be added later as a separate `firmware/` directory once the docs stabilize.
+This is a lab documentation and prototype firmware repository for the DDR5 SPD/PMIC diagnostic setup. Treat the notes and firmware as active bench tooling, not a finished consumer repair guide.
