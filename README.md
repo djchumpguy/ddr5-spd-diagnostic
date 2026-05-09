@@ -18,6 +18,24 @@ diagnostic project in one place:
 > DDR5 modules can be damaged by incorrect voltage, wiring, write mode, or PMIC
 > commands. Treat every write operation like a loaded potato cannon.
 
+## Web UI preview
+
+<img src="assets/ui/web-ui-safe-help.png" alt="ESP32 DDR5 SPD Tool Web UI safe command surface" width="900">
+
+The ESP32 firmware includes a browser-based Web UI over the ESP32 SoftAP, with
+serial fallback for the same command surface. The UI exposes read-first
+workflows, live power/state indicators, known-good SPD reference status, PMIC
+reference status, and read-only role auto-detection.
+
+### Auto-detect and current-mode mapping
+
+<img src="assets/ui/web-ui-autodetect-map.png" alt="ESP32 DDR5 SPD Tool auto-detect and current-mode mapping output" width="900">
+
+Auto-detect classifies current bus devices by behavior instead of assuming fixed
+addresses. In this harness, the active SPD/HUB address depends on the current
+HSA GPIO state, external HSA strap condition, and full VIN_BULK cold-cycle
+context.
+
 ## Current project state
 
 The current diagnostic setup is centered around:
