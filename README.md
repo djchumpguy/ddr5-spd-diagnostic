@@ -157,8 +157,8 @@ It captures early DDR5 boot I2C / I2C-compatible sideband traffic into a compact
 event buffer and dumps it after capture. It is useful for comparing known-good
 and suspect module boot sequences.
 
-Passive sniffer wiring notes and prototype pin-needle tap photos are included in
-[`docs/10-boot-sniffer.md`](docs/10-boot-sniffer.md).
+Passive sniffer wiring is documented in the harness/wiring notes, and prototype
+pin-needle tap photos are included in [`docs/10-boot-sniffer.md`](docs/10-boot-sniffer.md).
 
 Example known-good baseline capture:
 
