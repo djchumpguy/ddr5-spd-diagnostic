@@ -179,6 +179,8 @@ This sniffer is not a full I3C analyzer.
 
 Read these first:
 
+- `docs/README.md`
+- `hardware/README.md`
 - `docs/00-project-overview.md`
 - `docs/01-safety-boundaries.md`
 - `hardware/harness-wiring.md`
