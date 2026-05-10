@@ -31,8 +31,7 @@
 - Good-vs-bad stick notes: [`../investigations/good-vs-bad-stick.md`](../investigations/good-vs-bad-stick.md)
 - Good-vs-bad boot sniffer divergence: [`../investigations/good-vs-bad-boot-sniffer-divergence.md`](../investigations/good-vs-bad-boot-sniffer-divergence.md)
 
-## Repo setup / maintenance
+## Project tracking and sources
 
-- GitHub repo creation notes: [`repo/08-create-github-repo.md`](repo/08-create-github-repo.md)
 - TODO: [`../TODO.md`](../TODO.md)
 - Source index: [`../sources/source-index.md`](../sources/source-index.md)
