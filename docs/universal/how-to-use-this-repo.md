@@ -92,8 +92,8 @@ pmicid {pmic_addr}
 pmicdumpat {pmic_addr} 0x00 0x80
 ```
 
-Use `autodetect` and `mapall` to resolve `{spd_addr}` and `{pmic_addr}` for the
-current HSA and power state.
+Use autodetect and mapall to resolve {spd_addr} and {pmic_addr} for the current
+HSA and power state.
 
 ## Recovery/write workflow caution
 
