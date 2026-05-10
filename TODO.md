@@ -1,60 +1,73 @@
 # TODO
 
-## Codex can finish now
+This list is intentionally limited to hands-on bench work, hardware validation,
+captures, measurements, and user-provided data.
 
-- [ ] Verify `.gitignore` blocks raw logs, private PDFs, binary dumps, bulky media.
-- [ ] Search and fix stale wording: `hub enable`, `hub_enable`.
-- [ ] Confirm PWR_EN wording is optional PMIC VR / DRAM rail enable, not SPD hub enable.
-- [ ] Confirm PWR_GOOD LOW is described as wiring/readiness first, not immediate silicon failure.
-- [ ] Confirm HSA changes require true VIN_BULK cold cycle.
-- [ ] Confirm GPIO32 VIN_BULK switching is convenient, not mandatory.
-- [ ] Confirm manual stable 5 V VIN_BULK is acceptable.
-- [ ] Confirm manual HSA strapping is preferred for bench testing.
-- [ ] Confirm GPIO27 HSA control is optional/experimental.
-- [ ] Confirm PCA9306 remains the safer reference even though direct ESP32 3.3 V open-drain I2C worked in this lab.
-- [ ] Add safe read-only quickstart for active SPD/PMIC tool.
-- [ ] Add command reference generated from current firmware help/parser.
-- [ ] Add glossary.
-- [ ] Add "future me / new user start here" checklist.
-- [ ] Add clean Mermaid diagrams for active SPD tool wiring options.
+Documentation cleanup, Markdown polish, repo navigation, and other
+Codex-finishable tasks are not tracked here.
 
-## Needs user-provided data
+## Physical bench tasks
 
-- [ ] Cleaned real command outputs for scan/mapall/SPD dump/pmicdump/timespd/timereg/powerdiag.
-- [ ] Actual firmware help output if not easily extractable from source.
-- [ ] Sanitized serial/Web logs.
-- [ ] Any verified examples of PMIC edits.
-- [ ] Any verified examples of SPD speed/profile table edits.
+- [ ] Repeat the known-good boot sniffer capture using the same motherboard, slot, HSA/strap state, and sniffer profile.
+- [ ] Repeat the suspect/bad-stick boot sniffer capture under the same conditions as the known-good capture.
+- [ ] Capture at least one additional good-vs-bad run pair to confirm the divergence is repeatable.
+- [ ] Test a larger-buffer boot sniffer build using a board with PSRAM, SD card, or persistent storage if available.
+- [ ] Verify whether the larger-buffer/persistent-storage sniffer captures more of the boot sequence than the WROOM RAM-only profile.
+- [ ] Save new sniffer captures with clear names identifying stick, slot, date, sniffer profile, and whether overflow occurred.
 
-## Lab-only / future experiments
+## Active SPD/PMIC tool bench validation
 
-- [ ] Repeat good/bad captures under same setup.
-- [ ] Larger-buffer / PSRAM / SD-card sniffer capture.
-- [ ] Sniffer parser/compare script validation against more captures.
-- [ ] Additional bad/good runs for repeatability.
+- [ ] Run the active SPD/PMIC tool on a known-good module and save clean outputs for:
+  - scan
+  - mapall
+  - powerdiag
+  - SPD dump
+  - pmicid
+  - pmicdump
+  - timespd
+  - timereg
+- [ ] Run the same active SPD/PMIC tool commands on the suspect module and save matching clean outputs.
+- [ ] Confirm the active tool's observed addresses match the documented HSA/power state for the current wiring.
+- [ ] Verify any command examples against the actual firmware help output before publishing them as examples.
+- [ ] Keep raw noisy terminal logs private until cleaned/sanitized.
 
-## Done / integrated
+## Optional advanced experiments
+
+- [ ] If desired, test controlled PMIC register edits only after saving a known-good PMIC dump and confirming a recovery path.
+- [ ] If desired, test SPD timing/profile-table edits only on sacrificial hardware with a verified original SPD backup.
+- [ ] If desired, test whether a conservative edited SPD profile can still be read, verified, and attempted in motherboard POST.
+- [ ] Document any PMIC or SPD edit as experimental unless it is repeated and verified.
+- [ ] Do not claim PMIC edits or SPD timing/profile edits are validated until they have been physically tested.
+
+## Hardware sanity checks
+
+- [ ] Physically verify DDR5 socket/adapter orientation and pin numbering before any new wiring.
+- [ ] Verify pin-needle sniffer taps contact only DDR5 pins 4 and 5 and do not deform the socket.
+- [ ] Verify USB header ground to ESP32 GND continuity before boot-sniffer capture.
+- [ ] Verify active SPD/PMIC tool wiring separately from passive sniffer wiring before powering either setup.
+- [ ] Confirm no accidental cross-use of GPIO34 between active harness and passive sniffer harness.
+
+## Intentionally not doing
+
+- [x] Do not add photos of the active SPD/PMIC rat's-nest prototype harness.
+  - Reason: the prototype was overcomplicated compared with the cleaned wiring options and may confuse readers.
+- [x] Do not publish raw/private logs or unrelated system paths.
+- [x] Do not publish datasheet PDFs unless redistribution is clearly allowed.
+- [x] Do not present untested advanced PMIC/SPD edits as validated workflows.
+
+## Done / already integrated
 
 - [x] Active ESP32 SPD/PMIC tool firmware added.
 - [x] Passive ESP32 boot sniffer firmware added.
 - [x] Known-good boot sniffer baseline added.
 - [x] Bad-stick boot sniffer divergence capture added.
 - [x] Good-vs-bad boot sniffer divergence analysis added.
-- [x] MR12/MR13 marked historical/secondary, not current diagnosis.
-- [x] Final/current diagnosis documented as likely DRAM-side / training-path failure.
-- [x] Sniffer wiring split into hardware/sniffer.
-- [x] Sniffer capture workflow documented.
+- [x] Current diagnosis documented as likely DRAM-side / training-path failure.
+- [x] MR12/MR13 retained as historical/secondary context only.
+- [x] Passive sniffer wiring split into its own hardware/sniffer section.
+- [x] Passive sniffer capture workflow documented.
 - [x] Sniffer pin-needle prototype photos added.
 - [x] Docs reorganized by universal / SPD tool / sniffer.
 - [x] Hardware docs reorganized by active SPD tool / passive sniffer.
 - [x] Advanced SPD tool workflows documented.
 - [x] DIY/experimental safety disclaimer added.
-
-## Intentionally not doing
-
-- Do not add photos of the active SPD/PMIC tool rat's-nest prototype harness.
-  Reason: the prototype was overcomplicated compared with the cleaned wiring
-  options and may confuse readers.
-- Do not publish raw/private logs or unrelated system paths.
-- Do not commit copyrighted datasheet PDFs unless redistribution is clearly allowed.
-- Do not claim PMIC edits or SPD timing/profile edits are validated unless tested.
