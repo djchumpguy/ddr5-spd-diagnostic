@@ -17,6 +17,19 @@ sniffer.
 - Not a universal DDR5 wiring standard.
 - Not proof that every failed module can be fixed through SPD or PMIC edits.
 
+## Low-cost / phone-friendly diagnostic goal
+
+This project explores a low-cost route using inexpensive, widely available ESP32
+boards instead of depending only on dedicated paid hardware. The active
+SPD/PMIC tool can be interacted with over Wi-Fi from a phone, tablet, or
+computer. The passive boot sniffer can be controlled and dumped over Bluetooth
+serial from a phone.
+
+That phone-friendly workflow is useful for limited-tool diagnostics, cramped
+bench setups, or RAM-only captures where moving cables or power can erase the
+data. It is still experimental DIY bench tooling, not a consumer-safe product or
+a replacement for professional analyzers.
+
 ## Choose your tool
 
 ### Active SPD/PMIC tool

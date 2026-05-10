@@ -23,6 +23,45 @@ diagnostic project in one place:
 >
 > If you choose to replicate anything in this repository, you do so entirely at your own risk. The author provides this material for documentation and educational purposes only and assumes no responsibility or liability for hardware damage, data loss, injury, or other consequences resulting from use, misuse, or attempted replication.
 
+## Why this project exists
+
+Bus Pirate 5+/6-class tools and dedicated DDR5 adapters provide a polished
+paid-hardware path for DDR5 SPD work. This project explores a different route:
+using inexpensive ESP32 boards, custom firmware, and documented DIY harnesses to
+build a practical DDR5 SPD/PMIC diagnostic tool and passive boot-sideband
+sniffer.
+
+The goal is not to replace professional tools or dedicated analyzers. The goal
+is to document a low-cost lab workflow for:
+
+- reading and comparing DDR5 SPD data,
+- inspecting SPD hub and PMIC behavior,
+- recovering or validating corrupted SPD contents where appropriate,
+- passively capturing motherboard boot-sideband traffic,
+- comparing known-good and suspect module behavior.
+
+One major advantage of the ESP32 approach is that the diagnostic interface does
+not have to be tied to a full desktop setup. The active SPD/PMIC tool can be
+used through a Wi-Fi Web UI / serial interface, and the passive boot sniffer can
+be dumped through Bluetooth serial. That makes the project useful when working
+with limited tools, cramped bench space, or a test system where moving cables or
+power would erase a RAM-only capture.
+
+A computer is still useful for firmware flashing, source changes, log analysis,
+and repo work. The phone-friendly workflow is mainly for field/bench interaction
+after firmware is already loaded.
+
+## Tool paths
+
+| Path | Interface | Best for |
+|---|---|---|
+| Active ESP32 SPD/PMIC tool | Wi-Fi Web UI and/or serial terminal | SPD dumps, comparison, recovery workflows, hub/PMIC register inspection |
+| Passive ESP32 boot sniffer | Bluetooth serial and/or USB serial | Capturing motherboard-driven DDR5 boot sideband traffic |
+| Dedicated tools / analyzers | Tool-specific UI/software | More polished workflows, deeper protocol analysis, or professional validation |
+
+The active SPD/PMIC tool and passive boot sniffer are separate setups. Do not
+mix their wiring assumptions.
+
 ## New reader path
 
 - Start here: [`docs/universal/start-here.md`](docs/universal/start-here.md)
