@@ -1,5 +1,12 @@
 # ESP32 DDR5 Harness Wiring
 
+> [!NOTE]
+> Prototype note:
+> The current harness wiring was validated on a breadboard using a DDR5
+> extension adapter. This proves the lab workflow, but the recommended
+> long-term implementation is a dedicated ESP32 DDR5 diagnostic board. See
+> [`../prototype-harness-and-future-board.md`](../prototype-harness-and-future-board.md).
+
 ## Power rails
 
 ### VIN_BULK — 5 V domain
