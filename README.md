@@ -265,6 +265,11 @@ The documented sniffer baseline was captured with an ESP32-WROOM-class board
 using a RAM-only buffer; PSRAM/SD-card boards are optional upgrades, not
 requirements.
 
+Passive sniffer captures are volatile RAM-only data on the documented WROOM
+profile. Dump and save them before ESP32 reset or power loss. This differs from
+active SPD/PMIC tool reference captures such as `capturegood` and `capturepmic`,
+which are stored in ESP32 flash/NVS until intentionally cleared or overwritten.
+
 - Boot sniffer usage/capture workflow: [`docs/sniffer/10-boot-sniffer.md`](docs/sniffer/10-boot-sniffer.md)
 - Passive sniffer wiring: [`hardware/sniffer/passive-boot-sniffer-wiring.md`](hardware/sniffer/passive-boot-sniffer-wiring.md)
 
