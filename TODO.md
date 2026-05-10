@@ -1,96 +1,78 @@
 # TODO
 
-Current priority: keep the diagnostic-tool documentation internally consistent before adding more raw data, firmware, or sniffer analysis.
+## Current priority
 
-## High priority — diagnostic repo cleanup
+Keep the public repo clear, accurate, and easy to navigate. Prefer cleaned
+diagrams, tables, and workflows over messy prototype photos.
 
-- [ ] Add/verify `.gitignore` blocks raw logs, private PDFs, binary dumps, and bulky media.
+## Done / integrated
+
+- [x] Active ESP32 SPD/PMIC tool firmware added
+- [x] Passive ESP32 boot sniffer firmware added
+- [x] Known-good boot sniffer baseline added
+- [x] Bad-stick boot sniffer divergence capture added
+- [x] Good-vs-bad boot sniffer divergence analysis added
+- [x] MR12/MR13 marked historical/secondary, not current diagnosis
+- [x] Final/current diagnosis documented as likely DRAM-side / training-path failure
+- [x] Sniffer wiring split into its own hardware/sniffer doc
+- [x] Sniffer capture workflow documented
+- [x] Sniffer pin-needle prototype photos added
+- [x] Docs reorganized by universal / SPD tool / sniffer
+- [x] Hardware docs reorganized by active SPD tool / passive sniffer
+- [x] Advanced SPD tool workflows documented
+- [x] DIY/experimental safety disclaimer added
+
+## Keep / still useful
+
+- [ ] Verify `.gitignore` blocks raw logs, private PDFs, binary dumps, bulky media
 - [ ] Search repo for stale wording:
   - `hub enable`
   - `hub_enable`
-- [ ] Confirm all docs describe `PWR_EN` as optional PMIC VR / DRAM rail enable, not SPD hub enable.
-- [ ] Confirm all docs describe `PWR_GOOD LOW` as a wiring/readiness issue observed in this lab, not immediate proof of bad silicon.
-- [ ] Confirm all docs say HSA changes require a true VIN_BULK cold power cycle.
-- [ ] Confirm all docs say GPIO32 VIN_BULK switching is convenient, not mandatory.
-- [ ] Confirm all docs allow direct/manual stable 5 V VIN_BULK power.
-- [ ] Confirm all docs say manual HSA strapping is the preferred bench-test method.
-- [ ] Confirm all docs say GPIO27 HSA control was optional/experimental only.
-- [ ] Confirm all docs say direct ESP32 3.3 V open-drain I2C worked in this lab setup, while PCA9306 remains the safer reference design.
-
-## High priority — diagnostic tool notes
-
-- [ ] Add command examples from the actual ESP32 tool.
-- [ ] Add safe read-only quickstart.
-- [ ] Add known-good dump hashing workflow.
-- [ ] Add exact PMIC register dump comparison table.
-- [ ] Add cleaned example output for:
+- [ ] Confirm docs consistently describe:
+  - PWR_EN as optional PMIC VR / DRAM rail enable
+  - PWR_GOOD LOW as wiring/readiness first, not instant silicon failure
+  - HSA changes require true VIN_BULK cold cycle
+  - GPIO32 VIN_BULK switching is convenient, not mandatory
+  - manual stable 5 V VIN_BULK is acceptable
+  - manual HSA strapping is preferred for bench testing
+  - GPIO27 HSA control is optional/experimental
+  - PCA9306 remains the safer reference, even though direct ESP32 3.3 V
+    open-drain I2C worked in this lab
+- [ ] Add command reference generated from current firmware help output
+- [ ] Add safe read-only quickstart for the active SPD tool
+- [ ] Add cleaned example outputs for:
   - `scan`
   - `mapall`
-  - `spd dump`
+  - `dump` / SPD dump
   - `pmicdump`
   - `timespd`
   - `timereg`
   - `powerdiag`
-- [ ] Add a table showing expected tool behavior when `PWR_GOOD` is LOW.
-- [ ] Add a table showing expected hub address behavior for HSA hard-low / resistor strap / floating-high cases.
+- [ ] Add firmware build notes
+- [ ] Add sanitized example serial logs only if cleaned
+- [ ] Add parser/compare script for sniffer captures
+- [ ] Add troubleshooting flowchart
+- [ ] Add glossary
+- [ ] Add one-page "future me start here" checklist
 
-## Investigation status
+## Intentionally not doing
 
-- [x] Mark MR12/MR13 mismatch as historical, not current active diagnosis.
-- [x] Add final diagnosis page for likely DRAM-side failure inferred from boot sniffer divergence.
-- [x] Add sanitized good-stick sniffer baseline.
-- [x] Add bad-stick boot sniffer capture.
-- [x] Add good-vs-bad boot sniffer divergence note.
-- [ ] Future: add parser/compare script for sniffer captures.
-- [ ] Future: repeat captures with larger-buffer profile / PSRAM board.
-- [ ] Future: capture additional bad/good runs under same setup for repeatability.
-- [ ] Add sanitized boot-sniffer summary later.
-- [ ] Add good-vs-bad boot-sniffer divergence timeline later.
-- [ ] Add good-vs-bad divergence analysis later.
-- [ ] Preserve the distinction between directly observed sniffer events and inferred DRAM-side training failure.
+- Do not add photos of the active SPD/PMIC tool rat's-nest prototype harness.
+  Reason: the bench prototype was overcomplicated compared with the cleaned
+  wiring options and may confuse readers. Use cleaned diagrams, pin tables, and
+  bring-up checklists instead.
+- Do not publish raw/private logs or unrelated system paths.
+- Do not commit copyrighted datasheet PDFs unless redistribution is clearly
+  allowed.
 
-## Hardware documentation
+## Optional future hardware docs
 
-- [ ] Add photos of the actual harness.
-- [ ] Add cleaned diagrams of:
-  - minimal direct/manual 5 V setup
-  - optional GPIO32-switched VIN_BULK setup
-  - conservative PCA9306 level-shifted I2C setup
-  - direct 3.3 V open-drain I2C lab setup
-- [ ] Add connector orientation warning / pin-1 sanity check.
-- [ ] Add a short harness bring-up checklist.
-
-## Firmware / source
-
-- [x] Add boot sniffer firmware source.
-- [ ] Add firmware build notes.
-- [ ] Add command reference generated from the firmware help text.
-- [ ] Add Web UI screenshots or screen descriptions after the command model is stable.
-
-## Logs and captures
-
-- [ ] Add sanitized example serial logs.
-- [ ] Add sanitized example `powerdiag` output.
-- [ ] Add sanitized example read-only baseline capture.
-- [ ] Keep raw logs local unless explicitly cleaned.
-- [ ] Do not commit unrelated system paths or private serial chatter.
-
-## Nice to have
-
-- [ ] Add troubleshooting flowchart.
-- [ ] Add “known bad patterns” section.
-- [ ] Add glossary:
-  - VIN_BULK
-  - VIN_MGMT
-  - HSA
-  - PWR_EN
-  - PWR_GOOD
-  - HSDA/HSCL
-  - SPD hub
-  - PMIC
-  - CAMP
-  - GSI_n
-- [ ] Add a one-page “future me start here” checklist.
+- [ ] Clean diagram: minimal direct/manual 5 V setup
+- [ ] Clean diagram: optional GPIO32-switched VIN_BULK setup
+- [ ] Clean diagram: conservative PCA9306 level-shifted I2C setup
+- [ ] Clean diagram: direct 3.3 V open-drain I2C lab setup
+- [ ] Connector orientation / pin-1 sanity check
+- [ ] Short harness bring-up checklist
 
 ## Current repo truth
 
