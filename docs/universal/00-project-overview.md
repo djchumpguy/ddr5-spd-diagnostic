@@ -78,7 +78,11 @@ Address behavior is empirical harness state. Do not treat these as universal DDR
 | Resistor-selected strap | HSA through the nominal 35.7 kΩ / ~36 kΩ class HSA/HID strap; measured ~34.4 kΩ in-circuit on this adapter/harness | SPD/HUB observed around `0x53` | Normal tested harness behavior |
 | Floating/high | HSA released/floating/high | SPD/HUB observed around `0x57` | Experimental high/floating behavior |
 
-The 35.7 kΩ / ~36 kΩ class value is the nominal/reference HSA/HID strap value from the SPD hub reference material tracked in `sources/source-index.md`. The ~34.4 kΩ value was measured in-circuit on this project's adapter/harness. Verify the actual strap resistance and address behavior on your own setup with `scan`, `autodetect`, and `mapall`.
+The 35.7 kΩ / ~36 kΩ class value is the nominal/reference HSA/HID strap value
+from the SPD hub reference material tracked in `sources/source-index.md`. The
+~34.4 kΩ value was measured in-circuit on this project's adapter/harness.
+Verify the actual strap resistance and address behavior on your own setup with
+`scan`, `autodetect`, and `mapall`.
 
 Project notes also include PMIC/local-device addresses such as `0x4F` and later `0x4B`. Do not interpret PMIC address changes without also recording the HSA strap, hub address, and power-cycle method.
 

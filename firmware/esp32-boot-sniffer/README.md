@@ -18,7 +18,11 @@ Passive DDR5 boot I2C / I2C-compatible sideband sniffer
 
 This is not a full I3C analyzer. It does not drive SCL or SDA, is not an active bus participant, and is not guaranteed for true I3C push-pull high-speed traffic.
 
-DDR5 SPD5 hubs can support I2C and I3C sideband operation. This firmware targets I2C / I2C-compatible boot sideband traffic. It may observe some I3C-compatible framing during early boot, but it should not be treated as a full I3C analyzer. True I3C push-pull/high-speed phases may exceed ESP32 GPIO sampling reliability.
+DDR5 SPD5 hubs can support I2C and I3C sideband operation. This firmware
+targets I2C / I2C-compatible boot sideband traffic. It may observe some
+I3C-compatible framing during early boot, but it should not be treated as a full
+I3C analyzer. True I3C push-pull/high-speed phases may exceed ESP32 GPIO
+sampling reliability.
 
 Bigger storage can extend capture length, but it does not make a normal ESP32 GPIO sniffer a complete I3C protocol analyzer.
 

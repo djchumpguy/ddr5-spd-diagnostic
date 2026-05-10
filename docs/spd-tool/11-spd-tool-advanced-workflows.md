@@ -8,7 +8,11 @@ possible through existing register/SPD/PMIC commands but remain unvalidated or
 high risk.
 
 > [!WARNING]
-> These workflows can modify SPD contents, SPD hub registers, write-protection state, PMIC registers, power state, or timing/profile data. A bad write can permanently confuse a DIMM, prevent POST, corrupt SPD contents, or damage hardware if PMIC/power behavior is changed incorrectly. Treat anything beyond read/compare/dump as experimental bench work.
+> These workflows can modify SPD contents, SPD hub registers, write-protection
+> state, PMIC registers, power state, or timing/profile data. A bad write can
+> permanently confuse a DIMM, prevent POST, corrupt SPD contents, or damage
+> hardware if PMIC/power behavior is changed incorrectly. Treat anything beyond
+> read/compare/dump as experimental bench work.
 
 ## Workflow confidence labels
 
