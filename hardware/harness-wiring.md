@@ -276,82 +276,16 @@ Observed result:
 
 Do not confuse the I2C shortcut with the power/control pins. VIN_BULK, PWR_EN, PWR_GOOD, HSA, and PMIC behavior still need to be handled according to their own voltage and mode requirements.
 
-## Passive DDR5 Boot Sniffer Wiring
+## Passive boot sniffer wiring
 
-This passive boot sniffer setup is separate from the active ESP32 SPD/PMIC
-diagnostic harness. It observes the motherboard-driven DDR5 sideband bus during
-boot; it is not an active programmer and the ESP32 must not drive HSCL or HSDA.
-The pin needles are socket-side probe tips only: each signal wire is soldered to
-a pin needle at the socket end, while the other wire end connects to the ESP32.
+The passive boot sniffer is a separate harness from the active SPD/PMIC tool.
+Its wiring is documented here:
 
-```mermaid
-flowchart LR
-    USB["Motherboard USB header"]
-    USNG["USB header GND pin"]
-    ESPG["ESP32 GND"]
+[Passive Boot Sniffer Wiring](passive-boot-sniffer-wiring.md)
 
-    SOCK["DDR5 DIMM socket / adapter"]
-
-    N4["Pin needle inserted at<br/>DDR5 socket pin 4 / HSCL"]
-    N5["Pin needle inserted at<br/>DDR5 socket pin 5 / HSDA"]
-
-    YW["Yellow wire<br/>soldered to pin needle"]
-    GW["Green wire<br/>soldered to pin needle"]
-
-    G34["ESP32 GPIO34<br/>input-only<br/>HSCL sniff"]
-    G35["ESP32 GPIO35<br/>input-only<br/>HSDA sniff"]
-
-    ESP["ESP32 boot sniffer firmware"]
-
-    USB --> USNG
-    USNG -- "ground wire / shared reference" --> ESPG
-
-    SOCK --> N4
-    SOCK --> N5
-
-    N4 -- "needle end touches socket contact" --> YW
-    N5 -- "needle end touches socket contact" --> GW
-
-    YW -- "wire end" --> G34
-    GW -- "wire end" --> G35
-
-    G34 --> ESP
-    G35 --> ESP
-    ESPG --> ESP
-```
-
-| Probe assembly | Socket-side connection | ESP32-side connection | Purpose | Notes |
-|---|---|---|---|---|
-| Yellow wire soldered to pin needle | Needle inserted at DDR5 socket pin 4 / HSCL | GPIO34 | Sideband clock sniff | Passive input only |
-| Green wire soldered to pin needle | Needle inserted at DDR5 socket pin 5 / HSDA | GPIO35 | Sideband data sniff | Passive input only |
-| Ground wire | Motherboard USB header GND | ESP32 GND | Shared reference ground | Do not use a DDR5 socket ground probe |
-
-> [!CAUTION]
-> The pin needles are socket-side probe tips only. Press them gently into the DDR5 socket/adapter contact area just enough to touch pins 4 and 5.
-> Do not deform the socket housing or contacts.
-> The ESP32 must not drive HSCL or HSDA.
-> Do not connect ESP32 3.3V or 5V to the motherboard/DIMM for this sniffer.
-> Do not add ESP32-side pull-ups for this passive capture.
-
-Ground is taken from a motherboard USB header GND pin and connected to ESP32
-GND. Only the two passive signal taps touch the DDR5 socket contacts.
-
-The signal probes are wire-to-pin-needle probe assemblies. For the yellow probe,
-one end of the wire is soldered to a pin needle, the needle end is inserted at
-DDR5 socket pin 4 / HSCL, and the other wire end connects to ESP32 GPIO34. For
-the green probe, one end of the wire is soldered to a pin needle, the needle end
-is inserted at DDR5 socket pin 5 / HSDA, and the other wire end connects to
-ESP32 GPIO35. The motherboard remains the bus master during this capture.
-
-### Passive sniffer vs active SPD/PMIC harness
-
-The passive boot sniffer is not wired the same way as the active ESP32 SPD/PMIC
-diagnostic tool.
-
-| Mode | ESP32 pins | Connection style | Bus master | Purpose |
-|---|---|---|---|---|
-| Active SPD/PMIC tool | GPIO21/GPIO22 | Level-shifted I2C through PCA9306 or equivalent | ESP32 | Controlled reads/writes/dumps |
-| Passive boot sniffer | GPIO34/GPIO35 | Read-only pin-needle taps on DDR5 pins 4/5 | Motherboard | Observe boot traffic |
+Do not mix the active SPD/PMIC harness wiring with the passive sniffer wiring.
+GPIO34 is PWR_GOOD in the active harness but HSCL sniff input in the passive
+sniffer harness.
 
 ## Quick schematic
 

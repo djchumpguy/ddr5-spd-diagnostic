@@ -30,11 +30,14 @@ buffering is safer than direct ESP32 GPIO attachment.
 
 ## Wiring reference
 
-The primary passive boot sniffer wiring schematic lives in
-[`hardware/harness-wiring.md`](../hardware/harness-wiring.md#passive-ddr5-boot-sniffer-wiring).
-That section documents the corrected setup: GPIO34/GPIO35 are read-only sniff
-inputs, the motherboard remains the bus master, and ESP32 GND is referenced from
-a motherboard USB header ground pin rather than a DDR5 socket ground probe.
+For the physical wiring schematic, see:
+
+[Passive Boot Sniffer Wiring](../hardware/passive-boot-sniffer-wiring.md)
+
+That document covers the corrected passive harness setup: GPIO34/GPIO35 are
+read-only sniff inputs, the motherboard remains the bus master, and ESP32 GND is
+referenced from a motherboard USB header ground pin rather than a DDR5 socket
+ground probe.
 
 ## Prototype pin-needle sniffer tap
 
