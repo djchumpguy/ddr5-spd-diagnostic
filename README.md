@@ -23,6 +23,14 @@ diagnostic project in one place:
 >
 > If you choose to replicate anything in this repository, you do so entirely at your own risk. The author provides this material for documentation and educational purposes only and assumes no responsibility or liability for hardware damage, data loss, injury, or other consequences resulting from use, misuse, or attempted replication.
 
+## New reader path
+
+- Start here: [`docs/universal/start-here.md`](docs/universal/start-here.md)
+- Documentation index: [`docs/README.md`](docs/README.md)
+- Hardware index: [`hardware/README.md`](hardware/README.md)
+- Active SPD/PMIC tool docs: [`docs/spd-tool/`](docs/spd-tool/)
+- Passive boot sniffer docs: [`docs/sniffer/`](docs/sniffer/)
+
 ## Web UI preview
 
 <img src="assets/ui/web-ui-safe-help.png" alt="ESP32 DDR5 SPD Tool Web UI safe command surface" width="900">
@@ -192,6 +200,7 @@ This sniffer is not a full I3C analyzer.
 
 Read these first:
 
+- `docs/universal/start-here.md`
 - `docs/README.md`
 - `hardware/README.md`
 - `docs/universal/00-project-overview.md`

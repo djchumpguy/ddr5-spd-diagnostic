@@ -2,6 +2,7 @@
 
 ## Universal project docs
 
+- Start here: [`universal/start-here.md`](universal/start-here.md)
 - Project overview: [`universal/00-project-overview.md`](universal/00-project-overview.md)
 - Safety boundaries: [`universal/01-safety-boundaries.md`](universal/01-safety-boundaries.md)
 
