@@ -147,6 +147,10 @@ and DDR5 sideband behavior. The firmware is the working implementation used by
 the tool, but it should still be treated as lab firmware rather than a polished
 consumer repair product.
 
+Advanced experimental workflows using the current SPD tool command surface are
+documented in
+[`docs/11-spd-tool-advanced-workflows.md`](docs/11-spd-tool-advanced-workflows.md).
+
 ## Boot sniffer
 
 The repo includes a separate passive ESP32 boot sideband sniffer under:

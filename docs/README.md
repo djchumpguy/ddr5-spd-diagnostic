@@ -14,6 +14,7 @@
 - Register watchlist: [`06-register-watchlist.md`](06-register-watchlist.md)
 - Test workflows: [`07-test-workflows.md`](07-test-workflows.md)
 - Wiring diagram: [`09-wiring-diagram.md`](09-wiring-diagram.md)
+- Advanced SPD tool workflows: [`11-spd-tool-advanced-workflows.md`](11-spd-tool-advanced-workflows.md)
 - Active harness wiring: [`../hardware/harness-wiring.md`](../hardware/harness-wiring.md)
 - Firmware notes: [`../firmware-notes/`](../firmware-notes/)
 
