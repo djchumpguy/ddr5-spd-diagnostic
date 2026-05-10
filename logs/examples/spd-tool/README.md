@@ -1,6 +1,7 @@
 # SPD Tool Example Logs
 
-These logs document active ESP32 SPD/PMIC tool behavior from the suspect DDR5 module after SPD payload repair and MR12/MR13 correction.
+These logs document active ESP32 SPD/PMIC tool behavior from the suspect DDR5
+module after SPD payload repair and MR12/MR13 correction.
 
 ## Post-repair bad-stick evidence
 
@@ -14,4 +15,8 @@ These logs document active ESP32 SPD/PMIC tool behavior from the suspect DDR5 mo
 | `bad-post-repair-pmic-snapshot.txt` | PMIC identity/dump/compare evidence |
 | `bad-post-repair-0x50-management-plane-clean.txt` | Offline/direct-ground style 0x50/0x48 evidence showing SPD compare MATCH and PMIC compare MATCH |
 
-These logs support the conclusion that the suspect module's SPD/HUB/PMIC management plane was repaired and stable after intervention, while the module still failed motherboard boot/training. That remaining failure is therefore treated as likely DRAM-side / training-path failure, not active SPD/PMIC corruption.
+These logs support the conclusion that the suspect module's SPD/HUB/PMIC
+management plane was repaired and stable after intervention, while the module
+still failed motherboard boot/training. That remaining failure is therefore
+treated as likely DRAM-side / training-path failure, not active SPD/PMIC
+corruption.

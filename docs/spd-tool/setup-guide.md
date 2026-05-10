@@ -70,13 +70,13 @@ scan
 autodetect
 mapall
 powerdiag 20 100
-timespd <spd_addr> 0x0000 32 50
-timereg <spd_addr> 0x0B 16 50
-pmicid <pmic_addr>
-pmicdumpat <pmic_addr> 0x00 0x80
+timespd {spd_addr} 0x0000 32 50
+timereg {spd_addr} 0x0B 16 50
+pmicid {pmic_addr}
+pmicdumpat {pmic_addr} 0x00 0x80
 ```
 
-Use `autodetect` and `mapall` to resolve `<spd_addr>` and `<pmic_addr>` for the
+Use `autodetect` and `mapall` to resolve `{spd_addr}` and `{pmic_addr}` for the
 current HSA and power state.
 
 ## Write-capable workflows

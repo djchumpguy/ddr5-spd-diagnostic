@@ -29,7 +29,7 @@ not the only possible implementation.
 | Wire the active SPD/PMIC harness | [`../../hardware/spd-tool/harness-wiring.md`](../../hardware/spd-tool/harness-wiring.md) |
 | Use the passive boot sniffer | [`../sniffer/10-boot-sniffer.md`](../sniffer/10-boot-sniffer.md) |
 | Wire the passive sniffer | [`../../hardware/sniffer/passive-boot-sniffer-wiring.md`](../../hardware/sniffer/passive-boot-sniffer-wiring.md) |
-| Review evidence logs | [`../../logs/examples/spd-tool/README.md`](../../logs/examples/spd-tool/README.md) and [`../../logs/examples/sniffer/README.md`](../../logs/examples/sniffer/README.md) |
+| Review evidence logs | [`../../logs/examples/spd-tool/README.md`](../../logs/examples/spd-tool/README.md)<br>[`../../logs/examples/sniffer/README.md`](../../logs/examples/sniffer/README.md) |
 | Review the final diagnosis | [`../../investigations/final-diagnosis-dram-failure.md`](../../investigations/final-diagnosis-dram-failure.md) |
 
 ## Minimum practical active SPD/PMIC setup
@@ -86,13 +86,13 @@ scan
 autodetect
 mapall
 powerdiag 20 100
-timespd <spd_addr> 0x0000 32 50
-timereg <spd_addr> 0x0B 16 50
-pmicid <pmic_addr>
-pmicdumpat <pmic_addr> 0x00 0x80
+timespd {spd_addr} 0x0000 32 50
+timereg {spd_addr} 0x0B 16 50
+pmicid {pmic_addr}
+pmicdumpat {pmic_addr} 0x00 0x80
 ```
 
-Use `autodetect` and `mapall` to resolve `<spd_addr>` and `<pmic_addr>` for the
+Use `autodetect` and `mapall` to resolve `{spd_addr}` and `{pmic_addr}` for the
 current HSA and power state.
 
 ## Recovery/write workflow caution

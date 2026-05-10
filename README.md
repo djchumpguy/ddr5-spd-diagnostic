@@ -19,9 +19,17 @@ diagnostic project in one place:
 > This repository documents a DIY, highly experimental DDR5 hardware/firmware lab project.
 > It is not a polished repair guide, validated engineering design, or consumer-safe procedure.
 >
-> The work shown here involves custom wiring, improvised probing, live DDR5 module sideband access, PMIC/SPD investigation, ESP32 firmware, and boot-time bus sniffing. Incorrect wiring, voltage levels, power sequencing, write commands, or probing can permanently damage RAM modules, motherboards, ESP32 boards, USB ports, power supplies, or other attached equipment.
+> The work shown here involves custom wiring, improvised probing, live DDR5
+> module sideband access, PMIC/SPD investigation, ESP32 firmware, and boot-time
+> bus sniffing. Incorrect wiring, voltage levels, power sequencing, write
+> commands, or probing can permanently damage RAM modules, motherboards, ESP32
+> boards, USB ports, power supplies, or other attached equipment.
 >
-> If you choose to replicate anything in this repository, you do so entirely at your own risk. The author provides this material for documentation and educational purposes only and assumes no responsibility or liability for hardware damage, data loss, injury, or other consequences resulting from use, misuse, or attempted replication.
+> If you choose to replicate anything in this repository, you do so entirely at
+> your own risk. The author provides this material for documentation and
+> educational purposes only and assumes no responsibility or liability for
+> hardware damage, data loss, injury, or other consequences resulting from use,
+> misuse, or attempted replication.
 
 ## Project origin / reality check
 
@@ -171,7 +179,11 @@ Observed address behavior changed depending on HSA state at power-up:
 | Resistor-selected strap | HSA through the nominal 35.7 kΩ / ~36 kΩ class HSA/HID strap; measured ~34.4 kΩ in-circuit on this adapter/harness | SPD/HUB observed around `0x53` | Normal tested harness behavior |
 | Floating/high | HSA released/floating/high | SPD/HUB observed around `0x57` | Experimental high/floating behavior |
 
-The 35.7 kΩ / ~36 kΩ class value is the nominal/reference HSA/HID strap value from the SPD hub reference material tracked in `sources/source-index.md`. The ~34.4 kΩ value was measured in-circuit on this project's adapter/harness. Verify the actual strap resistance and address behavior on your own setup with `scan`, `autodetect`, and `mapall`.
+The 35.7 kΩ / ~36 kΩ class value is the nominal/reference HSA/HID strap value
+from the SPD hub reference material tracked in `sources/source-index.md`. The
+~34.4 kΩ value was measured in-circuit on this project's adapter/harness.
+Verify the actual strap resistance and address behavior on your own setup with
+`scan`, `autodetect`, and `mapall`.
 
 ## Key project corrections
 
