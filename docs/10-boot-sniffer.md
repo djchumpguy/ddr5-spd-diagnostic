@@ -44,6 +44,119 @@ ground probe.
 Prototype probe photos are included with the passive wiring schematic:
 [Passive Boot Sniffer Wiring](../hardware/passive-boot-sniffer-wiring.md)
 
+## Capture workflow
+
+### RAM-buffer / no-SD-card workflow
+
+This is the workflow used for the current WROOM-style sniffer profile where the
+capture is stored in RAM.
+
+1. Power the ESP32 sniffer from a source that will stay on independently of the
+   PC being tested.
+   - A wall USB charger or battery bank works.
+   - Avoid powering it only from the PC being tested if unplugging or shutdown
+     would reset the ESP32.
+   - If the ESP32 loses power, the RAM capture is erased.
+
+2. Connect to the sniffer before powering on the PC.
+   - Use a Bluetooth serial app on a phone, or a PC Bluetooth/serial terminal.
+   - Confirm the sniffer responds to:
+
+     ```text
+     status
+     ```
+
+3. Arm the sniffer before motherboard power-on.
+   - Send:
+
+     ```text
+     clear
+     arm
+     status
+     ```
+
+   - The sniffer should be armed before the motherboard begins DDR5
+     initialization.
+
+4. Power on the PC / motherboard.
+   - Let the board boot, fail training, or sit for about 60 seconds.
+   - Do not reset or power-cycle the ESP32 during this time.
+
+5. Dump the capture before removing ESP32 power.
+   - From phone Bluetooth serial app, enable logging first if possible.
+   - From PC terminal, use a logfile if possible.
+   - Useful commands:
+
+     ```text
+     status
+     summary
+     dump
+     ```
+
+6. If the terminal/app cannot handle the full dump at once, dump in segments.
+   - Use the event range shown by `summary`.
+   - Examples:
+
+     ```text
+     dump 0 199
+     dump 200 399
+     dump 400 599
+     dump 600 799
+     dump 800 1023
+     ```
+
+   - Adjust the final range based on the event count in `summary`.
+
+7. Optional CSV export:
+   - If the serial app or terminal is logging, run:
+
+     ```text
+     dumpcsv
+     ```
+
+   - `dumpcsv` prints CSV text over serial. It does not magically create a file
+     on the phone unless the serial app is logging.
+
+8. Save the dump file.
+   - Suggested names:
+
+     ```text
+     good-stick-boot-sniffer.txt
+     bad-stick-boot-sniffer.txt
+     good-stick-boot-dumpcsv.txt
+     bad-stick-boot-dumpcsv.txt
+     ```
+
+> [!WARNING]
+> On RAM-only sniffer builds, the capture is volatile. Powering off, unplugging, resetting, or re-flashing the ESP32 erases the captured boot traffic. Dump and save the data before changing power or reconnecting the board.
+
+### Phone Bluetooth serial dump
+
+- Connect to the sniffer over Bluetooth serial.
+- Start logging/recording in the app before running `dump` or `dumpcsv`.
+- Run `status`, `summary`, then `dump`.
+- Stop logging and export/share the saved text file.
+- If logging was not enabled, the dump may only exist in terminal scrollback.
+
+### PC terminal dump
+
+- If the ESP32 can remain powered while connected to the PC, USB serial is
+  easiest.
+- If the ESP32 is powered separately and Bluetooth is being used, a PC can
+  connect through Bluetooth serial/rfcomm/picocom.
+- Use terminal logging so the dump is saved directly to a text file.
+- Do not unplug the ESP32 from its separate power source just to move it to the
+  PC if doing so would erase RAM.
+
+### SD-card / persistent-storage boards
+
+- Boards with SD card, PSRAM plus export support, or persistent storage can use
+  larger/different workflows.
+- On storage-capable builds, prefer saving/exporting to storage before power
+  removal.
+- The current documented baseline captures were made with a small fixed RAM
+  decoded-event buffer, so the RAM workflow remains the safest default.
+
 ## Scope
 
 This is a boot I2C / I2C-compatible sideband sniffer, not a full I3C analyzer.
