@@ -198,11 +198,13 @@ Record observed hub address
 
 ### Observed project address behavior
 
-| HSA condition at power-up | Observed hub address / behavior | Notes |
-|---|---|---|
-| Direct hard-low / tied to GND | `0x50` | Direct-GND / hard-low / offline tester behavior |
-| Resistor-selected low strap / slot-ID style strap | `0x53` | HSA resistor strap / HID-selected observed harness state |
-| Floating or high-ish HSA | `0x57` | HSA floating/high-ish observed behavior |
+| HSA mode | Practical wiring | Observed behavior in this project | Use |
+|---|---|---|---|
+| Direct hard-low / ground | HSA tied directly to ground | SPD/HUB observed at `0x50` | Direct-ground / hard-low / offline-style testing |
+| Resistor-selected strap | HSA through the nominal 36.0 kΩ HSA/HID strap; measured ~34.4 kΩ in-circuit on this adapter/harness | SPD/HUB observed around `0x53` | Normal tested harness behavior |
+| Floating/high | HSA released/floating/high | SPD/HUB observed around `0x57` | Experimental high/floating behavior |
+
+The 36.0 kΩ value is the nominal/reference HSA/HID strap value from the SPD hub reference material tracked in `sources/source-index.md`. The ~34.4 kΩ value was measured in-circuit on this project's adapter/harness. Verify the actual strap resistance and address behavior on your own setup with `scan`, `autodetect`, and `mapall`.
 
 ### Notes
 
