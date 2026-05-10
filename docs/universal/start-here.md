@@ -30,6 +30,10 @@ bench setups, or RAM-only captures where moving cables or power can erase the
 data. It is still experimental DIY bench tooling, not a consumer-safe product or
 a replacement for professional analyzers.
 
+The documented baseline does not require a premium ESP32 board. The project was
+validated with an ESP32-WROOM-class board. Better boards may make logging
+easier, but they are not required for the core proof-of-concept.
+
 ## Choose your tool
 
 ### Active SPD/PMIC tool

@@ -44,6 +44,27 @@ ground probe.
 Prototype probe photos are included with the passive wiring schematic:
 [Passive Boot Sniffer Wiring](../../hardware/sniffer/passive-boot-sniffer-wiring.md)
 
+## Minimum validated sniffer hardware
+
+The passive boot sniffer was validated on an ESP32-WROOM-class board using the
+small RAM-buffer profile. This is the minimum tested configuration for this
+project, not a guarantee that every ESP32 variant will work.
+
+This configuration is enough to capture useful early DDR5 boot sideband traffic,
+including the known-good and suspect-module examples in this repo.
+
+Known limitations:
+
+- capture is stored in RAM,
+- capture is erased if the ESP32 loses power or resets,
+- buffer depth is limited,
+- overflow can occur on longer captures,
+- Bluetooth/USB dump must be performed before removing power.
+
+Boards with PSRAM, SD card, or other persistent storage may support larger or
+more durable captures, but those are optional extensions and were not required
+for the documented good-vs-bad diagnosis.
+
 ## Capture workflow
 
 ### RAM-buffer / no-SD-card workflow

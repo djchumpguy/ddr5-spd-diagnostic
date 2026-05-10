@@ -217,6 +217,10 @@ It captures early DDR5 boot I2C / I2C-compatible sideband traffic into a compact
 event buffer and dumps it after capture. It is useful for comparing known-good
 and suspect module boot sequences.
 
+The documented sniffer baseline was captured with an ESP32-WROOM-class board
+using a RAM-only buffer; PSRAM/SD-card boards are optional upgrades, not
+requirements.
+
 - Boot sniffer usage/capture workflow: [`docs/sniffer/10-boot-sniffer.md`](docs/sniffer/10-boot-sniffer.md)
 - Passive sniffer wiring: [`hardware/sniffer/passive-boot-sniffer-wiring.md`](hardware/sniffer/passive-boot-sniffer-wiring.md)
 

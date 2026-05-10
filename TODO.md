@@ -11,8 +11,6 @@ Codex-finishable tasks are not tracked here.
 - [ ] Repeat the known-good boot sniffer capture using the same motherboard, slot, HSA/strap state, and sniffer profile.
 - [ ] Repeat the suspect/bad-stick boot sniffer capture under the same conditions as the known-good capture.
 - [ ] Capture at least one additional good-vs-bad run pair to confirm the divergence is repeatable.
-- [ ] Test a larger-buffer boot sniffer build using a board with PSRAM, SD card, or persistent storage if available.
-- [ ] Verify whether the larger-buffer/persistent-storage sniffer captures more of the boot sequence than the WROOM RAM-only profile.
 - [ ] Save new sniffer captures with clear names identifying stick, slot, date, sniffer profile, and whether overflow occurred.
 
 ## Active SPD/PMIC tool bench validation
@@ -54,6 +52,8 @@ Codex-finishable tasks are not tracked here.
 - [x] Do not publish raw/private logs or unrelated system paths.
 - [x] Do not publish datasheet PDFs unless redistribution is clearly allowed.
 - [x] Do not present untested advanced PMIC/SPD edits as validated workflows.
+- [x] Do not validate additional ESP32 board variants.
+  - Reason: the project goal was achieved on an ESP32-WROOM-class board. Larger PSRAM/SD-card boards may improve capture depth or persistence, but they are optional future experiments for others.
 
 ## Done / already integrated
 
