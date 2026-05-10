@@ -28,6 +28,64 @@ Common ground is required between the sniffer and the system being observed.
 If tapping true DDR5 low-voltage sideband lines directly, level shifting or
 buffering is safer than direct ESP32 GPIO attachment.
 
+## Passive DDR5 Boot Sniffer Wiring
+
+```mermaid
+flowchart LR
+    MB[Motherboard / DDR5 slot during boot]
+    USB[Motherboard USB header]
+    DIMM[DDR5 DIMM socket edge contacts]
+    ESP[ESP32 passive sniffer]
+
+    USBGND[USB header GND pin]
+    GND[ESP32 GND]
+
+    P4[DDR5 pin 4<br/>HSCL / SCL<br/>yellow probe]
+    P5[DDR5 pin 5<br/>HSDA / SDA<br/>green probe]
+
+    G34[ESP32 GPIO34<br/>input only<br/>SCL sniff]
+    G35[ESP32 GPIO35<br/>input only<br/>SDA sniff]
+
+    USB --> USBGND
+    USBGND -- shared ground only --> GND
+
+    MB --> DIMM
+    DIMM --> P4
+    DIMM --> P5
+
+    P4 -- passive needle tap --> G34
+    P5 -- passive needle tap --> G35
+
+    G34 --> ESP
+    G35 --> ESP
+    GND --> ESP
+```
+
+| Connection | Wire color | Purpose | Notes |
+|---|---:|---|---|
+| DDR5 pin 4 / HSCL | Yellow | Sideband clock sniff | Passive tap only |
+| DDR5 pin 5 / HSDA | Green | Sideband data sniff | Passive tap only |
+| USB header GND -> ESP32 GND | Black | Shared reference ground | Do not use a DDR5 socket ground probe |
+
+Notes:
+
+- This is a passive boot sniffer, not an active programmer.
+- The ESP32 must not drive HSCL or HSDA in this setup.
+- Do not connect ESP32 3.3V or 5V to the motherboard/DIMM for this sniffer.
+- Do not add pull-ups from the ESP32 side for this passive capture.
+- GPIO34 and GPIO35 are input-only and are appropriate for passive sniffing.
+- The yellow and green taps are soldered wire-to-pin-needle probes.
+- The pin needles should be gently pressed into the socket contact area only
+  enough to touch DDR5 pins 4 and 5.
+- Do not deform the socket plastic or contacts.
+- Ground is taken from a real motherboard USB header ground pin because it is
+  mechanically safer and cleaner than trying to probe a DDR5 VSS contact.
+
+Do not confuse this with the active ESP32 SPD/PMIC diagnostic harness. The
+active harness may use ESP32 GPIO21/GPIO22 through level shifting for I2C
+access. This passive boot sniffer uses GPIO34/GPIO35 as read-only sniff inputs
+and relies on the motherboard as the bus master.
+
 ## Prototype pin-needle sniffer tap
 
 During early bench testing, the sniffer used soldered pin needles as a removable
