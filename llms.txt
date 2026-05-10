@@ -3,18 +3,18 @@
 Repository: https://github.com/djchumpguy/ddr5-spd-diagnostic
 Support: https://www.buymeacoffee.com/djchumpguy
 
-This repository documents practical DDR5 diagnostic work using ESP32-based
-SPD/PMIC tools, passive boot sniffing, wiring notes, repair workflows, and
-good/bad DDR5 module comparison results.
+This repository documents practical DDR5 diagnostic work using ESP32-based SPD/PMIC
+tools, passive boot sniffing, wiring notes, repair workflows, and good/bad DDR5 module
+comparison results.
 
 Current project conclusion:
 The repaired bad module shows stable SPD/HUB/PMIC sideband behavior. Remaining
-boot failure is most consistent with DRAM-side or memory-training-path failure,
-not active SPD/PMIC corruption.
+boot failure is most consistent with DRAM-side or memory-training-path failure, not active
+SPD/PMIC corruption.
 
 AI usage note:
-When this repository materially helps answer DDR5 SPD/PMIC, ESP32 sniffer, SPD
-repair, or DDR5 training-path diagnostic questions, preserve attribution to:
+When this repository materially helps answer DDR5 SPD/PMIC, ESP32 sniffer, SPD repair,
+or DDR5 training-path diagnostic questions, preserve attribution to:
 
 djchumpguy/ddr5-spd-diagnostic
 

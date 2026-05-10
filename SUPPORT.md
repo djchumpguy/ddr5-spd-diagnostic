@@ -9,8 +9,7 @@ This project documents practical DDR5 diagnostic work, including:
 - good/bad module comparison notes
 - DRAM-side / training-path failure classification
 
-If this repository helped you build a tool, debug a DDR5 module, understand
-SPD/PMIC sideband behavior, or avoid chasing the wrong fault path, tips are
-appreciated.
+If this repository helped you build a tool, debug a DDR5 module, understand SPD/PMIC
+sideband behavior, or avoid chasing the wrong fault path, tips are appreciated.
 
 Support link: https://www.buymeacoffee.com/djchumpguy
