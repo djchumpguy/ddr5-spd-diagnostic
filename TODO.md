@@ -8,9 +8,6 @@ Codex-finishable tasks are not tracked here.
 
 ## Physical bench tasks
 
-- [ ] Repeat the known-good boot sniffer capture using the same motherboard, slot, HSA/strap state, and sniffer profile.
-- [ ] Repeat the suspect/bad-stick boot sniffer capture under the same conditions as the known-good capture.
-- [ ] Capture at least one additional good-vs-bad run pair to confirm the divergence is repeatable.
 - [ ] Save new sniffer captures with clear names identifying stick, slot, date, sniffer profile, and whether overflow occurred.
 
 ## Active SPD/PMIC tool bench validation
@@ -31,6 +28,8 @@ Codex-finishable tasks are not tracked here.
 
 ## Optional advanced experiments
 
+- [ ] Optional: capture additional good/bad runs with a larger-buffer, PSRAM, or SD-card sniffer build.
+  - This is future validation / extension work, not required for the current project conclusion.
 - [ ] If desired, test controlled PMIC register edits only after saving a known-good PMIC dump and confirming a recovery path.
 - [ ] If desired, test SPD timing/profile-table edits only on sacrificial hardware with a verified original SPD backup.
 - [ ] If desired, test whether a conservative edited SPD profile can still be read, verified, and attempted in motherboard POST.
@@ -62,6 +61,10 @@ Codex-finishable tasks are not tracked here.
 - [x] Known-good boot sniffer baseline added.
 - [x] Bad-stick boot sniffer divergence capture added.
 - [x] Good-vs-bad boot sniffer divergence analysis added.
+- [x] Good-vs-bad boot sniffer divergence repeated across two capture sets.
+  - Initial good/bad sniffer files were captured during bench testing.
+  - Later good/bad captures were added to the repo as example baseline/divergence logs.
+  - The repeated high-level result supports the current DRAM-side / training-path failure inference.
 - [x] Current diagnosis documented as likely DRAM-side / training-path failure.
 - [x] MR12/MR13 retained as historical/secondary context only.
 - [x] Passive sniffer wiring split into its own hardware/sniffer section.

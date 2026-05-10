@@ -227,3 +227,17 @@ Compared captures and investigation note:
 The current comparison supports likely DRAM-side / training-path failure because
 the suspect module reaches SPD/HUB and PMIC sideband traffic before
 diverging/stopping earlier than the known-good baseline.
+
+## Repeatability note
+
+The good-vs-bad boot-sniffer comparison was observed across more than one
+capture set. The example captures committed in `logs/examples/sniffer/` are
+later captures; initial good/bad sniffer files were also collected during bench
+testing. The important repeated pattern is the high-level divergence: the
+suspect module reaches useful SPD/HUB and PMIC sideband communication, then
+stops/settles much earlier than the known-good baseline.
+
+This should not be overread as exhaustive protocol proof. The WROOM RAM-only
+sniffer captures a retained boot window, not an unlimited full-bus trace.
+Larger-buffer or persistent-storage sniffer builds may improve capture depth,
+but they were not required for the documented diagnosis.

@@ -11,6 +11,11 @@ Current working conclusion: likely DRAM-side / training-path failure, inferred
 from boot-time sniffer divergence, not an active SPD/PMIC sideband access
 failure.
 
+Repeatability: The repo example captures are a second observed good-vs-bad
+capture set relative to the initial bench captures. This supports the
+repeatability of the high-level divergence, while the project still treats the
+WROOM captures as retained windows rather than complete protocol traces.
+
 ## Captures compared
 
 | Capture | File | Stick | Events | Overflow | Notes |
@@ -58,5 +63,6 @@ it. Current strongest evidence is boot sniffer divergence.
   decode.
 - Some odd addresses or NACK/data combinations may be decoder artifacts around
   repeated-start/special-address behavior.
-- More captures with the same slot, same board, same HSA/strap state, and same
-  sniffer profile would strengthen comparison.
+- More captures with larger retained buffers or persistent storage could deepen
+  analysis, but are optional future extensions rather than prerequisites for the
+  current conclusion.
