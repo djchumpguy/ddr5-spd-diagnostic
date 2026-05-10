@@ -28,6 +28,28 @@ Common ground is required between the sniffer and the system being observed.
 If tapping true DDR5 low-voltage sideband lines directly, level shifting or
 buffering is safer than direct ESP32 GPIO attachment.
 
+## Prototype pin-needle sniffer tap
+
+During early bench testing, the sniffer used soldered pin needles as a removable
+passive tap. Wires were soldered to pin needles, then the needles were inserted
+into the DDR5 adapter/socket contact area for pins 4 and 5 to piggyback on HSCL
+and HSDA.
+
+These photos document the prototype bench method used for the captured examples.
+They are not a complete wiring guide. Verify pin numbering, HSCL/HSDA mapping,
+grounding, and voltage levels before connecting hardware. The sniffer must
+remain passive and must not drive SCL/SDA.
+
+<figure>
+  <img src="../assets/hardware/sniffer-soldered-pin-needle-detail.jpg" alt="Soldered pin needle used as removable DDR5 sideband sniffer tap" width="800">
+  <figcaption>Soldered pin needle used as removable sideband tap.</figcaption>
+</figure>
+
+<figure>
+  <img src="../assets/hardware/sniffer-ddr5-pin-4-5-piggyback.jpg" alt="Pin needle taps inserted at DDR5 pins 4 and 5 for passive HSCL and HSDA sniffing" width="800">
+  <figcaption>Pin-needle taps inserted at DDR5 pins 4 and 5 for passive HSCL/HSDA sniffing.</figcaption>
+</figure>
+
 ## Scope
 
 This is a boot I2C / I2C-compatible sideband sniffer, not a full I3C analyzer.
