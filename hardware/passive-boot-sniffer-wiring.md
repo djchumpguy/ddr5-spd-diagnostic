@@ -74,6 +74,26 @@ flowchart LR
 > Do not add ESP32-side pull-ups for this passive capture.
 > The pin needles are socket-side probe tips only. Press them gently into the DDR5 socket/adapter contact area just enough to touch pins 4 and 5. Do not deform the socket housing or contacts.
 
+## Prototype probe photos
+
+These photos show the prototype wire-to-pin-needle tap method used during bench
+testing. They are included as physical context for the schematic above. Use the
+schematic and wiring table as the source of truth; the photos only show the
+prototype implementation.
+
+<figure>
+  <img src="../assets/hardware/sniffer-soldered-pin-needle-detail.jpg" alt="Soldered wire-to-pin-needle probe used for passive DDR5 sideband sniffing" width="800">
+  <figcaption>Soldered wire-to-pin-needle probe used as the removable socket-side tap.</figcaption>
+</figure>
+
+<figure>
+  <img src="../assets/hardware/sniffer-ddr5-pin-4-5-piggyback.jpg" alt="Pin-needle probes inserted at DDR5 socket pins 4 and 5 for passive HSCL and HSDA sniffing" width="800">
+  <figcaption>Pin-needle probes gently inserted at DDR5 socket pins 4 and 5 to piggyback HSCL/HSDA.</figcaption>
+</figure>
+
+> [!NOTE]
+> The needle tips are only meant to touch the socket contacts lightly. They should not be forced into the connector or used in a way that bends/deforms the socket housing or contacts.
+
 ## Do not confuse this with the active SPD/PMIC harness
 
 | Harness | ESP32 pins | Connection style | Bus master | Purpose |

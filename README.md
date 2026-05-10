@@ -158,7 +158,7 @@ event buffer and dumps it after capture. It is useful for comparing known-good
 and suspect module boot sequences.
 
 Passive sniffer wiring: [`hardware/passive-boot-sniffer-wiring.md`](hardware/passive-boot-sniffer-wiring.md).
-Prototype pin-needle tap photos are included in [`docs/10-boot-sniffer.md`](docs/10-boot-sniffer.md).
+Prototype pin-needle tap photos are included with the passive sniffer wiring doc.
 
 Example known-good baseline capture:
 

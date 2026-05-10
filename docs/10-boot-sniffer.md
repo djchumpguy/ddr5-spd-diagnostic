@@ -39,27 +39,10 @@ read-only sniff inputs, the motherboard remains the bus master, and ESP32 GND is
 referenced from a motherboard USB header ground pin rather than a DDR5 socket
 ground probe.
 
-## Prototype pin-needle sniffer tap
+## Prototype probe photos
 
-During early bench testing, the sniffer used soldered pin needles as a removable
-passive tap. Wires were soldered to pin needles, then the needles were inserted
-into the DDR5 adapter/socket contact area for pins 4 and 5 to piggyback on HSCL
-and HSDA.
-
-These photos document the prototype bench method used for the captured examples.
-They are not a complete wiring guide. Verify pin numbering, HSCL/HSDA mapping,
-grounding, and voltage levels before connecting hardware. The sniffer must
-remain passive and must not drive SCL/SDA.
-
-<figure>
-  <img src="../assets/hardware/sniffer-soldered-pin-needle-detail.jpg" alt="Soldered pin needle used as removable DDR5 sideband sniffer tap" width="800">
-  <figcaption>Soldered pin needle used as removable sideband tap.</figcaption>
-</figure>
-
-<figure>
-  <img src="../assets/hardware/sniffer-ddr5-pin-4-5-piggyback.jpg" alt="Pin needle taps inserted at DDR5 pins 4 and 5 for passive HSCL and HSDA sniffing" width="800">
-  <figcaption>Pin-needle taps inserted at DDR5 pins 4 and 5 for passive HSCL/HSDA sniffing.</figcaption>
-</figure>
+Prototype probe photos are included with the passive wiring schematic:
+[Passive Boot Sniffer Wiring](../hardware/passive-boot-sniffer-wiring.md)
 
 ## Scope
 
