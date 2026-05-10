@@ -149,7 +149,16 @@ consumer repair product.
 
 Advanced experimental workflows using the current SPD tool command surface are
 documented in
-[`docs/11-spd-tool-advanced-workflows.md`](docs/11-spd-tool-advanced-workflows.md).
+[`docs/spd-tool/11-spd-tool-advanced-workflows.md`](docs/spd-tool/11-spd-tool-advanced-workflows.md).
+
+## Documentation
+
+- Documentation index: [`docs/README.md`](docs/README.md)
+- Hardware index: [`hardware/README.md`](hardware/README.md)
+- Active SPD/PMIC tool docs: [`docs/spd-tool/`](docs/spd-tool/)
+- Passive boot sniffer docs: [`docs/sniffer/`](docs/sniffer/)
+- Active SPD/PMIC harness wiring: [`hardware/spd-tool/harness-wiring.md`](hardware/spd-tool/harness-wiring.md)
+- Passive boot sniffer wiring: [`hardware/sniffer/passive-boot-sniffer-wiring.md`](hardware/sniffer/passive-boot-sniffer-wiring.md)
 
 ## Boot sniffer
 
@@ -161,8 +170,8 @@ It captures early DDR5 boot I2C / I2C-compatible sideband traffic into a compact
 event buffer and dumps it after capture. It is useful for comparing known-good
 and suspect module boot sequences.
 
-- Boot sniffer usage/capture workflow: [`docs/10-boot-sniffer.md`](docs/10-boot-sniffer.md)
-- Passive sniffer wiring: [`hardware/passive-boot-sniffer-wiring.md`](hardware/passive-boot-sniffer-wiring.md)
+- Boot sniffer usage/capture workflow: [`docs/sniffer/10-boot-sniffer.md`](docs/sniffer/10-boot-sniffer.md)
+- Passive sniffer wiring: [`hardware/sniffer/passive-boot-sniffer-wiring.md`](hardware/sniffer/passive-boot-sniffer-wiring.md)
 
 Example known-good baseline capture:
 
@@ -185,10 +194,10 @@ Read these first:
 
 - `docs/README.md`
 - `hardware/README.md`
-- `docs/00-project-overview.md`
-- `docs/01-safety-boundaries.md`
-- `hardware/harness-wiring.md`
-- `docs/04-spd-hub-addressing.md`
+- `docs/universal/00-project-overview.md`
+- `docs/universal/01-safety-boundaries.md`
+- `hardware/spd-tool/harness-wiring.md`
+- `docs/spd-tool/04-spd-hub-addressing.md`
 - `investigations/good-vs-bad-boot-sniffer-divergence.md`
 - `investigations/final-diagnosis-dram-failure.md`
 - `investigations/good-vs-bad-stick.md`

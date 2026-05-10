@@ -49,7 +49,7 @@ Goal:
 ### GPIO32-switched VIN_BULK version
 
 ```text
-Confirm wiring against hardware/harness-wiring.md
+Confirm wiring against `hardware/spd-tool/harness-wiring.md`
 dimm_power off
 Set HSA strap manually
 dimm_power cycle
@@ -68,7 +68,7 @@ compare
 ### Direct/manual 5 V VIN_BULK version
 
 ```text
-Confirm wiring against hardware/harness-wiring.md
+Confirm wiring against `hardware/spd-tool/harness-wiring.md`
 Turn off/remove 5 V VIN_BULK manually
 Set HSA strap manually
 Restore 5 V VIN_BULK manually

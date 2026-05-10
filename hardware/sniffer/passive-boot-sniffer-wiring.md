@@ -82,12 +82,12 @@ schematic and wiring table as the source of truth; the photos only show the
 prototype implementation.
 
 <figure>
-  <img src="../assets/hardware/sniffer-soldered-pin-needle-detail.jpg" alt="Soldered wire-to-pin-needle probe used for passive DDR5 sideband sniffing" width="800">
+  <img src="../../assets/hardware/sniffer-soldered-pin-needle-detail.jpg" alt="Soldered wire-to-pin-needle probe used for passive DDR5 sideband sniffing" width="800">
   <figcaption>Soldered wire-to-pin-needle probe used as the removable socket-side tap.</figcaption>
 </figure>
 
 <figure>
-  <img src="../assets/hardware/sniffer-ddr5-pin-4-5-piggyback.jpg" alt="Pin-needle probes inserted at DDR5 socket pins 4 and 5 for passive HSCL and HSDA sniffing" width="800">
+  <img src="../../assets/hardware/sniffer-ddr5-pin-4-5-piggyback.jpg" alt="Pin-needle probes inserted at DDR5 socket pins 4 and 5 for passive HSCL and HSDA sniffing" width="800">
   <figcaption>Pin-needle probes gently inserted at DDR5 socket pins 4 and 5 to piggyback HSCL/HSDA.</figcaption>
 </figure>
 

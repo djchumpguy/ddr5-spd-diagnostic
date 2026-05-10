@@ -8,11 +8,11 @@ the boot window, then dumps the retained capture after the window closes.
 
 Firmware location:
 
-[`firmware/esp32-boot-sniffer/`](../firmware/esp32-boot-sniffer/)
+[`firmware/esp32-boot-sniffer/`](../../firmware/esp32-boot-sniffer/)
 
 Known-good example baseline:
 
-[`logs/examples/sniffer/good-stick-boot-0x53-baseline.txt`](../logs/examples/sniffer/good-stick-boot-0x53-baseline.txt)
+[`logs/examples/sniffer/good-stick-boot-0x53-baseline.txt`](../../logs/examples/sniffer/good-stick-boot-0x53-baseline.txt)
 
 The intended use is to compare known-good and suspect module boot sequences,
 especially the point where the suspect module diverges from normal SPD/HUB or
@@ -32,7 +32,7 @@ buffering is safer than direct ESP32 GPIO attachment.
 
 For the physical wiring schematic, see:
 
-[Passive Boot Sniffer Wiring](../hardware/passive-boot-sniffer-wiring.md)
+[Passive Boot Sniffer Wiring](../../hardware/sniffer/passive-boot-sniffer-wiring.md)
 
 That document covers the corrected passive harness setup: GPIO34/GPIO35 are
 read-only sniff inputs, the motherboard remains the bus master, and ESP32 GND is
@@ -42,7 +42,7 @@ ground probe.
 ## Prototype probe photos
 
 Prototype probe photos are included with the passive wiring schematic:
-[Passive Boot Sniffer Wiring](../hardware/passive-boot-sniffer-wiring.md)
+[Passive Boot Sniffer Wiring](../../hardware/sniffer/passive-boot-sniffer-wiring.md)
 
 ## Capture workflow
 
@@ -199,9 +199,9 @@ suspect module under the same motherboard/slot/HSA/strap conditions.
 
 Compared captures and investigation note:
 
-- [`logs/examples/sniffer/good-stick-boot-0x53-baseline.txt`](../logs/examples/sniffer/good-stick-boot-0x53-baseline.txt)
-- [`logs/examples/sniffer/bad-stick-boot-divergence.txt`](../logs/examples/sniffer/bad-stick-boot-divergence.txt)
-- [`investigations/good-vs-bad-boot-sniffer-divergence.md`](../investigations/good-vs-bad-boot-sniffer-divergence.md)
+- [`logs/examples/sniffer/good-stick-boot-0x53-baseline.txt`](../../logs/examples/sniffer/good-stick-boot-0x53-baseline.txt)
+- [`logs/examples/sniffer/bad-stick-boot-divergence.txt`](../../logs/examples/sniffer/bad-stick-boot-divergence.txt)
+- [`investigations/good-vs-bad-boot-sniffer-divergence.md`](../../investigations/good-vs-bad-boot-sniffer-divergence.md)
 
 The current comparison supports likely DRAM-side / training-path failure because
 the suspect module reaches SPD/HUB and PMIC sideband traffic before

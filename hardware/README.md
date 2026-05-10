@@ -2,12 +2,13 @@
 
 ## Active SPD/PMIC diagnostic harness
 
-- [`harness-wiring.md`](harness-wiring.md)
-- [`data/udimm-management-pins.csv`](data/udimm-management-pins.csv)
+- Active harness wiring: [`spd-tool/harness-wiring.md`](spd-tool/harness-wiring.md)
+- Active wiring diagram: [`spd-tool/wiring-diagram.md`](spd-tool/wiring-diagram.md)
+- UDIMM management pin data: [`spd-tool/data/udimm-management-pins.csv`](spd-tool/data/udimm-management-pins.csv)
 
 ## Passive boot sniffer harness
 
-- [`passive-boot-sniffer-wiring.md`](passive-boot-sniffer-wiring.md)
+- Passive boot sniffer wiring: [`sniffer/passive-boot-sniffer-wiring.md`](sniffer/passive-boot-sniffer-wiring.md)
 
 > [!CAUTION]
-> The active harness and passive sniffer reuse some DDR5 sideband concepts but are not the same wiring. GPIO34 is PWR_GOOD in the active harness and HSCL sniff input in the passive sniffer harness.
+> The active SPD/PMIC diagnostic harness and the passive boot sniffer harness are separate setups. Do not merge the wiring assumptions casually. GPIO34 is PWR_GOOD in the active SPD/PMIC harness, but HSCL sniff input in the passive sniffer harness.

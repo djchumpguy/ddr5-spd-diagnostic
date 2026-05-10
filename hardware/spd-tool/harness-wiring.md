@@ -281,7 +281,7 @@ Do not confuse the I2C shortcut with the power/control pins. VIN_BULK, PWR_EN, P
 The passive boot sniffer is a separate harness from the active SPD/PMIC tool.
 Its wiring is documented here:
 
-[Passive Boot Sniffer Wiring](passive-boot-sniffer-wiring.md)
+[Passive Boot Sniffer Wiring](../sniffer/passive-boot-sniffer-wiring.md)
 
 Do not mix the active SPD/PMIC harness wiring with the passive sniffer wiring.
 GPIO34 is PWR_GOOD in the active harness but HSCL sniff input in the passive
