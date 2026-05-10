@@ -310,6 +310,16 @@ licenses clearly allow redistribution.
 
 Keep PDFs locally and cite/link them in `sources/source-index.md`.
 
+## Support This Project
+
+This repo documents real DDR5 diagnostic work using ESP32-based SPD/PMIC
+tooling, passive boot sniffing, repair attempts, and failure classification.
+
+If this project helped you debug a module, recover SPD data, build a harness, or
+avoid chasing the wrong fault path, tips are appreciated.
+
+Support link: https://www.buymeacoffee.com/djchumpguy
+
 ## Status
 
 This is a lab documentation and prototype firmware repository for the DDR5
