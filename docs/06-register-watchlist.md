@@ -11,7 +11,9 @@ The old MR12/MR13 protection-register mismatch is historical context, not the cu
 Current project conclusion:
 
 ```text
-Likely DRAM-side failure inferred from good-vs-bad motherboard boot sniffer divergence after SPD/PMIC communication appeared normal.
+Likely DRAM-side / training-path failure inferred from good-vs-bad motherboard
+boot sniffer divergence after SPD/HUB and PMIC sideband communication appeared
+functional.
 ```
 
 So this watchlist should be used to document and reproduce observations, not to imply that these registers are still suspected as the final cause.

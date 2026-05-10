@@ -39,8 +39,11 @@ Current priority: keep the diagnostic-tool documentation internally consistent b
 - [x] Mark MR12/MR13 mismatch as historical, not current active diagnosis.
 - [x] Add final diagnosis page for likely DRAM-side failure inferred from boot sniffer divergence.
 - [x] Add sanitized good-stick sniffer baseline.
-- [ ] Add bad-stick sniffer capture later.
-- [ ] Add parser/compare script later.
+- [x] Add bad-stick boot sniffer capture.
+- [x] Add good-vs-bad boot sniffer divergence note.
+- [ ] Future: add parser/compare script for sniffer captures.
+- [ ] Future: repeat captures with larger-buffer profile / PSRAM board.
+- [ ] Future: capture additional bad/good runs under same setup for repeatability.
 - [ ] Add sanitized boot-sniffer summary later.
 - [ ] Add good-vs-bad boot-sniffer divergence timeline later.
 - [ ] Add good-vs-bad divergence analysis later.
@@ -117,5 +120,5 @@ MR12/MR13:
   not current active diagnosis
 
 Final diagnosis:
-  likely DRAM-side failure inferred from good-vs-bad motherboard boot sniffer divergence after SPD/PMIC communication appeared normal
+  likely DRAM-side / training-path failure inferred from good-vs-bad motherboard boot sniffer divergence after SPD/HUB and PMIC sideband communication appeared functional
 ```

@@ -47,6 +47,16 @@ The current diagnostic setup is centered around:
 - PWR_GOOD readiness checking
 - Read/dump/compare-first diagnostic workflow
 
+Current strongest finding: A known-good vs suspect boot sniffer comparison
+suggests the suspect module is not simply absent from the SPD/PMIC sideband bus.
+It reaches SPD/HUB traffic at `0x53` and PMIC traffic at `0x4B` before
+diverging/stopping earlier than the known-good baseline. The current working
+conclusion is likely DRAM-side / training-path failure, inferred from boot-time
+sniffer divergence.
+
+See
+[`investigations/good-vs-bad-boot-sniffer-divergence.md`](investigations/good-vs-bad-boot-sniffer-divergence.md).
+
 ### Required / core signals
 
 | Function | ESP32 GPIO | Status | Notes |
@@ -98,9 +108,9 @@ Observed address behavior changed depending on HSA state at power-up:
   VIN_BULK cold reset was performed.
 - MR12/MR13 mismatch is historical investigation context, not the current active
   root cause.
-- Final diagnosis is likely DRAM-side failure inferred from good-vs-bad
-  motherboard boot sniffer divergence after SPD/PMIC communication appeared
-  normal.
+- Current strongest finding supports likely DRAM-side / training-path failure
+  inferred from good-vs-bad motherboard boot sniffer divergence after SPD/HUB
+  and PMIC sideband communication appeared functional.
 
 ## Repository layout
 
@@ -147,6 +157,15 @@ Example known-good baseline capture:
 
 [`logs/examples/sniffer/good-stick-boot-0x53-baseline.txt`](logs/examples/sniffer/good-stick-boot-0x53-baseline.txt)
 
+Suspect divergence capture:
+
+[`logs/examples/sniffer/bad-stick-boot-divergence.txt`](logs/examples/sniffer/bad-stick-boot-divergence.txt)
+
+The current comparison supports a likely DRAM-side / training-path failure
+inference because the suspect module reaches SPD/HUB traffic at `0x53` and PMIC
+traffic at `0x4B` before diverging/stopping earlier than the known-good
+baseline.
+
 This sniffer is not a full I3C analyzer.
 
 ## Start here
@@ -157,6 +176,7 @@ Read these first:
 - `docs/01-safety-boundaries.md`
 - `hardware/harness-wiring.md`
 - `docs/04-spd-hub-addressing.md`
+- `investigations/good-vs-bad-boot-sniffer-divergence.md`
 - `investigations/final-diagnosis-dram-failure.md`
 - `investigations/good-vs-bad-stick.md`
 

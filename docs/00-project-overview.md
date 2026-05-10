@@ -107,7 +107,9 @@ Current project memory says:
 - MR12 and MR13 now match between good and bad sticks.
 - The old mismatch should not be treated as active unless new captures show it diverging again.
 - The good-vs-bad investigation page is preserved as a lab history record.
-- The final/current diagnosis is likely DRAM-side failure inferred from good-vs-bad motherboard boot sniffer divergence after SPD/PMIC communication appeared normal.
+- The current strongest finding is likely DRAM-side / training-path failure
+  inferred from good-vs-bad motherboard boot sniffer divergence after SPD/HUB
+  and PMIC sideband communication appeared functional.
 
 ## Guiding rules
 

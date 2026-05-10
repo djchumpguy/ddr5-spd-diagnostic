@@ -4,9 +4,17 @@
 
 This page is a **historical investigation record**, not the current active diagnosis.
 
+**Current status update:** The strongest current finding is the boot-time
+sniffer comparison, which indicates likely DRAM-side / training-path failure.
+The suspect stick reaches SPD/HUB and PMIC sideband communication, then
+diverges/stops much earlier than the good-stick baseline.
+
 Earlier testing found a mismatch in SPD hub write-protection registers **MR12/MR13** between the known-good stick and the recovered bad stick. That mismatch was originally treated as a possible cause of motherboard initialization failure.
 
 **Current project state:** MR12 and MR13 are no longer considered an active mismatch. Later testing brought the good and bad sticks into matching MR12/MR13 state. Do not treat the old MR12/MR13 mismatch as the current root cause unless new captures show it diverging again.
+
+MR12/MR13 protection mismatch should be retained as historical context only, not
+described as the active/current root cause.
 
 ## Test context
 

@@ -1,18 +1,24 @@
-# Final Diagnosis — DRAM Failure from Boot Sniffer Data
+# Current Diagnosis - Likely DRAM-Side Failure from Boot Sniffer Data
 
 ## Status
 
 This is the current high-level conclusion for the DDR5 diagnostic project.
 
-The final/ultimate finding is that the suspect module failure points to **DRAM-side failure**, based on sniffer data captured during motherboard boot initialization.
+The strongest current finding is that the suspect module likely has a
+DRAM-side / training-path failure, inferred from sniffer data captured during
+motherboard boot initialization.
 
 This replaces earlier working hypotheses that focused on SPD hub state, PMIC state, or SPD write-protection register mismatches.
 
 ## Conclusion
 
-The suspect stick appears to fail during motherboard initialization because the DRAM-side bring-up/training process does not complete correctly.
+The suspect stick appears to fail during motherboard initialization because the
+DRAM-side bring-up/training process does not complete correctly.
 
-The SPD hub, SPD payload, PMIC communication, and basic sideband bus behavior were investigated and did not remain the active root cause.
+The SPD hub, SPD payload, PMIC communication, and basic sideband bus behavior
+were investigated and did not remain the active root cause. The bad-stick boot
+capture reaches SPD/HUB sideband traffic at `0x53` and PMIC sideband traffic at
+`0x4B` before diverging/stopping much earlier than the known-good baseline.
 
 ## Evidence path
 
@@ -26,7 +32,7 @@ The investigation moved through several layers:
 | PMIC communication | Readable; no persistent PMIC-only root cause identified |
 | MR11 | Matched; not active root cause |
 | MR12/MR13 | Historical mismatch only; later resolved / no longer active |
-| Motherboard boot sniffer data | Showed the meaningful divergence pointing toward DRAM-side failure |
+| Motherboard boot sniffer data | Shows meaningful divergence supporting likely DRAM-side / training-path failure |
 
 ## Why this matters
 
@@ -53,7 +59,8 @@ That means a stick can have:
 
 ## Current interpretation
 
-Treat the suspect stick as a DRAM-failed module, not merely a corrupted-SPD module.
+Treat the suspect stick as likely failing in the DRAM-side / training /
+initialization path, not merely as a corrupted-SPD module.
 
 The ESP32 harness and sniffer work were still valuable because they ruled out easier causes and showed where the failure moved during real motherboard boot behavior.
 
@@ -71,7 +78,8 @@ Current handling:
 
 HSA strap state and hub address behavior remain important for reproducing ESP32 reads and avoiding false conclusions.
 
-However, the HSA/addressing behavior explains sideband access differences, not the final DRAM-side boot failure.
+However, the HSA/addressing behavior explains sideband access differences, not
+the inferred DRAM-side / training-path boot failure.
 
 ## What to preserve from sniffer captures
 
@@ -92,7 +100,9 @@ When adding or summarizing boot sniffer logs, preserve:
 Use language like:
 
 ```text
-Final diagnosis: DRAM-side failure inferred from motherboard boot sniffer data.
+Current conclusion: likely DRAM-side / training-path failure inferred from
+good-vs-bad boot sniffer divergence after SPD/HUB and PMIC sideband
+communication appeared functional.
 ```
 
 Avoid saying:
@@ -111,6 +121,7 @@ Those were earlier hypotheses, not the final state.
 
 ## Short version
 
-The bad stick was not just an SPD/PMIC paperwork problem.
+The bad stick does not appear to be just an SPD/PMIC sideband access problem.
 
-The sideband path was debugged deeply enough to show the failure belongs to the DRAM-side bring-up/training path observed during real motherboard boot sniffing.
+The sideband path was debugged deeply enough to support a DRAM-side
+bring-up/training-path inference from real motherboard boot sniffing.

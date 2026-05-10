@@ -233,14 +233,16 @@ Only revisit MR12/MR13 if new captures show a fresh mismatch, and record:
 
 ## Sniffer diagnosis boundary
 
-The current final diagnosis is a likely DRAM-side failure inferred from good-vs-bad motherboard boot sniffer divergence after SPD/PMIC communication appeared normal.
+The current strongest finding is likely DRAM-side / training-path failure
+inferred from good-vs-bad motherboard boot sniffer divergence after SPD/HUB and
+PMIC sideband communication appeared functional.
 
 Do not overstate that as direct proof of a specific failed DRAM IC, bank, lane, or training step.
 
 Use language like:
 
 ```text
-Likely DRAM-side failure inferred from boot-sniffer divergence.
+Likely DRAM-side / training-path failure inferred from boot-sniffer divergence.
 ```
 
 Avoid language like:

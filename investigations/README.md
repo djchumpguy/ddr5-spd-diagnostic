@@ -4,9 +4,12 @@ This folder contains the good-vs-bad DDR5 module investigation notes.
 
 ## Current conclusion
 
-The strongest current conclusion is a **likely DRAM-side failure**, inferred from motherboard boot sniffer data.
+The strongest current conclusion is a **likely DRAM-side / training-path
+failure**, inferred from motherboard boot sniffer data.
 
-The key evidence is that the bad-stick boot capture diverged from the good-stick boot capture after early SPD/PMIC sideband communication appeared normal and the system would have been moving toward DRAM initialization/training.
+The key evidence is that the bad-stick boot capture reaches SPD/HUB traffic at
+`0x53` and PMIC traffic at `0x4B`, then diverges/stops much earlier than the
+good-stick boot capture.
 
 This is an inference from comparative boot behavior, not direct proof of the exact failed DRAM IC, bank, lane, or training step.
 
@@ -15,7 +18,10 @@ This is an inference from comparative boot behavior, not direct proof of the exa
 1. [`final-diagnosis-dram-failure.md`](final-diagnosis-dram-failure.md)  
    Current top-level diagnosis and evidence framing.
 
-2. [`good-vs-bad-stick.md`](good-vs-bad-stick.md)  
+2. [`good-vs-bad-boot-sniffer-divergence.md`](good-vs-bad-boot-sniffer-divergence.md)  
+   Current good-vs-bad boot sniffer comparison.
+
+3. [`good-vs-bad-stick.md`](good-vs-bad-stick.md)  
    Historical good-vs-bad investigation record, including the earlier MR12/MR13 hypothesis.
 
 ## Historical notes
@@ -48,6 +54,6 @@ When adding future captures or notes, record:
 The current repo story is:
 
 ```text
-SPD/PMIC/hub investigation ruled out the easier sideband-only explanations.
-Good-vs-bad boot sniffing points to likely DRAM-side failure after early management communication.
+SPD/HUB and PMIC sideband communication appear functional enough to participate in bring-up.
+Good-vs-bad boot sniffing points to likely DRAM-side / training-path failure after early management communication.
 ```

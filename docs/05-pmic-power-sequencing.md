@@ -199,7 +199,9 @@ The final project conclusion is not that PMIC sideband access itself remained th
 Current project diagnosis:
 
 ```text
-Likely DRAM-side failure inferred from good-vs-bad motherboard boot sniffer divergence after SPD/PMIC communication appeared normal.
+Likely DRAM-side / training-path failure inferred from good-vs-bad motherboard
+boot sniffer divergence after SPD/HUB and PMIC sideband communication appeared
+functional.
 ```
 
 PMIC notes remain useful because they document how sideband access, VR enable, PWR_GOOD, and rail behavior were separated during diagnosis.

@@ -62,3 +62,18 @@ failure data. The dump metadata records:
 - `events=1024`
 
 Active SPD/HUB traffic appears at `0x53` in the captured HSA/strap state.
+
+## Good-vs-bad comparison
+
+The sniffer is most useful when comparing a known-good baseline against a
+suspect module under the same motherboard/slot/HSA/strap conditions.
+
+Compared captures and investigation note:
+
+- [`logs/examples/sniffer/good-stick-boot-0x53-baseline.txt`](../logs/examples/sniffer/good-stick-boot-0x53-baseline.txt)
+- [`logs/examples/sniffer/bad-stick-boot-divergence.txt`](../logs/examples/sniffer/bad-stick-boot-divergence.txt)
+- [`investigations/good-vs-bad-boot-sniffer-divergence.md`](../investigations/good-vs-bad-boot-sniffer-divergence.md)
+
+The current comparison supports likely DRAM-side / training-path failure because
+the suspect module reaches SPD/HUB and PMIC sideband traffic before
+diverging/stopping earlier than the known-good baseline.

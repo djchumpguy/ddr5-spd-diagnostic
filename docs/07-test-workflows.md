@@ -380,12 +380,15 @@ Do not run this unless firmware supports readback verification, safety gating, a
 The current final diagnosis is:
 
 ```text
-Likely DRAM-side failure inferred from good-vs-bad motherboard boot sniffer divergence after SPD/PMIC communication appeared normal.
+Likely DRAM-side / training-path failure inferred from good-vs-bad motherboard
+boot sniffer divergence after SPD/HUB and PMIC sideband communication appeared
+functional.
 ```
 
 When documenting that diagnosis, keep the boundary clear:
 
-- Direct observation: good and bad boot sniffs diverged after SPD/PMIC communication appeared normal.
+- Direct observation: the suspect boot sniff reaches SPD/HUB and PMIC sideband
+  traffic, then diverges/stops earlier than the known-good baseline.
 - Inference: likely DRAM-side initialization/training failure.
 - Not proven: exact failed DRAM IC, bank, lane, or training sub-step.
 
