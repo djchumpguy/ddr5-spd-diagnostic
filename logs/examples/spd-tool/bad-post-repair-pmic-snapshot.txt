@@ -1,0 +1,24 @@
+> pmicid 0x4B
+PMICID: reading ID bytes from 0x4B regs 0x3C/0x3D...
+PMICID raw: 0x0D 0x85
+PMICID JEP106-ish: bank/cont=13  code=0x05
+
+> pmicdumpat 0x4B 0x00 0x80
+PMICDUMP: addr 0x4B start 0x00 len 128
+00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+10: 00 00 00 00 00 2C 20 00 00 04 00 05 60 00 60 60 
+20: CF 78 63 00 00 78 63 78 63 80 88 42 20 22 04 5E 
+30: 00 00 80 00 0E 00 00 00 00 00 00 00 0D 85 00 00 
+40: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+50: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+60: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+70: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+
+> comparepmic 0x4B
+COMPAREPMIC: reading PMIC regs addr=0x4B start=0x00 len=128...
+
+PMIC COMPARE
+  result: MATCH
+  reference: addr=0x4B start=0x00 len=128 crc32=0x30915AED boot=1
+  current:   addr=0x4B start=0x00 len=128 crc32=0x30915AED
+  differing bytes: 0

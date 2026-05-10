@@ -34,6 +34,11 @@ The investigation moved through several layers:
 | MR12/MR13 | Historical mismatch only; later resolved / no longer active |
 | Motherboard boot sniffer data | Shows meaningful divergence supporting likely DRAM-side / training-path failure |
 
+- Post-repair direct/offline management-plane evidence:
+  [`bad-post-repair-0x50-management-plane-clean.txt`](../logs/examples/spd-tool/bad-post-repair-0x50-management-plane-clean.txt)
+  records PMIC compare MATCH, SPD compare MATCH, and MR12/MR13 corrected to
+  FF/3C. The remaining failure is after management-plane repair.
+
 ## Why this matters
 
 Earlier stages of the project made the bad stick look like it might be failing because of corrupted SPD contents, SPD hub mode state, write-protection/finalization state, or PMIC setup.

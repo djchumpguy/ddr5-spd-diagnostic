@@ -108,6 +108,9 @@ sniffer divergence.
 See
 [`investigations/good-vs-bad-boot-sniffer-divergence.md`](investigations/good-vs-bad-boot-sniffer-divergence.md).
 
+Post-repair suspect-module SPD/PMIC evidence logs are indexed here:
+[`logs/examples/spd-tool/README.md`](logs/examples/spd-tool/README.md).
+
 ### Required / core signals
 
 | Function | ESP32 GPIO | Status | Notes |

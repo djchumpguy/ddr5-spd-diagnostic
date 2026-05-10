@@ -1,0 +1,589 @@
+> timespd 0x53 0x0000 32 50
+
+TIMESPD (safe / read-only)
+  addr=0x53  off=0x0000  len=32  passes=50
+  start: PWR_EN/VR=ON  VIN_BULK=ON  HSA=GPIO-RELEASED  PWR_GOOD=READY
+  pass 1/50: OK    time=7598 us  reference
+    data: 30 10 12 02 04 00 40 42 00 00 00 00 10 02 00 00 00 00 00 00 A0 01 F2 03 7A 0D 00 00 00 00 80 3E
+  pass 2/50: OK    time=3375 us  match
+  pass 3/50: OK    time=3353 us  match
+  pass 4/50: OK    time=3366 us  match
+  pass 5/50: OK    time=3366 us  match
+  pass 6/50: OK    time=3372 us  match
+  pass 7/50: OK    time=3366 us  match
+  pass 8/50: OK    time=3366 us  match
+  pass 9/50: OK    time=3366 us  match
+  pass 10/50: OK    time=3366 us  match
+  pass 11/50: OK    time=3366 us  match
+  pass 12/50: OK    time=3366 us  match
+  pass 13/50: OK    time=3370 us  match
+  pass 14/50: OK    time=3366 us  match
+  pass 15/50: OK    time=3366 us  match
+  pass 16/50: OK    time=3378 us  match
+  pass 17/50: OK    time=3366 us  match
+  pass 18/50: OK    time=3366 us  match
+  pass 19/50: OK    time=3384 us  match
+  pass 20/50: OK    time=3366 us  match
+  pass 21/50: OK    time=3366 us  match
+  pass 22/50: OK    time=3374 us  match
+  pass 23/50: OK    time=3366 us  match
+  pass 24/50: OK    time=3371 us  match
+  pass 25/50: OK    time=3381 us  match
+  pass 26/50: OK    time=3366 us  match
+  pass 27/50: OK    time=3366 us  match
+  pass 28/50: OK    time=3367 us  match
+  pass 29/50: OK    time=3366 us  match
+  pass 30/50: OK    time=3366 us  match
+  pass 31/50: OK    time=3366 us  match
+  pass 32/50: OK    time=3366 us  match
+  pass 33/50: OK    time=3366 us  match
+  pass 34/50: OK    time=3366 us  match
+  pass 35/50: OK    time=3379 us  match
+  pass 36/50: OK    time=3367 us  match
+  pass 37/50: OK    time=3366 us  match
+  pass 38/50: OK    time=3370 us  match
+  pass 39/50: OK    time=3366 us  match
+  pass 40/50: OK    time=3366 us  match
+  pass 41/50: OK    time=3374 us  match
+  pass 42/50: OK    time=3366 us  match
+  pass 43/50: OK    time=3366 us  match
+  pass 44/50: OK    time=3366 us  match
+  pass 45/50: OK    time=3366 us  match
+  pass 46/50: OK    time=3366 us  match
+  pass 47/50: OK    time=3378 us  match
+  pass 48/50: OK    time=3392 us  match
+  pass 49/50: OK    time=3366 us  match
+  pass 50/50: OK    time=3366 us  match
+
+TIMESPD SUMMARY
+  successes=50  fails=0
+  time: min=3353 us  avg=3453 us  max=7598 us
+  consistency: matches=49  mismatches=0
+  RESULT: PASS
+
+> timereg 0x53 0x0B 16 50
+
+TIMEREG (safe / read-only)
+  addr=0x53  reg=0x0B  len=16  passes=50
+  start: PWR_EN/VR=ON  VIN_BULK=ON  HSA=GPIO-RELEASED  PWR_GOOD=READY
+  pass 1/50: OK    time=2268 us  reference
+    data: 00 FF 3C 00 00 00 00 00 00 00 00 00 00 00 00 00
+  pass 2/50: OK    time=1897 us  match
+  pass 3/50: OK    time=1894 us  match
+  pass 4/50: OK    time=1904 us  match
+  pass 5/50: OK    time=1893 us  match
+  pass 6/50: OK    time=1894 us  match
+  pass 7/50: OK    time=1894 us  match
+  pass 8/50: OK    time=1894 us  match
+  pass 9/50: OK    time=1894 us  match
+  pass 10/50: OK    time=1894 us  match
+  pass 11/50: OK    time=1894 us  match
+  pass 12/50: OK    time=1895 us  match
+  pass 13/50: OK    time=1894 us  match
+  pass 14/50: OK    time=1894 us  match
+  pass 15/50: OK    time=1894 us  match
+  pass 16/50: OK    time=1894 us  match
+  pass 17/50: OK    time=1895 us  match
+  pass 18/50: OK    time=1893 us  match
+  pass 19/50: OK    time=1894 us  match
+  pass 20/50: OK    time=1894 us  match
+  pass 21/50: OK    time=1901 us  match
+  pass 22/50: OK    time=1893 us  match
+  pass 23/50: OK    time=1895 us  match
+  pass 24/50: OK    time=1894 us  match
+  pass 25/50: OK    time=1893 us  match
+  pass 26/50: OK    time=1895 us  match
+  pass 27/50: OK    time=1893 us  match
+  pass 28/50: OK    time=1894 us  match
+  pass 29/50: OK    time=1893 us  match
+  pass 30/50: OK    time=1894 us  match
+  pass 31/50: OK    time=1895 us  match
+  pass 32/50: OK    time=1901 us  match
+  pass 33/50: OK    time=1893 us  match
+  pass 34/50: OK    time=1893 us  match
+  pass 35/50: OK    time=1900 us  match
+  pass 36/50: OK    time=1893 us  match
+  pass 37/50: OK    time=1895 us  match
+  pass 38/50: OK    time=1894 us  match
+  pass 39/50: OK    time=1894 us  match
+  pass 40/50: OK    time=1895 us  match
+  pass 41/50: OK    time=1893 us  match
+  pass 42/50: OK    time=1894 us  match
+  pass 43/50: OK    time=1894 us  match
+  pass 44/50: OK    time=1894 us  match
+  pass 45/50: OK    time=1899 us  match
+  pass 46/50: OK    time=1899 us  match
+  pass 47/50: OK    time=1894 us  match
+  pass 48/50: OK    time=1893 us  match
+  pass 49/50: OK    time=1899 us  match
+  pass 50/50: OK    time=1893 us  match
+
+TIMEREG SUMMARY
+  successes=50  fails=0
+  time: min=1893 us  avg=1902 us  max=2268 us
+  consistency: matches=49  mismatches=0
+  RESULT: PASS
+
+> timereg 0x4B 0x00 16 50
+
+TIMEREG (safe / read-only)
+  addr=0x4B  reg=0x00  len=16  passes=50
+  start: PWR_EN/VR=ON  VIN_BULK=ON  HSA=GPIO-RELEASED  PWR_GOOD=READY
+  pass 1/50: OK    time=2281 us  reference
+    data: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  pass 2/50: OK    time=1894 us  match
+  pass 3/50: OK    time=1894 us  match
+  pass 4/50: OK    time=1896 us  match
+  pass 5/50: OK    time=1894 us  match
+  pass 6/50: OK    time=1894 us  match
+  pass 7/50: OK    time=1894 us  match
+  pass 8/50: OK    time=1894 us  match
+  pass 9/50: OK    time=1894 us  match
+  pass 10/50: OK    time=1895 us  match
+  pass 11/50: OK    time=1906 us  match
+  pass 12/50: OK    time=1898 us  match
+  pass 13/50: OK    time=1894 us  match
+  pass 14/50: OK    time=1893 us  match
+  pass 15/50: OK    time=1894 us  match
+  pass 16/50: OK    time=1901 us  match
+  pass 17/50: OK    time=1894 us  match
+  pass 18/50: OK    time=1894 us  match
+  pass 19/50: OK    time=1894 us  match
+  pass 20/50: OK    time=1894 us  match
+  pass 21/50: OK    time=1894 us  match
+  pass 22/50: OK    time=1901 us  match
+  pass 23/50: OK    time=1898 us  match
+  pass 24/50: OK    time=1894 us  match
+  pass 25/50: OK    time=1894 us  match
+  pass 26/50: OK    time=1894 us  match
+  pass 27/50: OK    time=1894 us  match
+  pass 28/50: OK    time=1894 us  match
+  pass 29/50: OK    time=1894 us  match
+  pass 30/50: OK    time=1894 us  match
+  pass 31/50: OK    time=1894 us  match
+  pass 32/50: OK    time=1893 us  match
+  pass 33/50: OK    time=1879 us  match
+  pass 34/50: OK    time=1893 us  match
+  pass 35/50: OK    time=1898 us  match
+  pass 36/50: OK    time=1900 us  match
+  pass 37/50: OK    time=1894 us  match
+  pass 38/50: OK    time=1894 us  match
+  pass 39/50: OK    time=1893 us  match
+  pass 40/50: OK    time=1894 us  match
+  pass 41/50: OK    time=1897 us  match
+  pass 42/50: OK    time=1894 us  match
+  pass 43/50: OK    time=1894 us  match
+  pass 44/50: OK    time=1893 us  match
+  pass 45/50: OK    time=1905 us  match
+  pass 46/50: OK    time=1894 us  match
+  pass 47/50: OK    time=1894 us  match
+  pass 48/50: OK    time=1894 us  match
+  pass 49/50: OK    time=1900 us  match
+  pass 50/50: OK    time=1918 us  match
+
+TIMEREG SUMMARY
+  successes=50  fails=0
+  time: min=1879 us  avg=1903 us  max=2281 us
+  consistency: matches=49  mismatches=0
+  RESULT: PASS
+
+> powerdiag 50 50
+
+POWERDIAG (safe / read-only)
+  passes=50  intervalMs=50
+  start: PWR_EN/VR=ON  VIN_BULK=ON  HSA=GPIO-RELEASED  PWR_GOOD=READY
+  pass 1/50: pgood=HIGH  scanCount=3  scanTime=253315 us
+    addrs: 0x4B 0x53 0x7E
+  pass 2/50: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 3/50: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 4/50: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 5/50: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 6/50: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 7/50: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 8/50: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 9/50: pgood=HIGH  scanCount=3  scanTime=251950 us
+  pass 10/50: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 11/50: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 12/50: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 13/50: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 14/50: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 15/50: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 16/50: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 17/50: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 18/50: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 19/50: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 20/50: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 21/50: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 22/50: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 23/50: pgood=HIGH  scanCount=3  scanTime=251948 us
+  pass 24/50: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 25/50: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 26/50: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 27/50: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 28/50: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 29/50: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 30/50: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 31/50: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 32/50: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 33/50: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 34/50: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 35/50: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 36/50: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 37/50: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 38/50: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 39/50: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 40/50: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 41/50: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 42/50: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 43/50: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 44/50: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 45/50: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 46/50: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 47/50: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 48/50: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 49/50: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 50/50: pgood=HIGH  scanCount=3  scanTime=251975 us
+
+POWERDIAG SUMMARY
+  PWR_GOOD: ready=50  low=0  transitions=0
+  scanCount: min=3  max=3  mapChanges=0
+  scanTime: min=251948 us  avg=252000 us  max=253315 us
+  Address stability:
+    0x4B  seen=50/50  stable
+    0x53  seen=50/50  stable
+    0x7E  seen=50/50  stable
+  RESULT: PASS
+
+> powerdiag 100 10
+
+POWERDIAG (safe / read-only)
+  passes=100  intervalMs=10
+  start: PWR_EN/VR=ON  VIN_BULK=ON  HSA=GPIO-RELEASED  PWR_GOOD=READY
+  pass 1/100: pgood=HIGH  scanCount=3  scanTime=253906 us
+    addrs: 0x4B 0x53 0x7E
+  pass 2/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 3/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 4/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 5/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 6/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 7/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 8/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 9/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 10/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 11/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 12/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 13/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 14/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 15/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 16/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 17/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 18/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 19/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 20/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 21/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 22/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 23/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 24/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 25/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 26/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 27/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 28/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 29/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 30/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 31/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 32/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 33/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 34/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 35/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 36/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 37/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 38/100: pgood=HIGH  scanCount=3  scanTime=252951 us
+  pass 39/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 40/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 41/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 42/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 43/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 44/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 45/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 46/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 47/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 48/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 49/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 50/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 51/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 52/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 53/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 54/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 55/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 56/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 57/100: pgood=HIGH  scanCount=3  scanTime=251978 us
+  pass 58/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 59/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 60/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 61/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 62/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 63/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 64/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 65/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 66/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 67/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 68/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 69/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 70/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 71/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 72/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 73/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 74/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 75/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 76/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 77/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 78/100: pgood=HIGH  scanCount=3  scanTime=251976 us
+  pass 79/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 80/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 81/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 82/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 83/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 84/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 85/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 86/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 87/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 88/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 89/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 90/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 91/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 92/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 93/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 94/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 95/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 96/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 97/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 98/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 99/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+  pass 100/100: pgood=HIGH  scanCount=3  scanTime=251975 us
+
+POWERDIAG SUMMARY
+  PWR_GOOD: ready=100  low=0  transitions=0
+  scanCount: min=3  max=3  mapChanges=0
+  scanTime: min=251975 us  avg=252004 us  max=253906 us
+  Address stability:
+    0x4B  seen=100/100  stable
+    0x53  seen=100/100  stable
+    0x7E  seen=100/100  stable
+  RESULT: PASS
+
+> powerdiag 200 0
+
+POWERDIAG (safe / read-only)
+  passes=200  intervalMs=0
+  start: PWR_EN/VR=ON  VIN_BULK=ON  HSA=GPIO-RELEASED  PWR_GOOD=READY
+  pass 1/200: pgood=HIGH  scanCount=3  scanTime=253188 us
+    addrs: 0x4B 0x53 0x7E
+  pass 2/200: pgood=HIGH  scanCount=3  scanTime=252273 us
+  pass 3/200: pgood=HIGH  scanCount=3  scanTime=251879 us
+  pass 4/200: pgood=HIGH  scanCount=3  scanTime=251897 us
+  pass 5/200: pgood=HIGH  scanCount=3  scanTime=252803 us
+  pass 6/200: pgood=HIGH  scanCount=3  scanTime=251895 us
+  pass 7/200: pgood=HIGH  scanCount=3  scanTime=251895 us
+  pass 8/200: pgood=HIGH  scanCount=3  scanTime=252895 us
+  pass 9/200: pgood=HIGH  scanCount=3  scanTime=251895 us
+  pass 10/200: pgood=HIGH  scanCount=3  scanTime=251895 us
+  pass 11/200: pgood=HIGH  scanCount=3  scanTime=251879 us
+  pass 12/200: pgood=HIGH  scanCount=3  scanTime=251879 us
+  pass 13/200: pgood=HIGH  scanCount=3  scanTime=251879 us
+  pass 14/200: pgood=HIGH  scanCount=3  scanTime=251879 us
+  pass 15/200: pgood=HIGH  scanCount=3  scanTime=251879 us
+  pass 16/200: pgood=HIGH  scanCount=3  scanTime=251879 us
+  pass 17/200: pgood=HIGH  scanCount=3  scanTime=251879 us
+  pass 18/200: pgood=HIGH  scanCount=3  scanTime=252879 us
+  pass 19/200: pgood=HIGH  scanCount=3  scanTime=251879 us
+  pass 20/200: pgood=HIGH  scanCount=3  scanTime=251879 us
+  pass 21/200: pgood=HIGH  scanCount=3  scanTime=251879 us
+  pass 22/200: pgood=HIGH  scanCount=3  scanTime=251879 us
+  pass 23/200: pgood=HIGH  scanCount=3  scanTime=251879 us
+  pass 24/200: pgood=HIGH  scanCount=3  scanTime=251865 us
+  pass 25/200: pgood=HIGH  scanCount=3  scanTime=251879 us
+  pass 26/200: pgood=HIGH  scanCount=3  scanTime=251879 us
+  pass 27/200: pgood=HIGH  scanCount=3  scanTime=251879 us
+  pass 28/200: pgood=HIGH  scanCount=3  scanTime=252879 us
+  pass 29/200: pgood=HIGH  scanCount=3  scanTime=251879 us
+  pass 30/200: pgood=HIGH  scanCount=3  scanTime=251879 us
+  pass 31/200: pgood=HIGH  scanCount=3  scanTime=251879 us
+  pass 32/200: pgood=HIGH  scanCount=3  scanTime=251879 us
+  pass 33/200: pgood=HIGH  scanCount=3  scanTime=251879 us
+  pass 34/200: pgood=HIGH  scanCount=3  scanTime=251879 us
+  pass 35/200: pgood=HIGH  scanCount=3  scanTime=251879 us
+  pass 36/200: pgood=HIGH  scanCount=3  scanTime=251879 us
+  pass 37/200: pgood=HIGH  scanCount=3  scanTime=251879 us
+  pass 38/200: pgood=HIGH  scanCount=3  scanTime=252879 us
+  pass 39/200: pgood=HIGH  scanCount=3  scanTime=251879 us
+  pass 40/200: pgood=HIGH  scanCount=3  scanTime=251879 us
+  pass 41/200: pgood=HIGH  scanCount=3  scanTime=251879 us
+  pass 42/200: pgood=HIGH  scanCount=3  scanTime=251879 us
+  pass 43/200: pgood=HIGH  scanCount=3  scanTime=251879 us
+  pass 44/200: pgood=HIGH  scanCount=3  scanTime=251879 us
+  pass 45/200: pgood=HIGH  scanCount=3  scanTime=252830 us
+  pass 46/200: pgood=HIGH  scanCount=3  scanTime=251879 us
+  pass 47/200: pgood=HIGH  scanCount=3  scanTime=251879 us
+  pass 48/200: pgood=HIGH  scanCount=3  scanTime=252879 us
+  pass 49/200: pgood=HIGH  scanCount=3  scanTime=251879 us
+  pass 50/200: pgood=HIGH  scanCount=3  scanTime=251879 us
+  pass 51/200: pgood=HIGH  scanCount=3  scanTime=251879 us
+  pass 52/200: pgood=HIGH  scanCount=3  scanTime=251879 us
+  pass 53/200: pgood=HIGH  scanCount=3  scanTime=251879 us
+  pass 54/200: pgood=HIGH  scanCount=3  scanTime=251879 us
+  pass 55/200: pgood=HIGH  scanCount=3  scanTime=251879 us
+  pass 56/200: pgood=HIGH  scanCount=3  scanTime=251879 us
+  pass 57/200: pgood=HIGH  scanCount=3  scanTime=251879 us
+  pass 58/200: pgood=HIGH  scanCount=3  scanTime=252879 us
+  pass 59/200: pgood=HIGH  scanCount=3  scanTime=251879 us
+  pass 60/200: pgood=HIGH  scanCount=3  scanTime=251879 us
+  pass 61/200: pgood=HIGH  scanCount=3  scanTime=251879 us
+  pass 62/200: pgood=HIGH  scanCount=3  scanTime=251860 us
+  pass 63/200: pgood=HIGH  scanCount=3  scanTime=251879 us
+  pass 64/200: pgood=HIGH  scanCount=3  scanTime=251879 us
+  pass 65/200: pgood=HIGH  scanCount=3  scanTime=251879 us
+  pass 66/200: pgood=HIGH  scanCount=3  scanTime=251879 us
+  pass 67/200: pgood=HIGH  scanCount=3  scanTime=251879 us
+  pass 68/200: pgood=HIGH  scanCount=3  scanTime=252879 us
+  pass 69/200: pgood=HIGH  scanCount=3  scanTime=251879 us
+  pass 70/200: pgood=HIGH  scanCount=3  scanTime=251879 us
+  pass 71/200: pgood=HIGH  scanCount=3  scanTime=251879 us
+  pass 72/200: pgood=HIGH  scanCount=3  scanTime=251879 us
+  pass 73/200: pgood=HIGH  scanCount=3  scanTime=251879 us
+  pass 74/200: pgood=HIGH  scanCount=3  scanTime=251879 us
+  pass 75/200: pgood=HIGH  scanCount=3  scanTime=251879 us
+  pass 76/200: pgood=HIGH  scanCount=3  scanTime=251879 us
+  pass 77/200: pgood=HIGH  scanCount=3  scanTime=251879 us
+  pass 78/200: pgood=HIGH  scanCount=3  scanTime=252879 us
+  pass 79/200: pgood=HIGH  scanCount=3  scanTime=251879 us
+  pass 80/200: pgood=HIGH  scanCount=3  scanTime=251879 us
+  pass 81/200: pgood=HIGH  scanCount=3  scanTime=251879 us
+  pass 82/200: pgood=HIGH  scanCount=3  scanTime=251879 us
+  pass 83/200: pgood=HIGH  scanCount=3  scanTime=251879 us
+  pass 84/200: pgood=HIGH  scanCount=3  scanTime=251879 us
+  pass 85/200: pgood=HIGH  scanCount=3  scanTime=251879 us
+  pass 86/200: pgood=HIGH  scanCount=3  scanTime=251879 us
+  pass 87/200: pgood=HIGH  scanCount=3  scanTime=251879 us
+  pass 88/200: pgood=HIGH  scanCount=3  scanTime=252879 us
+  pass 89/200: pgood=HIGH  scanCount=3  scanTime=251879 us
+  pass 90/200: pgood=HIGH  scanCount=3  scanTime=251879 us
+  pass 91/200: pgood=HIGH  scanCount=3  scanTime=251879 us
+  pass 92/200: pgood=HIGH  scanCount=3  scanTime=251879 us
+  pass 93/200: pgood=HIGH  scanCount=3  scanTime=251879 us
+  pass 94/200: pgood=HIGH  scanCount=3  scanTime=251879 us
+  pass 95/200: pgood=HIGH  scanCount=3  scanTime=251879 us
+  pass 96/200: pgood=HIGH  scanCount=3  scanTime=251879 us
+  pass 97/200: pgood=HIGH  scanCount=3  scanTime=251879 us
+  pass 98/200: pgood=HIGH  scanCount=3  scanTime=252879 us
+  pass 99/200: pgood=HIGH  scanCount=3  scanTime=251879 us
+  pass 100/200: pgood=HIGH  scanCount=3  scanTime=251879 us
+  pass 101/200: pgood=HIGH  scanCount=3  scanTime=251860 us
+  pass 102/200: pgood=HIGH  scanCount=3  scanTime=251860 us
+  pass 103/200: pgood=HIGH  scanCount=3  scanTime=251860 us
+  pass 104/200: pgood=HIGH  scanCount=3  scanTime=251860 us
+  pass 105/200: pgood=HIGH  scanCount=3  scanTime=251860 us
+  pass 106/200: pgood=HIGH  scanCount=3  scanTime=251860 us
+  pass 107/200: pgood=HIGH  scanCount=3  scanTime=251860 us
+  pass 108/200: pgood=HIGH  scanCount=3  scanTime=252860 us
+  pass 109/200: pgood=HIGH  scanCount=3  scanTime=251860 us
+  pass 110/200: pgood=HIGH  scanCount=3  scanTime=251860 us
+  pass 111/200: pgood=HIGH  scanCount=3  scanTime=251860 us
+  pass 112/200: pgood=HIGH  scanCount=3  scanTime=251860 us
+  pass 113/200: pgood=HIGH  scanCount=3  scanTime=251860 us
+  pass 114/200: pgood=HIGH  scanCount=3  scanTime=251860 us
+  pass 115/200: pgood=HIGH  scanCount=3  scanTime=251860 us
+  pass 116/200: pgood=HIGH  scanCount=3  scanTime=251860 us
+  pass 117/200: pgood=HIGH  scanCount=3  scanTime=251860 us
+  pass 118/200: pgood=HIGH  scanCount=3  scanTime=252860 us
+  pass 119/200: pgood=HIGH  scanCount=3  scanTime=251860 us
+  pass 120/200: pgood=HIGH  scanCount=3  scanTime=251860 us
+  pass 121/200: pgood=HIGH  scanCount=3  scanTime=251860 us
+  pass 122/200: pgood=HIGH  scanCount=3  scanTime=252860 us
+  pass 123/200: pgood=HIGH  scanCount=3  scanTime=251860 us
+  pass 124/200: pgood=HIGH  scanCount=3  scanTime=251860 us
+  pass 125/200: pgood=HIGH  scanCount=3  scanTime=251860 us
+  pass 126/200: pgood=HIGH  scanCount=3  scanTime=251860 us
+  pass 127/200: pgood=HIGH  scanCount=3  scanTime=251860 us
+  pass 128/200: pgood=HIGH  scanCount=3  scanTime=252860 us
+  pass 129/200: pgood=HIGH  scanCount=3  scanTime=251860 us
+  pass 130/200: pgood=HIGH  scanCount=3  scanTime=251846 us
+  pass 131/200: pgood=HIGH  scanCount=3  scanTime=251860 us
+  pass 132/200: pgood=HIGH  scanCount=3  scanTime=251860 us
+  pass 133/200: pgood=HIGH  scanCount=3  scanTime=251863 us
+  pass 134/200: pgood=HIGH  scanCount=3  scanTime=252836 us
+  pass 135/200: pgood=HIGH  scanCount=3  scanTime=251860 us
+  pass 136/200: pgood=HIGH  scanCount=3  scanTime=251860 us
+  pass 137/200: pgood=HIGH  scanCount=3  scanTime=251860 us
+  pass 138/200: pgood=HIGH  scanCount=3  scanTime=252860 us
+  pass 139/200: pgood=HIGH  scanCount=3  scanTime=251860 us
+  pass 140/200: pgood=HIGH  scanCount=3  scanTime=251860 us
+  pass 141/200: pgood=HIGH  scanCount=3  scanTime=251860 us
+  pass 142/200: pgood=HIGH  scanCount=3  scanTime=251860 us
+  pass 143/200: pgood=HIGH  scanCount=3  scanTime=251860 us
+  pass 144/200: pgood=HIGH  scanCount=3  scanTime=251860 us
+  pass 145/200: pgood=HIGH  scanCount=3  scanTime=251860 us
+  pass 146/200: pgood=HIGH  scanCount=3  scanTime=251860 us
+  pass 147/200: pgood=HIGH  scanCount=3  scanTime=251860 us
+  pass 148/200: pgood=HIGH  scanCount=3  scanTime=252860 us
+  pass 149/200: pgood=HIGH  scanCount=3  scanTime=251860 us
+  pass 150/200: pgood=HIGH  scanCount=3  scanTime=251860 us
+  pass 151/200: pgood=HIGH  scanCount=3  scanTime=251843 us
+  pass 152/200: pgood=HIGH  scanCount=3  scanTime=251860 us
+  pass 153/200: pgood=HIGH  scanCount=3  scanTime=251860 us
+  pass 154/200: pgood=HIGH  scanCount=3  scanTime=251860 us
+  pass 155/200: pgood=HIGH  scanCount=3  scanTime=251860 us
+  pass 156/200: pgood=HIGH  scanCount=3  scanTime=251860 us
+  pass 157/200: pgood=HIGH  scanCount=3  scanTime=251860 us
+  pass 158/200: pgood=HIGH  scanCount=3  scanTime=252860 us
+  pass 159/200: pgood=HIGH  scanCount=3  scanTime=251860 us
+  pass 160/200: pgood=HIGH  scanCount=3  scanTime=251860 us
+  pass 161/200: pgood=HIGH  scanCount=3  scanTime=251860 us
+  pass 162/200: pgood=HIGH  scanCount=3  scanTime=251860 us
+  pass 163/200: pgood=HIGH  scanCount=3  scanTime=251860 us
+  pass 164/200: pgood=HIGH  scanCount=3  scanTime=251860 us
+  pass 165/200: pgood=HIGH  scanCount=3  scanTime=251860 us
+  pass 166/200: pgood=HIGH  scanCount=3  scanTime=251860 us
+  pass 167/200: pgood=HIGH  scanCount=3  scanTime=251860 us
+  pass 168/200: pgood=HIGH  scanCount=3  scanTime=252860 us
+  pass 169/200: pgood=HIGH  scanCount=3  scanTime=251860 us
+  pass 170/200: pgood=HIGH  scanCount=3  scanTime=252824 us
+  pass 171/200: pgood=HIGH  scanCount=3  scanTime=251860 us
+  pass 172/200: pgood=HIGH  scanCount=3  scanTime=251860 us
+  pass 173/200: pgood=HIGH  scanCount=3  scanTime=251860 us
+  pass 174/200: pgood=HIGH  scanCount=3  scanTime=251860 us
+  pass 175/200: pgood=HIGH  scanCount=3  scanTime=251860 us
+  pass 176/200: pgood=HIGH  scanCount=3  scanTime=251860 us
+  pass 177/200: pgood=HIGH  scanCount=3  scanTime=251860 us
+  pass 178/200: pgood=HIGH  scanCount=3  scanTime=252860 us
+  pass 179/200: pgood=HIGH  scanCount=3  scanTime=251860 us
+  pass 180/200: pgood=HIGH  scanCount=3  scanTime=251860 us
+  pass 181/200: pgood=HIGH  scanCount=3  scanTime=251860 us
+  pass 182/200: pgood=HIGH  scanCount=3  scanTime=251860 us
+  pass 183/200: pgood=HIGH  scanCount=3  scanTime=251860 us
+  pass 184/200: pgood=HIGH  scanCount=3  scanTime=251860 us
+  pass 185/200: pgood=HIGH  scanCount=3  scanTime=251860 us
+  pass 186/200: pgood=HIGH  scanCount=3  scanTime=251860 us
+  pass 187/200: pgood=HIGH  scanCount=3  scanTime=251859 us
+  pass 188/200: pgood=HIGH  scanCount=3  scanTime=252860 us
+  pass 189/200: pgood=HIGH  scanCount=3  scanTime=251860 us
+  pass 190/200: pgood=HIGH  scanCount=3  scanTime=251860 us
+  pass 191/200: pgood=HIGH  scanCount=3  scanTime=251860 us
+  pass 192/200: pgood=HIGH  scanCount=3  scanTime=251860 us
+  pass 193/200: pgood=HIGH  scanCount=3  scanTime=251860 us
+  pass 194/200: pgood=HIGH  scanCount=3  scanTime=251860 us
+  pass 195/200: pgood=HIGH  scanCount=3  scanTime=251860 us
+  pass 196/200: pgood=HIGH  scanCount=3  scanTime=251860 us
+  pass 197/200: pgood=HIGH  scanCount=3  scanTime=251860 us
+  pass 198/200: pgood=HIGH  scanCount=3  scanTime=252860 us
+  pass 199/200: pgood=HIGH  scanCount=3  scanTime=251860 us
+  pass 200/200: pgood=HIGH  scanCount=3  scanTime=251860 us
+
+POWERDIAG SUMMARY
+  PWR_GOOD: ready=200  low=0  transitions=0
+  scanCount: min=3  max=3  mapChanges=0
+  scanTime: min=251843 us  avg=252002 us  max=253188 us
+  Address stability:
+    0x4B  seen=200/200  stable
+    0x53  seen=200/200  stable
+    0x7E  seen=200/200  stable
+  RESULT: PASS

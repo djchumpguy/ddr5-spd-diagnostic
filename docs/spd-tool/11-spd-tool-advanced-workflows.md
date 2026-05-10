@@ -106,6 +106,23 @@ MR12/MR13/protection-map edits belong here as historical/secondary
 investigation context only. They are useful to document as register-edit
 capability, but they are not the current active failure conclusion.
 
+## Post-repair suspect-module evidence
+
+The suspect module originally had corrupted SPD contents. A known-good SPD
+payload was written and verified, and the MR12/MR13 protection-map mismatch was
+corrected. Post-repair logs show stable SPD/HUB/PMIC access and MATCH results,
+but the module still hangs during motherboard boot/training. That supports the
+current conclusion of likely DRAM-side / training-path failure after
+SPD/HUB/PMIC management-plane repair and validation.
+
+- [`bad-post-repair-stability-suite.txt`](../../logs/examples/spd-tool/bad-post-repair-stability-suite.txt)
+- [`bad-post-repair-mapall-normal.txt`](../../logs/examples/spd-tool/bad-post-repair-mapall-normal.txt)
+- [`bad-post-repair-spd-verify-known-good.txt`](../../logs/examples/spd-tool/bad-post-repair-spd-verify-known-good.txt)
+- [`bad-post-repair-bios-style-reads.txt`](../../logs/examples/spd-tool/bad-post-repair-bios-style-reads.txt)
+- [`bad-post-repair-hub-register-snapshot.txt`](../../logs/examples/spd-tool/bad-post-repair-hub-register-snapshot.txt)
+- [`bad-post-repair-pmic-snapshot.txt`](../../logs/examples/spd-tool/bad-post-repair-pmic-snapshot.txt)
+- [`bad-post-repair-0x50-management-plane-clean.txt`](../../logs/examples/spd-tool/bad-post-repair-0x50-management-plane-clean.txt)
+
 ## Advanced workflow: PMIC behavior exploration
 
 Labels: Read-only for dumps/compares, Current-command capable, Exploratory,
