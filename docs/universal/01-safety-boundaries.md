@@ -84,11 +84,11 @@ Record observed address
 Record the HSA condition for every test:
 
 - Direct hard-low / ground: HSA tied directly to ground; SPD/HUB observed at `0x50`
-- Resistor-selected strap: nominal 36.0 kΩ HSA/HID strap, measured ~34.4 kΩ in-circuit on this adapter/harness; SPD/HUB observed around `0x53`
+- Resistor-selected strap: nominal 35.7 kΩ / ~36 kΩ class HSA/HID strap, measured ~34.4 kΩ in-circuit on this adapter/harness; SPD/HUB observed around `0x53`
 - Floating/high: HSA released/floating/high; SPD/HUB observed around `0x57`
 - Optional GPIO27 experiment, if used
 
-The 36.0 kΩ value is the nominal/reference HSA/HID strap value from the SPD hub reference material tracked in `sources/source-index.md`. The ~34.4 kΩ value was measured in-circuit on this project's adapter/harness.
+The 35.7 kΩ / ~36 kΩ class value is the nominal/reference HSA/HID strap value from the SPD hub reference material tracked in `sources/source-index.md`. The ~34.4 kΩ value was measured in-circuit on this project's adapter/harness.
 
 PWR_EN alone is not enough to force a new HSA sample.
 

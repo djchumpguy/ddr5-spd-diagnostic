@@ -3,11 +3,13 @@
 ## Universal project docs
 
 - Start here: [`universal/start-here.md`](universal/start-here.md)
+- How to use this repo: [`universal/how-to-use-this-repo.md`](universal/how-to-use-this-repo.md)
 - Project overview: [`universal/00-project-overview.md`](universal/00-project-overview.md)
 - Safety boundaries: [`universal/01-safety-boundaries.md`](universal/01-safety-boundaries.md)
 
 ## Active ESP32 SPD/PMIC diagnostic tool
 
+- Setup guide: [`spd-tool/setup-guide.md`](spd-tool/setup-guide.md)
 - DDR5 UDIMM pin reference: [`spd-tool/02-ddr5-udimm-pin-reference.md`](spd-tool/02-ddr5-udimm-pin-reference.md)
 - Operating modes: [`spd-tool/03-operating-modes.md`](spd-tool/03-operating-modes.md)
 - SPD hub addressing: [`spd-tool/04-spd-hub-addressing.md`](spd-tool/04-spd-hub-addressing.md)

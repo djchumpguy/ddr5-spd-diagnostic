@@ -23,6 +23,31 @@ diagnostic project in one place:
 >
 > If you choose to replicate anything in this repository, you do so entirely at your own risk. The author provides this material for documentation and educational purposes only and assumes no responsibility or liability for hardware damage, data loss, injury, or other consequences resulting from use, misuse, or attempted replication.
 
+## Project origin / reality check
+
+This project is not vendor documentation, a JEDEC compliance reference, or a
+professional repair product. It is a documented DIY DDR5 diagnostic experiment
+created from a real failed DDR5 module, an ESP32, basic bench tools, public
+source documents, soldering, logging, and AI-assisted research/debugging.
+
+The project was created by a normal DIY experimenter, not a DDR5 vendor
+engineer. The value of this repo is the documented process, firmware, captures,
+logs, evidence, and lessons learned from one real working path through the
+problem.
+
+The goal of publishing this repo is to preserve what was learned:
+
+- how the ESP32 SPD/PMIC tool was wired and used,
+- how the passive boot sniffer was wired and used,
+- what good-vs-bad captures looked like,
+- what post-repair SPD/HUB/PMIC evidence showed,
+- what evidence led to the current DRAM-side / training-path failure
+  conclusion.
+
+Use this repo as a starting point for careful experimentation, not as a
+guaranteed recipe. Verify wiring, voltage levels, HSA state, and power
+sequencing on your own hardware.
+
 ## Why this project exists
 
 Bus Pirate 5+/6-class tools and dedicated DDR5 adapters provide a polished
@@ -64,6 +89,8 @@ mix their wiring assumptions.
 
 ## New reader path
 
+- New readers should start with:
+  [`docs/universal/how-to-use-this-repo.md`](docs/universal/how-to-use-this-repo.md)
 - Start here: [`docs/universal/start-here.md`](docs/universal/start-here.md)
 - Documentation index: [`docs/README.md`](docs/README.md)
 - Hardware index: [`hardware/README.md`](hardware/README.md)
@@ -141,10 +168,10 @@ Observed address behavior changed depending on HSA state at power-up:
 | HSA mode | Practical wiring | Observed behavior in this project | Use |
 |---|---|---|---|
 | Direct hard-low / ground | HSA tied directly to ground | SPD/HUB observed at `0x50` | Direct-ground / hard-low / offline-style testing |
-| Resistor-selected strap | HSA through the nominal 36.0 kΩ HSA/HID strap; measured ~34.4 kΩ in-circuit on this adapter/harness | SPD/HUB observed around `0x53` | Normal tested harness behavior |
+| Resistor-selected strap | HSA through the nominal 35.7 kΩ / ~36 kΩ class HSA/HID strap; measured ~34.4 kΩ in-circuit on this adapter/harness | SPD/HUB observed around `0x53` | Normal tested harness behavior |
 | Floating/high | HSA released/floating/high | SPD/HUB observed around `0x57` | Experimental high/floating behavior |
 
-The 36.0 kΩ value is the nominal/reference HSA/HID strap value from the SPD hub reference material tracked in `sources/source-index.md`. The ~34.4 kΩ value was measured in-circuit on this project's adapter/harness. Verify the actual strap resistance and address behavior on your own setup with `scan`, `autodetect`, and `mapall`.
+The 35.7 kΩ / ~36 kΩ class value is the nominal/reference HSA/HID strap value from the SPD hub reference material tracked in `sources/source-index.md`. The ~34.4 kΩ value was measured in-circuit on this project's adapter/harness. Verify the actual strap resistance and address behavior on your own setup with `scan`, `autodetect`, and `mapall`.
 
 ## Key project corrections
 
