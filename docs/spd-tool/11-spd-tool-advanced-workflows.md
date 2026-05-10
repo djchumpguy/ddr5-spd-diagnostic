@@ -38,6 +38,21 @@ the checked-in firmware revision using `help`, `advanced`, or `danger`.
 | Timing diagnostics | `timespd` / `tspd`, `timereg` / `treg` | Repeat reads to check bus/register stability |
 | Logging/UI | Web log, serial terminal, `clearlog`, `flash` | Capture output and command history |
 
+## Active-tool reference persistence
+
+The active SPD/PMIC tool stores reference captures in ESP32 flash/NVS. Reference
+commands such as `capturegood` and `capturepmic` are therefore different from
+the passive boot sniffer's volatile RAM-only capture buffer.
+
+Active-tool references persist across ESP32 resets and power cycles until they
+are intentionally cleared or overwritten.
+
+Practical rule:
+
+- Sniffer boot logs: dump immediately.
+- Active tool known-good SPD/PMIC references: persistent until overwritten or
+  cleared.
+
 ## Proven workflow: known-good SPD restore
 
 Labels: Proven on bench, Dangerous write, Recovery-oriented.
@@ -52,9 +67,10 @@ verifygood
 compare
 ```
 
-A known-good SPD image can be captured and stored by the tool. A
-suspect/corrupt SPD can be compared against that known-good image. The tool has
-been used in this project to write the good SPD payload to the corrupt module.
+A known-good SPD image can be captured and stored by the tool in ESP32 flash/NVS.
+A suspect/corrupt SPD can be compared against that known-good image. The tool
+has been used in this project to write the good SPD payload to the corrupt
+module.
 
 Verification should include a byte-for-byte compare and repeat reads/timing
 tests such as `verifygood`, `compare`, and `timespd`. This proves the tool can

@@ -65,6 +65,33 @@ Boards with PSRAM, SD card, or other persistent storage may support larger or
 more durable captures, but those are optional extensions and were not required
 for the documented good-vs-bad diagnosis.
 
+## Capture Persistence Warning
+
+The passive ESP32 boot sniffer stores captured boot traffic in RAM only.
+
+This means sniffer captures are volatile:
+
+- Captures are lost when the ESP32 powers off.
+- Captures are lost when the ESP32 resets.
+- Captures must be dumped or saved before removing power.
+- The sniffer does not preserve captures across power cycles.
+
+This is different from the active SPD/PMIC tool.
+
+The active tool saves reference captures such as:
+
+- `capturegood`
+- `capturepmic`
+
+These references are stored in ESP32 flash/NVS and persist across ESP32 resets
+and power cycles until intentionally cleared or overwritten.
+
+Practical rule:
+
+- Sniffer boot logs: dump immediately.
+- Active tool known-good SPD/PMIC references: persistent until overwritten or
+  cleared.
+
 ## Capture workflow
 
 ### RAM-buffer / no-SD-card workflow
@@ -149,7 +176,10 @@ capture is stored in RAM.
      ```
 
 > [!WARNING]
-> On RAM-only sniffer builds, the capture is volatile. Powering off, unplugging, resetting, or re-flashing the ESP32 erases the captured boot traffic. Dump and save the data before changing power or reconnecting the board.
+> On RAM-only sniffer builds, the capture is volatile. Powering off,
+> unplugging, resetting, or re-flashing the ESP32 erases the captured boot
+> traffic. Dump and save the data before changing power or reconnecting the
+> board.
 
 ### Phone Bluetooth serial dump
 

@@ -102,6 +102,13 @@ Goal:
 - Capture known-good SPD/PMIC/hub state.
 - Preserve known-good data without writing to the good stick.
 
+Active-tool reference captures made with commands such as `capturegood` and
+`capturepmic` are stored in ESP32 flash/NVS. They persist across ESP32 resets
+and power cycles until intentionally cleared or overwritten.
+
+This is different from passive boot-sniffer logs, which use a volatile RAM-only
+capture buffer and must be dumped immediately.
+
 ### Sequence
 
 ```text

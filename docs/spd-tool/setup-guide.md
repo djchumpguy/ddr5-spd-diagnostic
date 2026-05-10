@@ -87,4 +87,9 @@ normal starting point. Save original dumps, confirm module match, record
 HSA/address state, and assume a management-plane repair may still leave a
 DRAM-side / training-path failure.
 
+Reference captures from commands such as `capturegood` and `capturepmic` are
+stored in ESP32 flash/NVS. They persist across ESP32 resets and power cycles
+until intentionally cleared or overwritten. This is different from the passive
+boot sniffer's volatile RAM-only capture buffer.
+
 See [`11-spd-tool-advanced-workflows.md`](11-spd-tool-advanced-workflows.md).

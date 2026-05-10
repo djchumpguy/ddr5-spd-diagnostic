@@ -119,9 +119,14 @@ The passive boot sniffer uses separate firmware and a separate harness from the
 active SPD/PMIC tool. In this setup, GPIO34/GPIO35 are passive HSCL/HSDA inputs,
 not active-tool PWR_GOOD wiring.
 
-Use a shared ground, power the ESP32 separately if a RAM-only capture must
-survive PC power changes, arm before motherboard power-on, and dump over
-Bluetooth/USB before power loss or reset.
+Use a shared ground, power the ESP32 separately if a volatile RAM-only capture
+must survive PC power changes, arm before motherboard power-on, and dump over
+Bluetooth/USB before power loss or reset. Sniffer captures do not survive ESP32
+reset or power loss.
+
+This is different from active-tool reference captures such as `capturegood` and
+`capturepmic`, which are stored in ESP32 flash/NVS and persist until cleared or
+overwritten.
 
 See [`../sniffer/10-boot-sniffer.md`](../sniffer/10-boot-sniffer.md).
 
