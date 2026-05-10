@@ -2,6 +2,11 @@
 
 This project intentionally pokes at a live DDR5 module's management electronics. That is useful. It is also a fine way to turn hardware into modern art if treated casually.
 
+> [!CAUTION]
+> This is an experimental DIY hardware-debug project, not a consumer repair guide.
+> Replicating these wiring, probing, power, firmware, or write workflows can damage hardware.
+> Use this information at your own risk; the author assumes no responsibility for damage, data loss, injury, or misuse.
+
 ## Scope
 
 These notes are for an ESP32-assisted DDR5 UDIMM diagnostic harness focused on:

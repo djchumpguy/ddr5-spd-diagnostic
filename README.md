@@ -15,9 +15,13 @@ diagnostic project in one place:
 - Safe workflows for reading, dumping, comparing, and eventually writing
   SPD-related state
 
-> ⚠️ This is hardware-debug documentation, not a finished consumer repair guide.
-> DDR5 modules can be damaged by incorrect voltage, wiring, write mode, or PMIC
-> commands. Treat every write operation like a loaded potato cannon.
+> [!WARNING]
+> This repository documents a DIY, highly experimental DDR5 hardware/firmware lab project.
+> It is not a polished repair guide, validated engineering design, or consumer-safe procedure.
+>
+> The work shown here involves custom wiring, improvised probing, live DDR5 module sideband access, PMIC/SPD investigation, ESP32 firmware, and boot-time bus sniffing. Incorrect wiring, voltage levels, power sequencing, write commands, or probing can permanently damage RAM modules, motherboards, ESP32 boards, USB ports, power supplies, or other attached equipment.
+>
+> If you choose to replicate anything in this repository, you do so entirely at your own risk. The author provides this material for documentation and educational purposes only and assumes no responsibility or liability for hardware damage, data loss, injury, or other consequences resulting from use, misuse, or attempted replication.
 
 ## Web UI preview
 
