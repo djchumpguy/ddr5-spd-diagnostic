@@ -2,6 +2,7 @@
 
 ## Active SPD/PMIC diagnostic harness
 
+- Prototype harness and future board target: [`prototype-harness-and-future-board.md`](prototype-harness-and-future-board.md)
 - Active harness wiring: [`spd-tool/harness-wiring.md`](spd-tool/harness-wiring.md)
 - Active wiring diagram: [`spd-tool/wiring-diagram.md`](spd-tool/wiring-diagram.md)
 - UDIMM management pin data: [`spd-tool/data/udimm-management-pins.csv`](spd-tool/data/udimm-management-pins.csv)

@@ -251,6 +251,24 @@ documented in
 - Active SPD/PMIC harness wiring: [`hardware/spd-tool/harness-wiring.md`](hardware/spd-tool/harness-wiring.md)
 - Passive boot sniffer wiring: [`hardware/sniffer/passive-boot-sniffer-wiring.md`](hardware/sniffer/passive-boot-sniffer-wiring.md)
 
+## Prototype Hardware Status
+
+The current ESP32 DDR5 harness was validated as a hand-wired lab prototype using
+an ESP32 WROOM-class board, screw-terminal adapter, breadboard, PCA9306
+level-shifter module, and a DDR5 extension adapter.
+
+The DDR5 extension adapter allowed soldering to accessible adapter pads instead
+of soldering directly to a DIMM.
+
+This setup proved the tool architecture, but it is not the recommended final
+hardware form. A future revision should use a dedicated ESP32 DDR5 diagnostic
+board or HAT with an onboard DDR5 socket, protected DIMM power switching,
+sideband level shifting, HSA control, PWR_EN/PWR_GOOD handling, status LEDs, and
+labeled test points.
+
+See
+[`hardware/prototype-harness-and-future-board.md`](hardware/prototype-harness-and-future-board.md).
+
 ## Boot sniffer
 
 The repo includes a separate passive ESP32 boot sideband sniffer under:
