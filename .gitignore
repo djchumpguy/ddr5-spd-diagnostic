@@ -3,10 +3,17 @@ logs/raw/
 logs/private/
 *.log
 *.bin
+*.elf
+*.map
+*.hex
 *.raw
 *.capture
 *.pcap
 *.pcapng
+*full_flash*.bin
+*nvs*.bin
+*known-good*.bin
+*spd-dump*.bin
 
 # Private source/reference material
 sources/private/
@@ -32,3 +39,5 @@ node_modules/
 dist/
 build/
 .pio/
+.pioenvs/
+.piolibdeps/

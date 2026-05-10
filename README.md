@@ -133,6 +133,22 @@ and DDR5 sideband behavior. The firmware is the working implementation used by
 the tool, but it should still be treated as lab firmware rather than a polished
 consumer repair product.
 
+## Boot sniffer
+
+The repo includes a separate passive ESP32 boot sideband sniffer under:
+
+[`firmware/esp32-boot-sniffer/`](firmware/esp32-boot-sniffer/)
+
+It captures early DDR5 boot I2C / I2C-compatible sideband traffic into a compact
+event buffer and dumps it after capture. It is useful for comparing known-good
+and suspect module boot sequences.
+
+Example known-good baseline capture:
+
+[`logs/examples/sniffer/good-stick-boot-0x53-baseline.txt`](logs/examples/sniffer/good-stick-boot-0x53-baseline.txt)
+
+This sniffer is not a full I3C analyzer.
+
 ## Start here
 
 Read these first:

@@ -38,8 +38,12 @@ Current priority: keep the diagnostic-tool documentation internally consistent b
 
 - [x] Mark MR12/MR13 mismatch as historical, not current active diagnosis.
 - [x] Add final diagnosis page for likely DRAM-side failure inferred from boot sniffer divergence.
+- [x] Add sanitized good-stick sniffer baseline.
+- [ ] Add bad-stick sniffer capture later.
+- [ ] Add parser/compare script later.
 - [ ] Add sanitized boot-sniffer summary later.
 - [ ] Add good-vs-bad boot-sniffer divergence timeline later.
+- [ ] Add good-vs-bad divergence analysis later.
 - [ ] Preserve the distinction between directly observed sniffer events and inferred DRAM-side training failure.
 
 ## Hardware documentation
@@ -55,7 +59,7 @@ Current priority: keep the diagnostic-tool documentation internally consistent b
 
 ## Firmware / source
 
-- [ ] Add firmware source or link to the firmware repo once docs stabilize.
+- [x] Add boot sniffer firmware source.
 - [ ] Add firmware build notes.
 - [ ] Add command reference generated from the firmware help text.
 - [ ] Add Web UI screenshots or screen descriptions after the command model is stable.
