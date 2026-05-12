@@ -146,6 +146,18 @@ See
 Post-repair suspect-module SPD/PMIC evidence logs are indexed here:
 [`logs/examples/spd-tool/README.md`](logs/examples/spd-tool/README.md).
 
+### Experimental minimum direct-wire setup
+
+A reduced bare-minimum setup was also tested using an ESP32 WROOM-class board,
+a DDR5 extension adapter, direct ESP32 SDA/SCL wiring to DDR5 HSDA/HSCL, HSA
+tied to ground, and 10k pull-ups on PWR_EN/PWR_GOOD.
+
+This setup reproduced stable read-only SPD hub and PMIC access without the
+PCA9306 level shifter.
+
+See
+[`hardware/spd-tool/minimum-direct-wire-read-setup.md`](hardware/spd-tool/minimum-direct-wire-read-setup.md).
+
 ### Required / core signals
 
 | Function | ESP32 GPIO | Status | Notes |
@@ -153,7 +165,7 @@ Post-repair suspect-module SPD/PMIC evidence logs are indexed here:
 | I2C SDA | 21 | Required | DDR5 sideband SDA. Direct 3.3 V lab wiring worked; PCA9306 level shifting remains the safer reference design. |
 | I2C SCL | 22 | Required | DDR5 sideband SCL. Direct 3.3 V lab wiring worked; PCA9306 level shifting remains the safer reference design. |
 | VIN_BULK control | 32 | Recommended convenience | Controls optional MOSFET high-side VIN_BULK switch. HIGH = DIMM off, LOW = DIMM on. Direct stable 5 V or a manual switch can also be used. |
-| PWR_EN / VR enable | 33 | Optional | PMIC VR enable / DRAM rail enable. Not required for basic SPD/PMIC sideband access. |
+| PWR_EN / VR enable | 33 | Optional control/readback | PMIC VR enable / DRAM rail enable. For the experimental minimum direct-wire setup, PWR_EN itself must be pulled/enabled and must not float. |
 | PWR_GOOD | 34 | Recommended readiness indicator | Useful readiness/wiring signal. If LOW, check harness/power/readiness before trusting bus results. |
 
 ### HSA strap testing

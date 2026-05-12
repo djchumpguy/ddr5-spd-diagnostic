@@ -183,9 +183,14 @@ In short: the same stick can appear at different addresses depending on whether 
 | LOW / output-low | PMIC switching regulators / DRAM rails disabled |
 | HIGH / released | PMIC VR enable allowed through pull-up |
 
-PWR_EN should be treated as optional PMIC VR enable / DRAM rail enable.
+GPIO33 PWR_EN control can be treated as optional PMIC VR enable / DRAM rail
+enable control in the full harness.
 
-It is not required for basic SPD hub / PMIC sideband communication in this diagnostic setup, and it is not a substitute for full DIMM power removal.
+For the experimental minimum direct-wire setup, PWR_EN itself is required and
+must be pulled/enabled. GPIO33 control/readback is optional, but the PWR_EN line
+must not be left floating.
+
+PWR_EN is not a substitute for full DIMM power removal.
 
 ### PWR_GOOD — pin 147
 

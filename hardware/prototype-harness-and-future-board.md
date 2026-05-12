@@ -27,6 +27,19 @@ The DDR5 extension adapter was important because it provided accessible solder
 points for the DDR5 edge-connector pins. This avoided soldering directly to the
 DDR5 DIMM.
 
+## Experimental Minimum Direct-Wire Variant
+
+A reduced read-only setup also reproduced stable SPD hub and PMIC access using
+direct ESP32 I2C wiring to DDR5 HSCL/HSDA, no PCA9306 level shifter, HSA tied
+directly to ground for `0x50` direct-ground / hard-low / offline-style
+behavior, and required 10k PWR_EN/PWR_GOOD pull-ups.
+
+That variant is documented as prototype evidence only. It does not replace the
+validated full harness or the recommended future-board target.
+
+See
+[`spd-tool/minimum-direct-wire-read-setup.md`](spd-tool/minimum-direct-wire-read-setup.md).
+
 ## Prototype Limitations
 
 The prototype wiring is intentionally documented as a working lab setup, not as
