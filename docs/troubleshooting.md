@@ -6,7 +6,9 @@
 
 - Recheck grounds and rails.
 - Confirm SDA/SCL are not swapped.
-- Confirm pull-ups/level shifting match your harness.
+- Confirm the ESP32 and DIMM supply share ground.
+- Confirm PWR_EN and PWR_GOOD have their 10 kOhm pull-ups.
+- If the direct-read harness is flaky, consider optional external SDA/SCL pull-ups or level shifting as troubleshooting.
 - Confirm VIN_BULK is actually present if your setup requires it.
 - Cold-cycle VIN_BULK after HSA strap changes.
 

@@ -2,32 +2,53 @@
 
 [Back to README](../../README.md) | [Quick start](../quick-start.md) | [Safety](../safety.md)
 
-The active tool uses an ESP32 to access the DDR5 SPD hub and PMIC management plane. These photos show prototype lab wiring examples, not production hardware.
+This page describes the active ESP32 SPD/PMIC tool. It uses a DDR5 extension adapter or breakout and connects the ESP32 directly to the DIMM/adapter sideband pins. It is not a motherboard tap or sniffer harness.
 
-![Basic SPD tool wiring](../images/spd-tool/esp32-spd-tool-basic-wiring-overview.jpg)
+![Active SPD tool wiring overview](../images/spd-tool/esp32-spd-tool-basic-wiring-overview.jpg)
 
-## Typical Signals
+## Minimum Proven Direct-Read Setup
 
-| Function | ESP32 GPIO | Notes |
-| --- | ---: | --- |
-| SDA | 21 | DDR5 sideband SDA. Use appropriate pull-ups/level shifting for your harness. |
-| SCL | 22 | DDR5 sideband SCL. Keep wiring short and stable. |
-| VIN_BULK control | 32 | Optional switch control. Manual stable 5 V can also be used. |
-| PWR_EN | 33 | PMIC enable input/control depending on harness. Do not leave required enables floating. |
-| PWR_GOOD | 34 | Readiness signal only when wired/configured that way. |
-| HSA experiment | 27 | Optional. Physical strap state may override what GPIO reports. |
+This is the lab-proven minimum setup for this project:
 
-![Controller board wiring](../images/spd-tool/esp32-spd-tool-controller-board-wiring.jpg)
+| Signal | Connection |
+| --- | --- |
+| ESP32 GPIO21 | DIMM/adapter HSDA/SDA |
+| ESP32 GPIO22 | DIMM/adapter HSCL/SCL |
+| PWR_EN | 10 kOhm pull-up to 3.3 V |
+| PWR_GOOD | 10 kOhm pull-up to 3.3 V, and ESP32 input if monitored |
+| DIMM VIN_BULK | 5 V source to the DIMM VIN_BULK pins |
+| ESP32 power | USB or another ESP32-safe power source |
+| Ground | DIMM power ground and ESP32 ground must be shared |
 
-## Power And Pull-Ups
+The ESP32 internal SDA/SCL pull-ups worked for direct SPD/PMIC communication in this lab setup. No PCA9306 level shifter and no external SDA/SCL pull-ups were needed for this proven basic direct-read path.
 
-Verify all rails before connecting a DIMM. A bench 3.3 V/5 V module can be convenient, but current limits, grounds, and output settings matter.
+![PWR_EN and PWR_GOOD pull-up example](../images/spd-tool/basic-spd-tool-wiring-2x-10k-pwren-pwrgood-pullups.jpg)
 
-![Bench power module](../images/spd-tool/bench-3v3-5v-power-module-example.jpg)
+## Practical Hardware List
 
-The example direct-wire setup used 10 k pull-ups for PWR_EN/PWR_GOOD behavior in that harness. Do not assume that value or topology is universal.
+- DDR5 extension adapter or breakout,
+- ESP32 dev board,
+- two 10 kOhm resistors for PWR_EN and PWR_GOOD,
+- 5 V source for DIMM VIN_BULK,
+- USB or other ESP32 power,
+- shared ground between the ESP32 and DIMM supply,
+- soldering iron and wire for the adapter pins.
 
-![Pull-up wiring example](../images/spd-tool/basic-spd-tool-wiring-2x-10k-pwren-pwrgood-pullups.jpg)
+![DDR5 adapter pin reference](../images/spd-tool/ddr5-extension-adapter-pin-reference.jpg)
+
+## Power Notes
+
+Verify rails before connecting a DIMM. The DIMM VIN_BULK supply and ESP32 must share ground or reads will fail. USB power for the ESP32 is fine as long as ground is shared with the DIMM supply.
+
+![Bench power module example](../images/spd-tool/bench-3v3-5v-power-module-example.jpg)
+
+PWR_EN and PWR_GOOD are pulled to 3.3 V through 10 kOhm resistors in the documented simple harness. PWR_GOOD is only meaningful if your hardware config and wiring actually monitor it.
+
+## Optional/Alternate Wiring
+
+Other harnesses may need extra help. External SDA/SCL pull-ups or level shifting can be useful troubleshooting or conservative-design options, but they are not part of the minimum proven direct-read setup described above.
+
+A proper adapter PCB, cleaner protection, current limiting, and strain relief are better for repeated use.
 
 ## HSA Address Behavior
 
@@ -37,8 +58,8 @@ Observed project behavior:
 - resistor/normal harness behavior was observed around `0x53`,
 - floating/high behavior was observed around `0x57`.
 
-This is harness/address behavior, not a universal DDR5 truth. Change HSA strap state only with a real VIN_BULK cold cycle, then scan again.
+This is harness/address behavior, not a universal DDR5 truth. HSA is sampled during power-up, so change the physical HSA state, cold-cycle VIN_BULK, then scan again.
 
-## Prototype Wiring Warnings
+## Prototype Warning
 
-Temporary piggyback soldering and loose jumpers are not production-grade wiring. Use strain relief, verify voltage rails, and prefer a proper adapter PCB for repeated use. Wiring mistakes can damage DIMMs, ESP32 boards, motherboards, or power supplies.
+The photos show prototype lab wiring. Loose jumpers and hand-soldered adapter wires should have strain relief. Wiring mistakes can damage DIMMs, ESP32 boards, motherboards, or power supplies.

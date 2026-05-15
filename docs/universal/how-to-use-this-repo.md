@@ -39,11 +39,15 @@ For active SPD/PMIC work, the practical minimum is:
 
 - ESP32 running the SPD tool firmware.
 - Common ground between the ESP32/tooling and the DDR5 module setup.
-- Safe I2C connection to DDR5 HSCL/HSDA, preferably through a PCA9306 or
-  equivalent level shifter.
+- Direct adapter/breakout wiring from ESP32 GPIO21/GPIO22 to DDR5 HSDA/HSCL.
+- 10 kOhm pull-ups to 3.3 V for PWR_EN and PWR_GOOD.
 - Stable VIN_BULK / 5 V supply.
 - Known HSA state.
 - Read-only command workflow first.
+
+The proven basic direct-read setup did not require a PCA9306 or external
+SDA/SCL pull-ups. Treat those as optional troubleshooting or conservative-design
+choices for other harnesses.
 
 GPIO32-controlled VIN_BULK switching is convenient but not mandatory. Manual
 stable 5 V VIN_BULK or a physical switch can be acceptable if the setup is
@@ -62,7 +66,7 @@ A cleaner harness would use:
 - VIN_BULK switch or ESP32-controlled MOSFET.
 - Optional PWR_EN switch/GPIO control.
 - PWR_GOOD indicator/input.
-- Labeled I2C level shifting.
+- Optional labeled I2C interface/protection if your harness needs it.
 - Clear separation between active tool wiring and passive sniffer wiring.
 
 ## HSA and address behavior

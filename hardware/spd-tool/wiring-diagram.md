@@ -9,7 +9,8 @@ Key points:
 - GPIO27 HSA control was only an optional experiment.
 - PWR_EN is optional PMIC VR / DRAM rail enable, **not** SPD hub enable.
 - PWR_GOOD is a readiness/wiring indicator.
-- PCA9306 level shifting is the safer reference design, but direct ESP32 3.3 V open-drain I2C worked in the lab setup.
+- The minimum proven setup uses direct ESP32 GPIO21/GPIO22 wiring to HSDA/HSCL on a DDR5 adapter/breakout.
+- PCA9306 level shifting is an optional conservative/alternate approach, not required for the proven basic direct-read setup.
 
 ## Main harness diagram
 
@@ -27,7 +28,7 @@ flowchart LR
     ESP32GND["ESP32 GND"] --- GND["Common ground"]
     PSUGND["5 V supply GND"] --- GND
     DIMMGND["DIMM GND pins 8 / 10"] --- GND
-    PCAGND["PCA9306 GND if used"] --- GND
+    IFGND["optional interface/protection GND if used"] --- GND
     MOSGND["MOSFET control GND if used"] --- GND
 
     HSA["DIMM HSA pin 148"] --> HSASTRAP{"Manual HSA strap at power-up"}
@@ -46,14 +47,8 @@ flowchart LR
     PWRGOOD -- "10k pull-up" --> V33
     PWRGOOD --> PGNOTE["PWR_GOOD high before trusting SPD / PMIC reads"]
 
-    GPIO21["ESP32 GPIO21 SDA"] --> PCA1["PCA9306 3.3 V side"]
-    GPIO22["ESP32 GPIO22 SCL"] --> PCA1
-    PCA1 --> PCA2["PCA9306 DIMM-side lower-voltage side"]
-    PCA2 --> HSDA["DIMM HSDA pin 5"]
-    PCA2 --> HSCL["DIMM HSCL pin 4"]
-
-    GPIO21 -. "direct 3.3 V open-drain lab shortcut" .-> HSDA
-    GPIO22 -. "direct 3.3 V open-drain lab shortcut" .-> HSCL
+    GPIO21["ESP32 GPIO21 SDA"] --> HSDA["DIMM HSDA pin 5"]
+    GPIO22["ESP32 GPIO22 SCL"] --> HSCL["DIMM HSCL pin 4"]
 ```
 
 ## Power-cycle rule
@@ -97,7 +92,7 @@ flowchart LR
     GPIO22["ESP32 GPIO22 SCL"] -. "direct 3.3 V open-drain" .-> HSCL["DIMM HSCL pin 4"]
 ```
 
-## Conservative level-shifted sideband wiring
+## Optional conservative/alternate sideband wiring
 
 ```mermaid
 flowchart LR
@@ -113,6 +108,9 @@ flowchart LR
     GND["Common ground"] --- PCA3V
     GND --- PCADIMM
 ```
+
+This optional approach may help in another harness, but it was not needed for
+the proven basic direct-read setup.
 
 ## Short version
 
@@ -134,6 +132,6 @@ PWR_GOOD:
   LOW = check harness first
 
 I2C:
-  PCA9306 safer reference
-  direct 3.3 V open-drain worked in this lab setup
+  direct ESP32 GPIO21/GPIO22 to HSDA/HSCL worked in this lab setup
+  optional level shifting or extra pull-ups are troubleshooting/alternate choices
 ```

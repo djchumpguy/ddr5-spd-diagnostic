@@ -2,44 +2,54 @@
 
 [Back to README](../README.md) | [Safety](safety.md) | [SPD tool wiring](hardware/spd-tool-wiring.md)
 
-This is the safest path through the project. It is for learning what the DDR5 SPD hub and PMIC management plane report without writing anything to the DIMM.
+This is the simple read-only path for the active ESP32 SPD/PMIC tool. It does not start with SPD editing.
+
+## Build The Minimum Harness
+
+1. Use a DDR5 extension adapter or breakout.
+2. Connect ESP32 GPIO21 to DIMM/adapter HSDA/SDA.
+3. Connect ESP32 GPIO22 to DIMM/adapter HSCL/SCL.
+4. Pull PWR_EN to 3.3 V with 10 kOhm.
+5. Pull PWR_GOOD to 3.3 V with 10 kOhm, and connect it to the ESP32 input if you want to monitor it.
+6. Provide 5 V to the DIMM VIN_BULK pins.
+7. Power the ESP32, USB is fine.
+8. Share ground between the DIMM power supply and ESP32.
+
+The proven basic direct-read setup did not need a PCA9306 level shifter or external SDA/SCL pull-ups. Those can be troubleshooting or alternate-harness options later.
 
 ## Before Power
 
 - Read [Safety](safety.md).
-- Build the active ESP32 SPD/PMIC tool wiring from [SPD tool wiring](hardware/spd-tool-wiring.md).
-- Verify 3.3 V, 5 V, ground, and pull-up behavior with a meter before inserting a DIMM.
-- Use strain relief. Temporary wires and piggyback solder joints can break or short.
+- Verify 3.3 V, 5 V, PWR_EN, PWR_GOOD, and ground with a meter.
+- Use strain relief on adapter wires.
 - Confirm whether your harness physically straps HSA. The ESP32 GPIO runtime state may not describe the real HSA strap.
-
-## First Web UI Session
-
-1. Power the ESP32 and DIMM harness.
-2. Open the ESP32 SPD tool Web UI.
-3. Check status and hardware config.
-4. Run scan or auto-detect.
-5. Run current-mode map.
-6. Dump the 1024-byte SPD payload.
-7. Save a diagnostic SPD reference only if you are confident it is the known-good/original payload.
-8. Capture a PMIC reference only when the PMIC state is understood.
 
 ![Dashboard and hardware tools](images/ui/esp32-spd-tool-dashboard-hardware-tools-dark.png)
 
-## Read-Only Commands To Prefer
+## First Commands
 
-- `status`
-- `scan`
-- `autodetect`
-- `mapall`
-- `dump`
-- `compare`
-- `verifygood`
-- `capturegood` when saving a known-good/original reference
-- `capturepmic` when saving a PMIC comparison reference
-- `speedtest` for I2C/SPD/PMIC read repeatability only
-- `fulldiag` for management-plane diagnostics only
+Use read-only commands first:
 
-Speed/stability tests are bus-read stability tests. They do not prove DRAM cell health or memory-controller training stability.
+```text
+status
+scan
+autodetect
+health
+dump
+```
+
+Useful next commands:
+
+```text
+mapall
+diagquick
+compare
+verifygood
+speedtest
+fulldiag
+```
+
+Save a diagnostic SPD reference only when you are confident the dump is the known-good/original payload. Capture a PMIC reference only when the PMIC state is understood.
 
 ![Terminal discovered devices](images/ui/esp32-spd-tool-terminal-discovered-devices-dark.png)
 
@@ -47,4 +57,4 @@ Speed/stability tests are bus-read stability tests. They do not prove DRAM cell 
 
 A clean SPD dump, PMIC read, CRC/checksum, and repeated read stability are useful management-plane evidence. They do not prove the DIMM will POST, train memory, or survive a memory test.
 
-For the documented bad stick, management-plane evidence became clean after restoring SPD data, but the stick still did not boot. Boot-time sniffer behavior points toward DRAM-side failure rather than an active SPD hub MR12/MR13 mismatch.
+For the documented bad stick, management-plane evidence became clean after restoring SPD data, but the stick still did not boot. Boot-time sniffer behavior points toward DRAM-side/training-path failure rather than an active SPD hub MR12/MR13 mismatch.

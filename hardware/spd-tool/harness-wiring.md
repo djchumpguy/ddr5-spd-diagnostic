@@ -244,38 +244,10 @@ ESP32 side:
 | 22 | SCL |
 | 21 | SDA |
 
-## I2C voltage-level note
+## I2C sideband note
 
-The technically conservative design uses a PCA9306 or equivalent level shifter between the ESP32 3.3 V I2C bus and the DIMM sideband bus.
-
-### Conservative / recommended wiring
-
-DIMM side:
-
-| DIMM pin | Signal | PCA9306 side |
-|---:|---|---|
-| 4 | HSCL | SCL2 / 1.8 V side |
-| 5 | HSDA | SDA2 / 1.8 V side |
-
-ESP32 side:
-
-| ESP32 GPIO | Signal | PCA9306 side |
-|---:|---|---|
-| 22 | SCL | SCL1 / 3.3 V side |
-| 21 | SDA | SDA1 / 3.3 V side |
-
-Pull-ups:
-
-| Side | Pull-up |
-|---|---|
-| DIMM / 1.8 V side | 5.1k to 1.8 V |
-| ESP32 / 3.3 V side | 5.1k to 3.3 V |
-
-This is the safer documented wiring because it respects the expected lower-voltage sideband domain.
-
-### Actual lab wiring that worked
-
-The actual harness also worked with the ESP32 I2C pins connected directly to the DIMM sideband pins:
+The current minimum proven direct-read harness connects the ESP32 I2C pins
+directly to the DIMM sideband pins on a DDR5 adapter/breakout:
 
 | ESP32 | DIMM |
 |---|---|
@@ -289,8 +261,12 @@ Do not actively drive SDA or SCL high as push-pull GPIO. The bus should only be 
 Observed result:
 
 - Direct ESP32 3.3 V I2C to DIMM HSDA/HSCL worked in this harness.
-- The PCA9306 level-shifted version remains the safer design.
-- Direct 3.3 V wiring should be treated as a lab-proven shortcut for this specific setup, not a universal DDR5 DIMM rule.
+- The ESP32 internal SDA/SCL pull-ups worked for basic direct reads.
+- No PCA9306 and no external SDA/SCL pull-ups were required for the proven basic setup.
+- Direct 3.3 V wiring should be treated as lab-proven for this specific setup, not a universal DDR5 DIMM rule.
+
+Optional external SDA/SCL pull-ups, buffering, or level shifting may help in
+other harnesses, but they are troubleshooting/alternate design choices here.
 
 Do not confuse the I2C shortcut with the power/control pins. VIN_BULK, PWR_EN, PWR_GOOD, HSA, and PMIC behavior still need to be handled according to their own voltage and mode requirements.
 
@@ -349,7 +325,7 @@ Pin 147 ---- GPIO34
 Pin 147 ---- 10k ---- 3.3V
 ```
 
-### I2C — conservative level-shifted wiring
+### I2C — optional conservative/alternate wiring
 
 ```text
 ESP32 GPIO21 SDA ---- PCA9306 ---- HSDA pin 5

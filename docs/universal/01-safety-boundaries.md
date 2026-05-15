@@ -148,16 +148,7 @@ Do not trust failed SPD/PMIC reads while PWR_GOOD is LOW.
 
 ## I2C / sideband bus safety rules
 
-The conservative reference design uses a PCA9306 or equivalent level shifter between the ESP32 3.3 V I2C bus and the DIMM sideband bus.
-
-Conservative design:
-
-| Side | Signals | Pull-up |
-|---|---|---|
-| ESP32 side | GPIO21 SDA / GPIO22 SCL | 3.3 V |
-| DIMM side | HSDA / HSCL | 1.8 V or module-appropriate sideband voltage |
-
-Actual lab observation:
+Minimum direct-read lab observation:
 
 ```text
 Direct ESP32 3.3 V open-drain I2C to DIMM HSDA/HSCL worked in this harness.
@@ -172,11 +163,12 @@ Direct wiring that worked:
 
 Safety boundary:
 
-- Treat direct 3.3 V wiring as a lab-proven shortcut for this setup.
+- Treat direct 3.3 V wiring as lab-proven for this setup.
 - Do not treat direct 3.3 V wiring as a universal DDR5 rule.
 - SDA/SCL must be open-drain I2C lines.
 - Do not actively drive SDA/SCL high as push-pull GPIO.
-- If in doubt, use the level shifter.
+- No PCA9306 and no external SDA/SCL pull-ups were required for the proven basic setup.
+- If another harness has flaky reads, optional external SDA/SCL pull-ups, buffering, or level shifting may help.
 
 ## Read-first workflow
 

@@ -12,12 +12,12 @@ It is not the recommended final hardware implementation.
 
 ## Validated Prototype Hardware
 
-The validated lab setup used:
+The earlier full prototype harness used:
 
 - ESP32 WROOM-class development board
 - ESP32 screw-terminal adapter / breakout board
 - breadboard
-- PCA9306 I2C level-shifter module
+- PCA9306 I2C level-shifter module for one validation path
 - DDR5 extension / adapter card
 - hand-soldered jumper wiring
 - external DIMM VIN_BULK power switching
@@ -29,13 +29,14 @@ DDR5 DIMM.
 
 ## Experimental Minimum Direct-Wire Variant
 
-A reduced read-only setup also reproduced stable SPD hub and PMIC access using
-direct ESP32 I2C wiring to DDR5 HSCL/HSDA, no PCA9306 level shifter, HSA tied
-directly to ground for `0x50` direct-ground / hard-low / offline-style
-behavior, and required 10k PWR_EN/PWR_GOOD pull-ups.
+A reduced read-only setup reproduced stable SPD hub and PMIC access using
+direct ESP32 I2C wiring to DDR5 HSCL/HSDA on an extension adapter, no PCA9306
+level shifter, no external SDA/SCL pull-ups, HSA tied directly to ground for
+`0x50` direct-ground / hard-low / offline-style behavior, and required 10k
+PWR_EN/PWR_GOOD pull-ups.
 
-That variant is documented as prototype evidence only. It does not replace the
-validated full harness or the recommended future-board target.
+That variant is the current minimum proven direct-read path. It is still lab
+hardware, not a universal guarantee for every module or adapter.
 
 See
 [`spd-tool/minimum-direct-wire-read-setup.md`](spd-tool/minimum-direct-wire-read-setup.md).
@@ -54,8 +55,8 @@ Known limitations:
 - no integrated DIMM socket
 - no integrated power sequencing
 - no integrated test-point labeling beyond the adapter/breakout boards
-- PCA9306 level shifting was used for validation but is not recommended as the
-  final board-level solution without further electrical review
+- level shifting/interface circuitry should be reviewed as a board-level design
+  choice, not treated as required for the minimum direct-read harness
 - manual wiring creates avoidable risk when switching between normal,
   hard-low/offline-style, and floating/high HSA behavior
 

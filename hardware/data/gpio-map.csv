@@ -1,7 +1,7 @@
 Function,GPIO,Required,Direction,Notes
-I2C SDA,21,Yes,Bidirectional open-drain,ESP32 SDA for DDR5 sideband bus; direct 3.3 V lab wiring worked; PCA9306 level shifting remains safer reference
-I2C SCL,22,Yes,Output open-drain,ESP32 SCL for DDR5 sideband bus; direct 3.3 V lab wiring worked; PCA9306 level shifting remains safer reference
+I2C SDA,21,Yes,Bidirectional open-drain,ESP32 SDA direct to DDR5 HSDA in the proven basic adapter harness; optional level shifting/pull-ups may help other harnesses
+I2C SCL,22,Yes,Output open-drain,ESP32 SCL direct to DDR5 HSCL in the proven basic adapter harness; optional level shifting/pull-ups may help other harnesses
 DIMM VIN_BULK switch,32,Recommended convenience,Output,Controls optional MOSFET high-side VIN_BULK switch; HIGH = DIMM off; LOW = DIMM on; DIMM VIN_BULK can also be fed directly from stable 5 V or a manual switch
-PWR_EN / VR enable,33,Optional,Output/open-drain style,PMIC VR enable / DRAM rail enable; not required for basic SPD/PMIC sideband access; LOW disables switching regulators; released/HIGH enables through pull-up
-PWR_GOOD,34,Recommended readiness indicator,Input,"Useful readiness/wiring indicator; in this lab every PWR_GOOD LOW case traced to wiring/readiness setup, not a confirmed SPD/PMIC failure; do not trust bus results while LOW"
+PWR_EN / VR enable,33,Yes for documented harness,Output/open-drain style,"PMIC VR enable / DRAM rail enable; pull up to 3.3 V through 10 kΩ for the proven basic adapter harness; GPIO33 can optionally pull LOW to disable regulators"
+PWR_GOOD,34,Yes for documented harness,Input,"Pull up to 3.3 V through 10 kΩ for the proven basic adapter harness; useful readiness/wiring indicator; do not trust bus results while LOW"
 HSA experiment,27,Optional,Output or input/released,Used during ESP32-controlled HSA testing only; preferred bench method is manual HSA strap plus full VIN_BULK cold reset

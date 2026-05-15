@@ -46,15 +46,17 @@ The important requirement is that HSA strap changes need a real VIN_BULK cold po
 | 4 | HSCL | GPIO22 SCL |
 | 5 | HSDA | GPIO21 SDA |
 
-The conservative reference design uses a PCA9306 or equivalent level shifter between the ESP32 3.3 V I2C bus and the DIMM sideband bus.
-
-Actual lab result:
+Actual lab result for the minimum direct-read harness:
 
 ```text
 Direct ESP32 3.3 V open-drain I2C to DIMM HSCL/HSDA worked in this harness.
 ```
 
-Direct wiring should be treated as a lab-proven shortcut for this setup, not a universal DDR5 rule.
+No PCA9306 and no external SDA/SCL pull-ups were required for that proven basic
+setup. Level shifting or extra pull-ups can still be useful in other harnesses,
+but they are optional troubleshooting/conservative-design choices here.
+
+Direct wiring should be treated as lab-proven for this setup, not a universal DDR5 rule.
 
 SDA/SCL must be treated as open-drain I2C lines. Do not actively drive either line high as push-pull GPIO.
 

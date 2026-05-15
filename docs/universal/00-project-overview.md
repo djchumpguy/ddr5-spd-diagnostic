@@ -22,8 +22,8 @@ This is a hardware-debug notebook and workflow repo, not a polished consumer rep
 | VIN_BULK power feed | Supplies DIMM pins 1, 145, and 146 | Required |
 | MOSFET high-side switch | Optional automated VIN_BULK cold power cycling | Recommended convenience |
 | Manual HSA strap | Practical bench method for selecting HSA state before power-up | Preferred for testing |
-| PCA9306 level shifter | Conservative 3.3 V ↔ lower-voltage sideband interface | Safer reference design |
-| Direct ESP32 I2C wiring | 3.3 V ESP32 SDA/SCL directly to HSDA/HSCL | Worked in this lab setup |
+| Direct ESP32 I2C wiring | 3.3 V ESP32 SDA/SCL directly to HSDA/HSCL on an adapter/breakout | Proven basic setup in this lab |
+| Optional sideband interface/protection | Extra pull-ups, buffers, or level shifting if another harness needs them | Conservative/troubleshooting option |
 | Passive sniffer | Captures motherboard boot sideband traffic | Separate investigation tool |
 
 ## Working mental model
@@ -88,9 +88,7 @@ Project notes also include PMIC/local-device addresses such as `0x4F` and later 
 
 ## I2C sideband wiring model
 
-The technically conservative setup uses a PCA9306 or equivalent level shifter between ESP32 3.3 V I2C and the DIMM sideband pins.
-
-However, the actual lab setup also worked with direct ESP32 3.3 V open-drain I2C wiring:
+The proven basic direct-read setup uses direct ESP32 3.3 V open-drain I2C wiring to the DIMM sideband pins on a DDR5 adapter/breakout:
 
 | ESP32 | DIMM |
 |---|---|
@@ -99,9 +97,10 @@ However, the actual lab setup also worked with direct ESP32 3.3 V open-drain I2C
 
 Important distinction:
 
-- Direct 3.3 V sideband wiring worked in this harness.
-- PCA9306 level shifting remains the safer reference design.
-- Direct 3.3 V wiring is a lab-proven shortcut for this setup, not a blanket DDR5 rule.
+- Direct 3.3 V sideband wiring worked in this harness with the ESP32 internal pull-ups.
+- No PCA9306 and no external SDA/SCL pull-ups were needed for the proven basic read path.
+- Extra pull-ups, buffering, or level shifting are optional troubleshooting/conservative-design choices for other harnesses.
+- Direct 3.3 V wiring is lab-proven for this setup, not a blanket DDR5 rule.
 - SDA/SCL must be treated as open-drain I2C lines, not push-pull GPIO outputs.
 
 ## Current investigation status
