@@ -7,11 +7,14 @@ The beginner path is read-only: wire a DDR5 extension adapter/breakout to an ESP
 > [!WARNING]
 > This is lab-proven for this project, not a universal consumer-safe DDR5 repair kit. Wiring mistakes, wrong voltage rails, bad grounds, power sequencing errors, probing mistakes, or write commands can damage DIMMs, ESP32 boards, motherboards, power supplies, or USB ports.
 
+Most users do not need to download the whole repository. Once release packages are published, users who only want to flash and use the ESP32 SPD Tool should download the latest firmware package from Releases. Clone or download the full repo only if you want the source code, documentation, examples, or to modify/build the firmware yourself.
+
 ## Quick Navigation
 
 | Need | Link |
 | --- | --- |
 | First read-only walkthrough | [Quick start](docs/quick-start.md) |
+| Flashing/install paths | [Flashing](docs/flashing.md) |
 | ESP32 SPD Tool commands | [Command reference](docs/spd-tool/command-reference.md) |
 | Safety boundaries | [Safety](docs/safety.md) |
 | Active ESP32 SPD tool wiring | [SPD tool wiring](docs/hardware/spd-tool-wiring.md) |

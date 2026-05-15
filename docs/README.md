@@ -2,7 +2,11 @@
 
 ## Universal project docs
 
+- Firmware-only users should start with the release package path in [`flashing.md`](flashing.md) and the read-only flow in [`quick-start.md`](quick-start.md). Once release packages are published, the full repo should not be required for basic flashing/use.
+- Repo users can browse docs, examples, firmware source, and hardware notes here.
+
 - Beginner quick start: [`quick-start.md`](quick-start.md)
+- Flashing/install paths: [`flashing.md`](flashing.md)
 - Safety: [`safety.md`](safety.md)
 - ESP32 SPD Tool command reference: [`spd-tool/command-reference.md`](spd-tool/command-reference.md)
 - Diagnostic reference vs tweak checkpoint: [`reference-vs-checkpoint.md`](reference-vs-checkpoint.md)

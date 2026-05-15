@@ -1,8 +1,18 @@
 # Quick Start: Read-Only DDR5 SPD/PMIC Diagnostics
 
-[Back to README](../README.md) | [Safety](safety.md) | [SPD tool wiring](hardware/spd-tool-wiring.md) | [Command reference](spd-tool/command-reference.md)
+[Back to README](../README.md) | [Flashing](flashing.md) | [Safety](safety.md) | [SPD tool wiring](hardware/spd-tool-wiring.md) | [Command reference](spd-tool/command-reference.md)
 
 This is the simple read-only path for the active ESP32 SPD/PMIC tool. It does not start with SPD editing.
+
+## Do I Need The Whole Repo?
+
+Normal users should not need the full repository just to flash and use the ESP32 SPD Tool. Once release packages are published, use the firmware release/package for basic flashing and use.
+
+Clone the repo if you are a builder/developer who wants to modify or build the firmware with PlatformIO. Clone it if you are doing research/debugging and want the docs, examples, captures, source code, or investigation notes.
+
+Do not download random build artifacts from old logs. Do not commit `.pio` build output or other generated PlatformIO build folders.
+
+For install options, see [Flashing](flashing.md).
 
 ## Build The Minimum Harness
 
