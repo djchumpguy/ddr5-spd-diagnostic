@@ -41,3 +41,6 @@ build/
 .pio/
 .pioenvs/
 .piolibdeps/
+
+# Local release build output
+release-artifacts/
