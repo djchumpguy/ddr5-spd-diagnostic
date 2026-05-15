@@ -1,6 +1,7 @@
 #pragma once
 #include <Arduino.h>
 #include "AppConfig.h"
+#include "HardwareConfig.h"
 
 enum DeviceRole : uint8_t {
   ROLE_UNKNOWN = 0,
@@ -18,8 +19,22 @@ struct DeviceRoleRecord {
   bool probeOk = false;
 };
 
+struct CurrentSpdDump {
+  bool valid = false;
+  uint8_t addr = DEFAULT_SPD_ADDR;
+  uint16_t len = 0;
+  uint8_t data[SPD_NVM_SIZE] = {0};
+  uint32_t crc32 = 0;
+  uint32_t generation = 0;
+  char source[24] = {0};
+};
+
 struct AppState {
   bool verbose = false;
+
+  // User-declared physical harness wiring. This is configuration, not an
+  // automatic measurement; GPIO runtime states may not be authoritative.
+  HardwareConfig hwConfig;
 
   bool scanOK = false;
   bool readOK = false;
@@ -35,7 +50,7 @@ struct AppState {
   bool goodSpdValid = false;
   uint32_t goodCrc = 0;
 
-  // Known-good PMIC register reference (loaded from NVS)
+  // PMIC diagnostic register reference (loaded from NVS)
   uint8_t pmicRef[PMIC_REF_MAX_LEN] = {0};
   bool pmicRefValid = false;
   uint8_t pmicRefAddr = DEFAULT_PMIC_ADDR;
@@ -44,9 +59,19 @@ struct AppState {
   uint32_t pmicRefCrc = 0;
   uint32_t pmicRefBoot = 0;
 
+  // SPD tweak checkpoint / edit rollback image (loaded from NVS)
+  uint8_t spdBackup[SPD_NVM_SIZE] = {0};
+  bool spdBackupValid = false;
+  uint8_t spdBackupAddr = DEFAULT_SPD_ADDR;
+  uint32_t spdBackupCrc = 0;
+  uint32_t spdBackupBoot = 0;
+  uint32_t spdBackupSaveCount = 0;
+  char spdBackupLabel[32] = {0};
+
   // LAST dump buffer (RAM)
   uint8_t lastDump[SPD_NVM_SIZE] = {0};
   bool lastDumpValid = false;
+  CurrentSpdDump currentSpdDump;
 
   // SPD hub MR11 cached
   bool mr11Valid = false;

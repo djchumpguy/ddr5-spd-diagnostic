@@ -1,7 +1,9 @@
 #include "GoodSpdStore.h"
 #include "AppConfig.h"
 #include "AppState.h"
+#include "HardwareConfig.h"
 #include "Log.h"
+#include "SpdBackupStore.h"
 #include <Preferences.h>
 #include <string.h>
 
@@ -43,7 +45,7 @@ bool loadGoodFromNvs() {
   gApp.goodSpdValid = true;
 
   if (stored != 0 && stored != calc) {
-    outPrintf("WARN: known-good SPD reference CRC mismatch (stored=0x%08lX calc=0x%08lX)\n",
+    outPrintf("WARN: diagnostic SPD reference CRC mismatch (stored=0x%08lX calc=0x%08lX)\n",
               (unsigned long)stored, (unsigned long)calc);
   }
 
@@ -101,7 +103,7 @@ bool loadPmicRefFromNvs() {
   gApp.pmicRefValid = true;
 
   if (stored != 0 && stored != calc) {
-    outPrintf("WARN: known-good PMIC reference CRC mismatch (stored=0x%08lX calc=0x%08lX)\n",
+    outPrintf("WARN: PMIC diagnostic reference CRC mismatch (stored=0x%08lX calc=0x%08lX)\n",
               (unsigned long)stored, (unsigned long)calc);
   }
 
@@ -152,6 +154,8 @@ void clearPmicRefNvs() {
 
 void storeInit() {
   prefs.begin(NVS_NS, false);
+  hardwareConfigInit();
   loadGoodFromNvs();
   loadPmicRefFromNvs();
+  spdBackupStoreInit();
 }

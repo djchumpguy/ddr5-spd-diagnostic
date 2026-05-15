@@ -4,6 +4,7 @@
 #include <string.h>
 
 #include "AppConfig.h"
+#include "HardwareConfig.h"
 #include "I2cHelpers.h"
 #include "Log.h"
 #include "SpdHub.h"
@@ -187,10 +188,32 @@ bool cmdAutoDetectRoles() {
   }
 
   outPrintln("Auto-detect roles:");
+  uint8_t expectedAddr = 0;
+  const char* expectedDesc = nullptr;
+  bool hasExpected = hwExpectedSpdAddr(expectedAddr, expectedDesc);
+  bool foundExpected = false;
+  bool foundOtherSpd = false;
+  uint8_t otherSpd = 0;
+
   for (size_t i = 0; i < gApp.roleRecordCount; i++) {
     DeviceRoleRecord& rec = gApp.roleRecords[i];
+    if (rec.role == ROLE_SPD_HUB) {
+      if (hasExpected && rec.address == expectedAddr) foundExpected = true;
+      if (hasExpected && rec.address != expectedAddr && !foundOtherSpd) {
+        foundOtherSpd = true;
+        otherSpd = rec.address;
+      }
+    }
     outPrintf("  0x%02X  %-22s confidence=%s  reason=%s\n",
               rec.address, roleName(rec.role), confidenceName(rec.confidence), rec.reason);
+  }
+
+  if (hasExpected && foundExpected) {
+    outPrintln("Observed address matches the address previously seen for this config on tested hardware.");
+    outPrintln("HSA mode still comes from declared hardware config, not address alone.");
+  } else if (hasExpected && foundOtherSpd && !foundExpected) {
+    outPrintf("WARNING: Observed SPD/HUB address differs from the address previously associated with the declared HSA config on tested hardware (%s), observed 0x%02X.\n",
+              expectedDesc, otherSpd);
   }
   outPrintln();
 

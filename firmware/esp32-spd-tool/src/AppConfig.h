@@ -21,6 +21,13 @@ static constexpr const char* NVS_KEY_PMIC_LEN   = "pmiclen";
 static constexpr const char* NVS_KEY_PMIC_CRC   = "pmiccrc";
 static constexpr const char* NVS_KEY_PMIC_BOOT  = "pmicboot";
 static constexpr const char* NVS_KEY_PMIC_BLOB  = "pmicblob";
+static constexpr const char* NVS_KEY_SPD_BAK_VALID = "spdbakvalid";
+static constexpr const char* NVS_KEY_SPD_BAK_BLOB  = "spdbakblob";
+static constexpr const char* NVS_KEY_SPD_BAK_CRC   = "spdbakcrc";
+static constexpr const char* NVS_KEY_SPD_BAK_ADDR  = "spdbakaddr";
+static constexpr const char* NVS_KEY_SPD_BAK_BOOT  = "spdbakboot";
+static constexpr const char* NVS_KEY_SPD_BAK_COUNT = "spdbakcount";
+static constexpr const char* NVS_KEY_SPD_BAK_LABEL = "spdbaklabel";
 
 // ===================== CONFIG =====================
 static constexpr int SDA_PIN = 21;

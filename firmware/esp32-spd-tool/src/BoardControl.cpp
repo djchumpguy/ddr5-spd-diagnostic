@@ -20,6 +20,11 @@ bool pwrGoodReady() {
 }
 
 void setPwrEnEnabled(bool enabled) {
+  if (!enabled && gApp.hwConfig.pwrEn == HW_PWREN_PULLUP_ONLY) {
+    pinMode(PIN_PWR_EN, INPUT); // high-Z; external pull-up owns PWR_EN in this harness
+    return;
+  }
+
   if (enabled) {
     pinMode(PIN_PWR_EN, INPUT); // release to external pull-up
   } else {
@@ -64,7 +69,7 @@ bool isHsaLow() {
 }
 
 void updateRedLed() {
-  if (!pwrGoodReady()) {
+  if (gApp.hwConfig.pwrGood == HW_PGOOD_GPIO_READ && !pwrGoodReady()) {
     uint32_t now = millis();
     if (now - gApp.redBlinkT0 >= 250) {
       gApp.redBlinkT0 = now;

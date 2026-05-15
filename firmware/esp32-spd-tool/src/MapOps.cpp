@@ -3,6 +3,7 @@
 #include "BoardControl.h"
 #include "SpdOps.h"
 #include "Log.h"
+#include "HardwareConfig.h"
 
 static void mapBanner(const char* title) {
   outPrintln();
@@ -10,8 +11,7 @@ static void mapBanner(const char* title) {
 }
 
 static const char* modeNameNow() {
-  return isHsaLow() ? "HARD-GROUND / OFFLINE (HSA low, no switching performed)"
-                    : "GPIO RELEASED (external HSA strap decides, no switching performed)";
+  return hwHsaModeName(gApp.hwConfig.hsa);
 }
 
 static bool inRange(uint8_t v, uint8_t lo, uint8_t hi) {
@@ -112,16 +112,17 @@ static void probePmicKeyRegs(uint8_t pmicAddr) {
 }
 
 void cmdMapAll(uint8_t spdAddr, uint8_t pmicAddr, uint8_t hubAddr) {
-  const bool writeMode = isHsaLow();
-
   mapBanner("AUTO MAP");
-  outPrintf("Mode: %s\n", modeNameNow());
-  outPrintf("HSA GPIO: %s\n", writeMode ? "DRIVING GND/OFFLINE" : "RELEASED");
+  outPrintf("Declared HSA physical config: %s\n", modeNameNow());
+  outPrintf("HSA GPIO raw: %s", isHsaLow() ? "DRIVING GND/OFFLINE" : "RELEASED");
+  if (gApp.hwConfig.hsa != HW_HSA_GPIO_SWITCHABLE) outPrint(", not authoritative for declared HSA config");
+  outPrintln();
   outPrintf("VIN_BULK: %s\n", isDimmPowerOn() ? "ON" : "OFF");
   outPrintf("Requested SPD addr:  0x%02X\n", spdAddr);
   outPrintf("Requested PMIC addr: 0x%02X\n", pmicAddr);
   outPrintf("Requested HUB addr:  0x%02X\n", hubAddr);
   outPrintln("NOTE: mapper is read-only and does NOT switch HSA or cold-cycle VIN_BULK.");
+  outPrintln("NOTE: observed SPD/HUB addresses are observations only; HSA mode comes from hardware config.");
 
   mapBanner("BUS SCAN");
   cmdScan();
@@ -144,7 +145,7 @@ void cmdMapAll(uint8_t spdAddr, uint8_t pmicAddr, uint8_t hubAddr) {
   outPrintf("Resolved PMIC addr:    0x%02X\n", resolvedPmic);
 
   mapBanner("SPD FULL DUMP (1024 BYTES)");
-  cmdDump(resolvedHub);
+  cmdDump(resolvedHub, "map");
 
   probeHubKeyRegs(resolvedHub);
   probeHubSweepAll(resolvedHub);

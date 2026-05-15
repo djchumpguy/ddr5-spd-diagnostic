@@ -7,6 +7,7 @@
 #include "BoardControl.h"
 #include "Cli.h"
 #include "GoodSpdStore.h"
+#include "HardwareConfig.h"
 #include "Log.h"
 #include "WebUi.h"
 
@@ -34,6 +35,7 @@ void setup() {
   outPrintf("GPIO: PWR_EN=%d  PWR_GOOD=%d  HSA=%d  VIN_BULK_SW=%d\n",
             PIN_PWR_EN, PIN_PWR_GOOD, PIN_HSA, PIN_DIMM_PWR);
   outPrintln("Note: GPIO27 HSA control is optional/experimental.");
+  printHardwareConfigBootLine();
 
   if (WIFI_ENABLE) {
     outPrintf("WiFi AP: %s  pass: %s  ip: %s\n",
@@ -42,9 +44,18 @@ void setup() {
     outPrintln("Web UI: open the IP above in your phone browser.");
   }
 
-  outPrintf("Known-good SPD reference: %s", gApp.goodSpdValid ? "PRESENT" : "MISSING");
+  outPrintf("Diagnostic SPD reference: %s", gApp.goodSpdValid ? "PRESENT" : "MISSING");
   if (gApp.goodSpdValid) outPrintf("  crc32=0x%08lX\n", (unsigned long)gApp.goodCrc);
   else outPrintln();
+  outPrintf("Tweak checkpoint: %s", gApp.spdBackupValid ? "PRESENT" : "MISSING");
+  if (gApp.spdBackupValid) {
+    outPrintf("  addr=0x%02X crc32=0x%08lX save_count=%lu\n",
+              gApp.spdBackupAddr,
+              (unsigned long)gApp.spdBackupCrc,
+              (unsigned long)gApp.spdBackupSaveCount);
+  } else {
+    outPrintln();
+  }
   outPrintf("PMIC reference: %s", gApp.pmicRefValid ? "PRESENT" : "MISSING");
   if (gApp.pmicRefValid) {
     outPrintf("  addr=0x%02X start=0x%02X len=%u crc32=0x%08lX\n",

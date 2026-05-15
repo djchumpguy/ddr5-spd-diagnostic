@@ -2,7 +2,9 @@
 #include "AppConfig.h"
 #include "AppState.h"
 #include "BoardControl.h"
+#include "HardwareConfig.h"
 #include "SpdOps.h"
+#include "SpdEditMap.h"
 #include "PowerDiag.h"
 #include "TimeSpd.h"
 #include "TimeReg.h"
@@ -11,6 +13,7 @@
 #include "PmicRef.h"
 #include "RoleDetect.h"
 #include "BiosRead/BiosRead.h"
+#include <string.h>
 
 static int splitTokens(char* line, char* out[], int maxTokens) {
   int n = 0;
@@ -38,11 +41,35 @@ static bool isYes(const char* s) {
   return (t == "yes" || t == "y");
 }
 
+static bool isRestoreToken(const char* s) {
+  if (!s) return false;
+  return strcmp(s, "YES_RESTORE_SPD_BACKUP") == 0;
+}
+
 static uint8_t defaultMapHubAddr() {
-  // Your bench mapping:
-  //   normal/runtime strap -> 0x53
-  //   write/offline direct GND -> 0x50
+  // Address choice for reads only. HSA mode must come from declared hardware config,
+  // not from the observed address.
   return isHsaLow() ? 0x50 : 0x53;
+}
+
+static uint8_t defaultRestoreAddr() {
+  if (gApp.currentSpdDump.valid) return gApp.currentSpdDump.addr;
+  for (size_t i = 0; i < gApp.roleRecordCount; i++) {
+    const DeviceRoleRecord& r = gApp.roleRecords[i];
+    if (r.role == ROLE_SPD_HUB && r.probeOk) return r.address;
+  }
+  if (gApp.spdBackupValid) return gApp.spdBackupAddr;
+  uint8_t expected = 0;
+  const char* desc = nullptr;
+  if (hwExpectedSpdAddr(expected, desc)) return expected;
+  return defaultMapHubAddr();
+}
+
+static bool hsaGpioControlAllowed() {
+  if (gApp.hwConfig.hsa == HW_HSA_GPIO_SWITCHABLE) return true;
+  outPrintf("Ignored: HSA mode is %s; GPIO27 is not authoritative in this hardware config.\n",
+            hwHsaModeName(gApp.hwConfig.hsa));
+  return false;
 }
 
 static void printSafeHelp() {
@@ -51,13 +78,15 @@ static void printSafeHelp() {
   outPrintln("Safe commands:");
   outPrintln("  h | help                         = help");
   outPrintln("  advanced | danger | help danger  = show dangerous/write-capable commands");
-  outPrintln("  status                           = show rails/HSA/MR11/known-good reference");
-  outPrintln("  en on|off                        = PWR_EN / VR enable; optional for SPD/PMIC reads");
+  outPrintln("  status                           = show rails/HSA/MR11/diagnostic reference/checkpoint state");
+  outPrintln("  hwconfig | hwcfg                 = show declared physical hardware harness config");
+  outPrintln("  hwconfig help                    = hardware config presets/setters");
+  outPrintln("  en on|off                        = PWR_EN pin / PMIC enable input; optional for SPD/PMIC reads");
   outPrintln("  dimmpwr                          = show VIN_BULK switch state");
   outPrintln("  dimmpwr on|off                   = turn optional VIN_BULK switch on/off");
   outPrintln("  dimmpwr cycle                    = cold-cycle VIN_BULK");
   outPrintln("  hsa                              = show HSA / Address Strap state");
-  outPrintln("  hsa release|ground               = release GPIO27 or drive HSA hard-ground/offline");
+  outPrintln("  hsa release|ground               = release GPIO27 or drive HSA low when hwconfig hsa=gpio");
   outPrintln("  hsa float|floating               = compatibility alias for release");
   outPrintln("  hsa normal|high                  = compatibility alias for release");
   outPrintln("  hsa write|low                    = compatibility alias for ground/offline");
@@ -68,10 +97,11 @@ static void printSafeHelp() {
   outPrintln("  autodetect | detect | roles      = scan/probe and classify SPD/PMIC/temp/unknown devices");
   outPrintln("  mapall | map [spd] [pmic] [hub]  = read-only best-effort map using CURRENT mode only");
   outPrintln("                                     Auto-detect resolves active SPD/HUB and PMIC addresses");
-  outPrintln("                                     observed hub examples: 0x50 direct-GND/offline, 0x53 resistor strap, 0x57 floating/high");
+  outPrintln("                                     observed SPD/HUB address is evidence only; hwconfig declares HSA mode");
   outPrintln("                                     does NOT switch HSA or cold-cycle VIN_BULK");
   outPrintln("  r | read [addr] [off] [n]        = read SPD NVM bytes (default 0x50 0x0000 16)");
   outPrintln("  d | dump [addr]                  = dump 1024 bytes (stores current dump buffer)");
+  outPrintln("  spddumpstate                     = show current 1024-byte SPD dump metadata");
   outPrintln("  biosmr11 [addr]                  = read MR11 through BIOS helper path");
   outPrintln("                                     Auto-detect resolves active SPD/HUB and PMIC addresses");
   outPrintln("  biosread | bread [addr] [off]    = BIOS-style legacy 1-byte SPD read");
@@ -80,10 +110,28 @@ static void printSafeHelp() {
   outPrintln("                                     Auto-detect resolves active SPD/HUB and PMIC addresses");
   outPrintln("  biosinteresting | bint [addr]    = read 0x0D7 0x0D9 0x0DA 0x0DB 0x0DC");
   outPrintln("                                     Auto-detect resolves active SPD/HUB and PMIC addresses");
-  outPrintln("  compare | cmp [addr]             = dump+compare current vs known-good reference");
-  outPrintln("  capturegood | cg [addr]          = dump current and save known-good reference");
-  outPrintln("  cleargood | clg                  = erase known-good SPD reference from flash");
-  outPrintln("  verifygood | vg [addr]           = verify stick vs known-good reference");
+  outPrintln();
+  outPrintln("Diagnostic reference:");
+  outPrintln("  capturegood | cg [addr]          = Save current SPD as diagnostic reference.");
+  outPrintln("  compare | cmp [addr]             = Dump current SPD and compare to diagnostic reference.");
+  outPrintln("  verifygood | vg [addr]           = Legacy alias/compatibility check against diagnostic reference.");
+  outPrintln("  cleargood | clg                  = Erase diagnostic reference.");
+  outPrintln();
+  outPrintln("Advanced SPD editing:");
+  outPrintln("  spdtweak help                    = Advanced SPD Editing command help");
+  outPrintln("  spdtweak status                  = Show tweak/checkpoint status.");
+  outPrintln("  spdtweak decode [summary|base|expo|xmp|all] = staged crash-safe decode");
+  outPrintln("  spdedit fields                   = Show editable EXPO/XMP profile fields.");
+  outPrintln("  spdedit preview field=value...   = Preview profile edits and CRC repair.");
+  outPrintln("                                     write-capable edit/apply commands are in: help danger");
+  outPrintln();
+  outPrintln("Tools / diagnostics:");
+  outPrintln("  health | diagquick               = Run quick read-only SPD/PMIC/harness health check.");
+  outPrintln("  speedtest [addr] [len] [passes] [delay_ms]");
+  outPrintln("                                     Run SPD/I2C repeat-read speed and stability test.");
+  outPrintln("  fulldiag                         = Run full read-only system diagnostic report.");
+  outPrintln();
+  outPrintln("Expert timing tools:");
   outPrintln("  powerdiag | pdiag [passes] [ms]  = repeated power + scan stability test");
   outPrintln("                                     default: 12 passes, 50ms between passes");
   outPrintln("  timespd | tspd [addr] [off] [len] [passes] = repeat SPD reads and time/compare them");
@@ -107,8 +155,24 @@ static void printSafeHelp() {
 static void printDangerHelp() {
   outPrintln();
   outPrintln("DANGEROUS / WRITE-CAPABLE COMMANDS");
-  outPrintln("  writegood | wg yes [addr]        = unlock + write known-good SPD + verify");
+  outPrintln("  writegood | wg yes [addr]        = unlock + write diagnostic reference SPD + verify");
   outPrintln("                                     requires explicit 'yes'");
+  outPrintln("  backupspd | spdbak | bakspd [addr]");
+  outPrintln("                                     Save current SPD as tweak checkpoint.");
+  outPrintln("  backupinfo | spdbakinfo          = show tweak checkpoint metadata");
+  outPrintln("  restoreinfo                      = show edit rollback checkpoint metadata");
+  outPrintln("  restorebackup <addr> YES_RESTORE_SPD_BACKUP");
+  outPrintln("                                     Restore tweak checkpoint and readback verify.");
+  outPrintln("  restorelast [addr] YES_RESTORE_SPD_BACKUP");
+  outPrintln("                                     Restore tweak checkpoint using resolved/current SPD address.");
+  outPrintln("                                     Restore does not change the diagnostic reference.");
+  outPrintln("  clearbackup | clrbak             = erase only the tweak checkpoint slot");
+  outPrintln("  spdedit apply LABMODE field=value...");
+  outPrintln("                                     apply verified EXPO timing edits with CRC repair and readback verify");
+  outPrintln("  spdtweak apply [addr] field=value ... YES_WRITE_SPD_TWEAK");
+  outPrintln("                                     blocked until verified DDR5 SPD profile field map / CRC updater");
+  outPrintln("  Validation flow: sacrificial module first; confirm CRC/checksum PASS and restorebackup PASS;");
+  outPrintln("                   save diagnostic reference + tweak checkpoint before any write; JEDEC/base stays read-only.");
   outPrintln("  editreg yes <addr> <reg> <value> = write one register and verify readback");
   outPrintln("                                     requires explicit 'yes'");
   outPrintln("  AutoFix                          = disabled in this build");
@@ -162,17 +226,24 @@ static void handleLine(char* line) {
   }
   if (cmd == "advanced" || cmd == "danger") { printDangerHelp(); latchCommandResult(true); return; }
   if (cmd == "status") { cmdStatus(); return; }
+  if (cmd == "hwconfig" || cmd == "hwcfg") { cmdHardwareConfig(nt, tok); return; }
 
   if (cmd == "en") {
     if (nt < 2) { outPrintln("Usage: en on|off"); latchCommandResult(false); return; }
     String v = tok[1]; v.toLowerCase();
     if (v == "on") {
+      warnIfPwrEnNotGpioControlled();
       setPwrEnEnabled(true);
-      outPrintln("PWR_EN / PMIC VR enable released ON. Optional for SPD/PMIC sideband reads.");
+      outPrintln("PWR_EN pin / PMIC enable input released ON. Optional for SPD/PMIC sideband reads.");
       latchCommandResult(true);
     } else if (v == "off") {
+      warnIfPwrEnNotGpioControlled();
       setPwrEnEnabled(false);
-      outPrintln("PWR_EN / PMIC VR enable pulled LOW/OFF.");
+      if (gApp.hwConfig.pwrEn == HW_PWREN_PULLUP_ONLY) {
+        outPrintln("PWR_EN GPIO33 left high-Z because hardware config is pullup_only.");
+      } else {
+        outPrintln("PWR_EN pin / PMIC enable input pulled LOW/OFF.");
+      }
       latchCommandResult(true);
     } else {
       outPrintln("Usage: en on|off");
@@ -183,7 +254,13 @@ static void handleLine(char* line) {
 
   if (cmd == "dimmpwr") {
     if (nt == 1) {
-      outPrintf("VIN_BULK switch: %s\n", isDimmPowerOn() ? "ON" : "OFF");
+      if (gApp.hwConfig.vinBulk == HW_VIN_GPIO_SWITCHABLE) {
+        outPrintf("VIN_BULK switch: %s\n", isDimmPowerOn() ? "ON" : "OFF");
+      } else {
+        outPrintf("VIN_BULK physical config: %s; GPIO32 raw=%s is not authoritative for actual DIMM power.\n",
+                  hwVinBulkModeName(gApp.hwConfig.vinBulk),
+                  isDimmPowerOn() ? "ON" : "OFF");
+      }
       latchCommandResult(true);
       return;
     }
@@ -192,18 +269,36 @@ static void handleLine(char* line) {
     v.toLowerCase();
 
     if (v == "on") {
+      if (gApp.hwConfig.vinBulk == HW_VIN_EXTERNAL_LOCKED_ON) {
+        outPrintln("Ignored: VIN_BULK is external_locked_on; GPIO32 not authoritative.");
+        latchCommandResult(false);
+        return;
+      }
+      warnIfVinBulkNotSwitchable();
       setDimmPower(true);
       outPrintln("VIN_BULK switch set ON.");
       latchCommandResult(true);
       return;
     }
     if (v == "off") {
+      if (gApp.hwConfig.vinBulk == HW_VIN_EXTERNAL_LOCKED_ON) {
+        outPrintln("Ignored: VIN_BULK is external_locked_on; GPIO32 not authoritative.");
+        latchCommandResult(false);
+        return;
+      }
+      warnIfVinBulkNotSwitchable();
       setDimmPower(false);
       outPrintln("VIN_BULK switch set OFF.");
       latchCommandResult(true);
       return;
     }
     if (v == "cycle") {
+      if (gApp.hwConfig.vinBulk == HW_VIN_EXTERNAL_LOCKED_ON) {
+        outPrintln("Ignored: VIN_BULK is external_locked_on; GPIO32 not authoritative.");
+        latchCommandResult(false);
+        return;
+      }
+      warnIfVinBulkNotSwitchable();
       outPrintln("Cold-cycling VIN_BULK...");
       cycleDimmPower(1000, 1000);
       outPrintln("VIN_BULK cold-cycle complete.");
@@ -218,9 +313,12 @@ static void handleLine(char* line) {
 
   if (cmd == "hsa") {
     if (nt == 1) {
-      outPrintf("HSA GPIO: %s\n", isHsaLow() ? "DRIVING GND/OFFLINE" : "RELEASED");
-      outPrintln("GPIO27 control is experimental. Released GPIO lets the external HSA strap decide the address.");
-      outPrintln("Auto-detect determines the active SPD/HUB address. Cold-cycle VIN_BULK after HSA changes.");
+      outPrintf("Declared HSA physical config: %s\n", hwHsaModeName(gApp.hwConfig.hsa));
+      outPrintf("GPIO27 raw: %s", isHsaLow() ? "DRIVING GND/OFFLINE" : "RELEASED");
+      if (gApp.hwConfig.hsa != HW_HSA_GPIO_SWITCHABLE) outPrintf(", ignored because HSA mode is %s", hwHsaModeName(gApp.hwConfig.hsa));
+      outPrintln();
+      outPrintf("Interpretation: %s\n", hwDeclaredHsaInterpretation());
+      outPrintln("Observed SPD/HUB address comes from scan/autodetect only and does not prove HSA mode.");
       latchCommandResult(true);
       return;
     }
@@ -229,18 +327,20 @@ static void handleLine(char* line) {
     v.toLowerCase();
 
     if (v == "normal" || v == "high" || v == "floating" || v == "float" || v == "release") {
+      if (!hsaGpioControlAllowed()) { latchCommandResult(false); return; }
       setHsaLow(false);
       outPrintln("HSA GPIO released.");
-      outPrintln("GPIO27 control is experimental. Released GPIO lets the external HSA strap decide the address.");
-      outPrintln("Auto-detect determines the active SPD/HUB address. Cold-cycle VIN_BULK after HSA changes.");
+      outPrintln("HSA is sampled at cold power-up. Cold-cycle VIN_BULK before treating this as effective.");
+      outPrintln("Auto-detect determines the observed SPD/HUB address; address alone does not prove HSA mode.");
       latchCommandResult(true);
       return;
     }
     if (v == "write" || v == "low" || v == "ground" || v == "gnd") {
+      if (!hsaGpioControlAllowed()) { latchCommandResult(false); return; }
       setHsaLow(true);
-      outPrintln("HSA GPIO driving GND/OFFLINE.");
-      outPrintln("GPIO27 control is experimental. Auto-detect determines the active SPD/HUB address.");
-      outPrintln("Cold-cycle VIN_BULK after HSA changes.");
+      outPrintln("HSA GPIO driving low.");
+      outPrintln("HSA is sampled at cold power-up. Cold-cycle VIN_BULK before treating this as effective.");
+      outPrintln("Auto-detect determines the observed SPD/HUB address; address alone does not prove HSA mode.");
       latchCommandResult(true);
       return;
     }
@@ -252,6 +352,37 @@ static void handleLine(char* line) {
 
   if (cmd == "scan") { cmdScan(); return; }
   if (cmd == "autodetect" || cmd == "detect" || cmd == "roles") { cmdAutoDetectRoles(); return; }
+
+  if (cmd == "health" || cmd == "diagquick") {
+    cmdQuickHealth();
+    return;
+  }
+
+  if (cmd == "speedtest") {
+    uint32_t addr = DEFAULT_SPD_ADDR;
+    uint32_t len = 32;
+    uint32_t passes = 20;
+    uint32_t delayMs = 20;
+    bool includeScan = true;
+    bool includePmic = true;
+
+    if (nt >= 2) parseU32(tok[1], addr);
+    if (nt >= 3) parseU32(tok[2], len);
+    if (nt >= 4) parseU32(tok[3], passes);
+    if (nt >= 5) parseU32(tok[4], delayMs);
+    for (int i = 5; i < nt; i++) {
+      if (strcmp(tok[i], "noscan") == 0) includeScan = false;
+      if (strcmp(tok[i], "nopmic") == 0) includePmic = false;
+    }
+
+    cmdSpeedTest((uint8_t)addr, (uint16_t)len, (uint16_t)passes, (uint16_t)delayMs, includeScan, includePmic);
+    return;
+  }
+
+  if (cmd == "fulldiag") {
+    cmdFullDiag();
+    return;
+  }
 
   if (cmd == "powerdiag" || cmd == "pdiag") {
     uint32_t passes = 12;
@@ -307,6 +438,11 @@ static void handleLine(char* line) {
     uint32_t addr = DEFAULT_SPD_ADDR;
     if (nt >= 2) parseU32(tok[1], addr);
     cmdDump((uint8_t)addr);
+    return;
+  }
+
+  if (cmd == "spddumpstate") {
+    printCurrentSpdDumpState();
     return;
   }
 
@@ -372,6 +508,68 @@ static void handleLine(char* line) {
     uint32_t addr = DEFAULT_SPD_ADDR;
     if (nt >= 2) parseU32(tok[1], addr);
     cmdCaptureGood((uint8_t)addr);
+    return;
+  }
+
+  if (cmd == "backupspd" || cmd == "spdbak" || cmd == "bakspd") {
+    uint32_t addr = defaultMapHubAddr();
+    if (nt >= 2) parseU32(tok[1], addr);
+    cmdBackupSpd((uint8_t)addr);
+    return;
+  }
+
+  if (cmd == "backupinfo" || cmd == "spdbakinfo" || cmd == "restoreinfo") {
+    cmdBackupInfo();
+    return;
+  }
+
+  if (cmd == "clearbackup" || cmd == "clrbak") {
+    cmdClearBackup();
+    return;
+  }
+
+  if (cmd == "restorebackup") {
+    uint32_t addr = 0;
+    if (nt != 3 || !parseU32(tok[1], addr) || addr > 0x7F || !isRestoreToken(tok[2])) {
+      outPrintln("Usage: restorebackup <addr> YES_RESTORE_SPD_BACKUP");
+      latchCommandResult(false);
+      return;
+    }
+    cmdRestoreBackup((uint8_t)addr, true);
+    return;
+  }
+
+  if (cmd == "restorelast" || cmd == "spdrestore" || cmd == "spdr") {
+    uint32_t addr = defaultRestoreAddr();
+    if (nt == 2) {
+      if (!isRestoreToken(tok[1])) {
+        outPrintln("Usage: restorelast [addr] YES_RESTORE_SPD_BACKUP");
+        latchCommandResult(false);
+        return;
+      }
+    } else if (nt == 3) {
+      if (!parseU32(tok[1], addr) || addr > 0x7F || !isRestoreToken(tok[2])) {
+        outPrintln("Usage: restorelast [addr] YES_RESTORE_SPD_BACKUP");
+        latchCommandResult(false);
+        return;
+      }
+    } else {
+      outPrintln("Usage: restorelast [addr] YES_RESTORE_SPD_BACKUP");
+      latchCommandResult(false);
+      return;
+    }
+    outPrintf("RESTORELAST: using SPD/HUB address 0x%02X.\n", (unsigned)addr);
+    cmdRestoreBackup((uint8_t)addr, true);
+    return;
+  }
+
+  if (cmd == "spdtweak") {
+    cmdSpdTweak(nt, tok);
+    return;
+  }
+
+  if (cmd == "spdedit") {
+    cmdSpdEdit(nt, tok);
     return;
   }
 
