@@ -4,6 +4,7 @@
 
 - Beginner quick start: [`quick-start.md`](quick-start.md)
 - Safety: [`safety.md`](safety.md)
+- ESP32 SPD Tool command reference: [`spd-tool/command-reference.md`](spd-tool/command-reference.md)
 - Diagnostic reference vs tweak checkpoint: [`reference-vs-checkpoint.md`](reference-vs-checkpoint.md)
 - Advanced SPD editing: [`advanced-spd-editing.md`](advanced-spd-editing.md)
 - Troubleshooting: [`troubleshooting.md`](troubleshooting.md)
@@ -16,6 +17,7 @@
 ## Active ESP32 SPD/PMIC diagnostic tool
 
 - Setup guide: [`spd-tool/setup-guide.md`](spd-tool/setup-guide.md)
+- Command reference: [`spd-tool/command-reference.md`](spd-tool/command-reference.md)
 - DDR5 UDIMM pin reference: [`spd-tool/02-ddr5-udimm-pin-reference.md`](spd-tool/02-ddr5-udimm-pin-reference.md)
 - Operating modes: [`spd-tool/03-operating-modes.md`](spd-tool/03-operating-modes.md)
 - SPD hub addressing: [`spd-tool/04-spd-hub-addressing.md`](spd-tool/04-spd-hub-addressing.md)

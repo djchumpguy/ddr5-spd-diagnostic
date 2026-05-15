@@ -339,4 +339,5 @@ ESP32 GPIO21 SDA ---- HSDA pin 5
 ESP32 GPIO22 SCL ---- HSCL pin 4
 ```
 
-Direct wiring worked in this lab setup, but the level-shifted version remains the safer reference design.
+Direct wiring worked in this lab setup. Optional interface/protection circuitry
+can still be useful for other harnesses or a future board.

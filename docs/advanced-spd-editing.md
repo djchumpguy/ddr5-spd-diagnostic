@@ -1,6 +1,6 @@
 # Advanced SPD Editing
 
-[Back to README](../README.md) | [Safety](safety.md) | [Reference vs checkpoint](reference-vs-checkpoint.md)
+[Back to README](../README.md) | [Safety](safety.md) | [Reference vs checkpoint](reference-vs-checkpoint.md) | [Command reference](spd-tool/command-reference.md)
 
 Advanced SPD editing is experimental. Normal users should stay with read-only diagnostics unless they have a sacrificial module and understand the recovery path.
 
@@ -11,6 +11,8 @@ Advanced SPD editing is experimental. Normal users should stay with read-only di
 The DDR5-5600 EXPO/XMP edit path has proven preview/write/readback/CRC behavior only. It has not proven BIOS/POST/memory stability.
 
 Voltage editing uses verified encodings only. Timing/profile edits must be previewed, written, read back, and compared, but that still does not prove the module will train.
+
+For the exact byte-level management-plane edit evidence, see [XMP/EXPO DDR5-5200 to DDR5-5600 edit](examples/comparisons/xmp-expo-ddr5-5200-to-5600-edit.md).
 
 ## tCK Math
 

@@ -1,6 +1,6 @@
 # Diagnostic Reference Vs Tweak Checkpoint
 
-[Back to README](../README.md) | [Quick start](quick-start.md) | [Advanced SPD editing](advanced-spd-editing.md)
+[Back to README](../README.md) | [Quick start](quick-start.md) | [Advanced SPD editing](advanced-spd-editing.md) | [Command reference](spd-tool/command-reference.md)
 
 The firmware has several saved states. Use the right name so you do not restore the wrong thing.
 
@@ -15,6 +15,8 @@ Use it for:
 - documenting original state.
 
 Do not treat it as proof that the DIMM will boot.
+
+For an example where the restored SPD payload verified at the management plane but the DIMM still did not boot, see [Bad-stick management-plane before/after](examples/comparisons/bad-stick-management-plane-before-after.md).
 
 ## Tweak Checkpoint
 

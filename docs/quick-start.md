@@ -1,6 +1,6 @@
 # Quick Start: Read-Only DDR5 SPD/PMIC Diagnostics
 
-[Back to README](../README.md) | [Safety](safety.md) | [SPD tool wiring](hardware/spd-tool-wiring.md)
+[Back to README](../README.md) | [Safety](safety.md) | [SPD tool wiring](hardware/spd-tool-wiring.md) | [Command reference](spd-tool/command-reference.md)
 
 This is the simple read-only path for the active ESP32 SPD/PMIC tool. It does not start with SPD editing.
 
@@ -50,6 +50,8 @@ fulldiag
 ```
 
 Save a diagnostic SPD reference only when you are confident the dump is the known-good/original payload. Capture a PMIC reference only when the PMIC state is understood.
+
+For command syntax, aliases, and safety classification, see the [command reference](spd-tool/command-reference.md).
 
 ![Terminal discovered devices](images/ui/esp32-spd-tool-terminal-discovered-devices-dark.png)
 

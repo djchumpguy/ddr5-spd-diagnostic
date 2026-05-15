@@ -1,6 +1,6 @@
 # Troubleshooting
 
-[Back to README](../README.md) | [Safety](safety.md) | [Quick start](quick-start.md)
+[Back to README](../README.md) | [Safety](safety.md) | [Quick start](quick-start.md) | [Command reference](spd-tool/command-reference.md)
 
 ## No Devices Found
 

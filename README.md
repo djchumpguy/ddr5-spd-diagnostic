@@ -12,6 +12,7 @@ The beginner path is read-only: wire a DDR5 extension adapter/breakout to an ESP
 | Need | Link |
 | --- | --- |
 | First read-only walkthrough | [Quick start](docs/quick-start.md) |
+| ESP32 SPD Tool commands | [Command reference](docs/spd-tool/command-reference.md) |
 | Safety boundaries | [Safety](docs/safety.md) |
 | Active ESP32 SPD tool wiring | [SPD tool wiring](docs/hardware/spd-tool-wiring.md) |
 | Passive boot sniffer wiring | [Sniffer wiring](docs/hardware/sniffer-wiring.md) |
@@ -38,11 +39,12 @@ The proven basic direct-read setup in this project used:
 
 - DDR5 extension adapter or breakout,
 - ESP32 dev board,
-- two 10 kOhm resistors,
+- two 10 kOhm resistors for PWR_EN and PWR_GOOD pull-ups to 3.3 V,
 - 5 V source for DIMM VIN_BULK,
-- ESP32 power source, with USB being fine,
+- ESP32 USB power or equivalent,
 - shared ground between the DIMM supply and ESP32,
-- soldering iron and wire for the adapter pins.
+- soldering iron and wire for the adapter pins,
+- multimeter.
 
 No PCA9306 level shifter and no external SDA/SCL pull-ups were needed for the proven basic direct-read setup. The ESP32 internal pull-ups worked for direct SPD/PMIC communication in this lab harness.
 
@@ -78,6 +80,8 @@ After wiring and verifying rails:
 6. Run `dump`.
 7. Save references only after you know which module and state you are saving.
 
+See the [ESP32 SPD Tool command reference](docs/spd-tool/command-reference.md) for syntax, aliases, safety classification, and examples.
+
 ![Terminal showing discovered devices](docs/images/ui/esp32-spd-tool-terminal-discovered-devices-dark.png)
 
 ## What Success Looks Like
@@ -100,6 +104,8 @@ This project does not prove that a DIMM is electrically healthy, that DRAM cells
 The documented bad-stick case is management-plane evidence only. Cloning/restoring a known-good SPD payload to the corrupt DIMM is mostly proven at the SPD management-plane level: write/readback/compare/CRC, hub access, PMIC access, and read stability checks can pass. The repaired bad stick still did not work.
 
 Current best conclusion: evidence points toward DRAM-side/training-path failure, not an active SPD hub MR12/MR13 mismatch. MR12/MR13 protected/unprotected differences are historical diagnostic context only.
+
+Before/after comparisons: see [docs/examples/comparisons](docs/examples/comparisons/README.md).
 
 ## Advanced SPD Editing
 

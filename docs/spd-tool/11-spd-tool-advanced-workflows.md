@@ -1,9 +1,11 @@
 # SPD Tool Advanced Workflows
 
+[Command reference](command-reference.md)
+
 This page documents advanced experimental workflows that can be attempted with
 the current ESP32 DDR5 SPD/PMIC diagnostic tool command surface. Some workflows
-are already proven in limited bench testing, such as writing a known-good SPD
-payload to a corrupted SPD and verifying the result. Other workflows are
+have management-plane evidence in this project, such as writing a known-good SPD
+payload to a corrupted SPD and verifying readback/compare/CRC behavior. Other workflows are
 possible through existing register/SPD/PMIC commands but remain unvalidated or
 high risk.
 
