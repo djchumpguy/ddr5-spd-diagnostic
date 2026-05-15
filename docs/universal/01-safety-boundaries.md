@@ -265,7 +265,7 @@ Keep raw captures locally under ignored paths such as:
 
 ```text
 logs/raw/
-assets/raw/
+private-raw-captures/
 sources/private/
 ```
 

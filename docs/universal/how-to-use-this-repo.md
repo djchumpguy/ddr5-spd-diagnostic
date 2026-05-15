@@ -29,7 +29,7 @@ not the only possible implementation.
 | Wire the active SPD/PMIC harness | [`../../hardware/spd-tool/harness-wiring.md`](../../hardware/spd-tool/harness-wiring.md) |
 | Use the passive boot sniffer | [`../sniffer/10-boot-sniffer.md`](../sniffer/10-boot-sniffer.md) |
 | Wire the passive sniffer | [`../../hardware/sniffer/passive-boot-sniffer-wiring.md`](../../hardware/sniffer/passive-boot-sniffer-wiring.md) |
-| Review evidence logs | [`../../logs/examples/spd-tool/README.md`](../../logs/examples/spd-tool/README.md)<br>[`../../logs/examples/sniffer/README.md`](../../logs/examples/sniffer/README.md) |
+| Review evidence examples | [`../examples/README.md`](../examples/README.md) |
 | Review the final diagnosis | [`../../investigations/final-diagnosis-dram-failure.md`](../../investigations/final-diagnosis-dram-failure.md) |
 
 ## Minimum practical active SPD/PMIC setup
@@ -143,6 +143,5 @@ The repo evidence supports this sequence:
 
 Evidence and diagnosis links:
 
-- [`../../logs/examples/spd-tool/README.md`](../../logs/examples/spd-tool/README.md)
-- [`../../logs/examples/sniffer/README.md`](../../logs/examples/sniffer/README.md)
+- [`../examples/README.md`](../examples/README.md)
 - [`../../investigations/final-diagnosis-dram-failure.md`](../../investigations/final-diagnosis-dram-failure.md)

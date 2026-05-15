@@ -15,13 +15,13 @@ This is an inference from comparative boot behavior, not direct proof of the exa
 
 ## Read these in order
 
-1. [`final-diagnosis-dram-failure.md`](final-diagnosis-dram-failure.md)  
+1. [`final-diagnosis-dram-failure.md`](final-diagnosis-dram-failure.md)
    Current top-level diagnosis and evidence framing.
 
-2. [`good-vs-bad-boot-sniffer-divergence.md`](good-vs-bad-boot-sniffer-divergence.md)  
+2. [`good-vs-bad-boot-sniffer-divergence.md`](good-vs-bad-boot-sniffer-divergence.md)
    Current good-vs-bad boot sniffer comparison.
 
-3. [`good-vs-bad-stick.md`](good-vs-bad-stick.md)  
+3. [`good-vs-bad-stick.md`](good-vs-bad-stick.md)
    Historical good-vs-bad investigation record, including the earlier MR12/MR13 hypothesis.
 
 ## Historical notes

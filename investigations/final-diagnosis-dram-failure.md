@@ -31,13 +31,14 @@ The investigation moved through several layers:
 | SPD hub register access | Readable and stable enough for comparison |
 | PMIC communication | Readable; no persistent PMIC-only root cause identified |
 | MR11 | Matched; not active root cause |
-| MR12/MR13 | Historical mismatch only; later resolved / no longer active |
+| MR12/MR13 | Historical diagnostic context only; not the active final diagnosis |
 | Motherboard boot sniffer data | Shows meaningful divergence supporting likely DRAM-side / training-path failure |
 
 - Post-repair direct/offline management-plane evidence:
-  [`bad-post-repair-0x50-management-plane-clean.txt`](../logs/examples/spd-tool/bad-post-repair-0x50-management-plane-clean.txt)
-  records PMIC compare MATCH, SPD compare MATCH, and MR12/MR13 corrected to
-  FF/3C. The remaining failure is after management-plane repair.
+  [`bad-post-repair-0x50-management-plane-clean.txt`](../docs/examples/repair-cases/oloy-d5u0852382b-k69-bad-stick-management-plane-evidence/bad-post-repair-0x50-management-plane-clean.txt)
+  records PMIC compare MATCH and SPD compare MATCH. The remaining failure is
+  after management-plane restoration/verification evidence, so this is not a
+  confirmed full DIMM repair.
 
 ## Why this matters
 

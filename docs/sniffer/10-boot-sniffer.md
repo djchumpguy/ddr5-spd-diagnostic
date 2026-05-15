@@ -10,10 +10,6 @@ Firmware location:
 
 [`firmware/esp32-boot-sniffer/`](../../firmware/esp32-boot-sniffer/)
 
-Known-good example baseline:
-
-[`logs/examples/sniffer/good-stick-boot-0x53-baseline.txt`](../../logs/examples/sniffer/good-stick-boot-0x53-baseline.txt)
-
 The intended use is to compare known-good and suspect module boot sequences,
 especially the point where the suspect module diverges from normal SPD/HUB or
 PMIC sideband behavior.
@@ -248,10 +244,8 @@ Active SPD/HUB traffic appears at `0x53` in the captured HSA/strap state.
 The sniffer is most useful when comparing a known-good baseline against a
 suspect module under the same motherboard/slot/HSA/strap conditions.
 
-Compared captures and investigation note:
+Investigation note:
 
-- [`logs/examples/sniffer/good-stick-boot-0x53-baseline.txt`](../../logs/examples/sniffer/good-stick-boot-0x53-baseline.txt)
-- [`logs/examples/sniffer/bad-stick-boot-divergence.txt`](../../logs/examples/sniffer/bad-stick-boot-divergence.txt)
 - [`investigations/good-vs-bad-boot-sniffer-divergence.md`](../../investigations/good-vs-bad-boot-sniffer-divergence.md)
 
 The current comparison supports likely DRAM-side / training-path failure because
@@ -261,9 +255,7 @@ diverging/stopping earlier than the known-good baseline.
 ## Repeatability note
 
 The good-vs-bad boot-sniffer comparison was observed across more than one
-capture set. The example captures committed in `logs/examples/sniffer/` are
-later captures; initial good/bad sniffer files were also collected during bench
-testing. The important repeated pattern is the high-level divergence: the
+capture set. The important repeated pattern is the high-level divergence: the
 suspect module reaches useful SPD/HUB and PMIC sideband communication, then
 stops/settles much earlier than the known-good baseline.
 

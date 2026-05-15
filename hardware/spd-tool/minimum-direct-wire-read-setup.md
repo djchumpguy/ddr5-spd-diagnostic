@@ -124,9 +124,9 @@ Do not run write/recovery tests until repeated reads are stable.
 
 ## Photo Notes
 
-The photos in
-[`../../assets/minimum-direct-wire-setup/`](../../assets/minimum-direct-wire-setup/)
-show the actual minimum direct-wire bench setup.
+The current organized photos live in
+[`../../docs/images/spd-tool/`](../../docs/images/spd-tool/). They show
+prototype lab wiring context for the active SPD tool.
 
 They are included as prototype evidence, not as polished build instructions.
 
@@ -135,9 +135,9 @@ preferred long-term implementation.
 
 | Photo | Notes |
 | --- | --- |
-| ![ESP32 direct-wire close-up](../../assets/minimum-direct-wire-setup/esp32-direct-wire-closeup.jpg) | ESP32 WROOM-class board on the screw-terminal adapter with direct sideband wiring. |
-| ![DDR5 extension direct wiring overview](../../assets/minimum-direct-wire-setup/ddr5-extension-direct-wiring-overview.jpg) | DDR5 extension adapter and jumper routing used for solder access. |
-| ![ESP32 pull-up wiring](../../assets/minimum-direct-wire-setup/esp32-pullup-wiring.jpg) | ESP32-side PWR_EN/PWR_GOOD pull-up wiring area. |
-| ![DIMM adapter wire entry](../../assets/minimum-direct-wire-setup/dimm-adapter-wire-entry.jpg) | Wire entry and solder-access area on the DDR5 extension adapter. |
-| ![Breadboard power supply](../../assets/minimum-direct-wire-setup/breadboard-power-supply.jpg) | Breadboard power supply module feeding DIMM VIN_BULK. |
-| ![Breadboard power close-up](../../assets/minimum-direct-wire-setup/breadboard-power-closeup.jpg) | Close-up of the breadboard power module used in the minimum setup. |
+| ![ESP32 SPD tool wiring overview](../../docs/images/spd-tool/esp32-spd-tool-basic-wiring-overview.jpg) | Active SPD tool wiring overview. |
+| ![DDR5 extension adapter pin reference](../../docs/images/spd-tool/ddr5-extension-adapter-pin-reference.jpg) | DDR5 extension adapter pin reference used for lab wiring. |
+| ![PWR_EN and PWR_GOOD pull-up example](../../docs/images/spd-tool/basic-spd-tool-wiring-2x-10k-pwren-pwrgood-pullups.jpg) | Prototype 10 k pull-up wiring example for that harness. |
+| ![Controller board wiring](../../docs/images/spd-tool/esp32-spd-tool-controller-board-wiring.jpg) | ESP32/controller-side wiring. |
+| ![Bench power supply](../../docs/images/spd-tool/bench-3v3-5v-power-module-example.jpg) | Bench 3.3 V/5 V power module example. |
+| ![Bench power close-up](../../docs/images/spd-tool/bench-3v3-5v-power-module-closeup.jpg) | Close-up of the bench power module. |

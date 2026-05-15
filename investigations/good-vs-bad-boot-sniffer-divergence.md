@@ -11,17 +11,17 @@ Current working conclusion: likely DRAM-side / training-path failure, inferred
 from boot-time sniffer divergence, not an active SPD/PMIC sideband access
 failure.
 
-Repeatability: The repo example captures are a second observed good-vs-bad
-capture set relative to the initial bench captures. This supports the
-repeatability of the high-level divergence, while the project still treats the
-WROOM captures as retained windows rather than complete protocol traces.
+Repeatability: the project observed the high-level good-vs-bad divergence in
+more than one capture set. The current organized examples focus on the
+management-plane repair evidence; this note preserves the sniffer interpretation
+without treating the WROOM captures as complete protocol traces.
 
 ## Captures compared
 
 | Capture | File | Stick | Events | Overflow | Notes |
 |---|---|---|---:|---|---|
-| Good baseline | `logs/examples/sniffer/good-stick-boot-0x53-baseline.txt` | known-good | 1024 | yes | Retained WROOM buffer fills during continued `0x53` activity |
-| Bad divergence | `logs/examples/sniffer/bad-stick-boot-divergence.txt` | suspect | 337 | no | Reaches `0x53` and `0x4B` then stops/settles earlier |
+| Good baseline | historical boot-sniffer capture | known-good | 1024 | yes | Retained WROOM buffer fills during continued `0x53` activity |
+| Bad divergence | historical boot-sniffer capture | suspect | 337 | no | Reaches `0x53` and `0x4B` then stops/settles earlier |
 
 ## Good-stick baseline behavior
 

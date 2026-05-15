@@ -2,6 +2,12 @@
 
 ## Universal project docs
 
+- Beginner quick start: [`quick-start.md`](quick-start.md)
+- Safety: [`safety.md`](safety.md)
+- Diagnostic reference vs tweak checkpoint: [`reference-vs-checkpoint.md`](reference-vs-checkpoint.md)
+- Advanced SPD editing: [`advanced-spd-editing.md`](advanced-spd-editing.md)
+- Troubleshooting: [`troubleshooting.md`](troubleshooting.md)
+- Examples and evidence: [`examples/README.md`](examples/README.md)
 - Start here: [`universal/start-here.md`](universal/start-here.md)
 - How to use this repo: [`universal/how-to-use-this-repo.md`](universal/how-to-use-this-repo.md)
 - Project overview: [`universal/00-project-overview.md`](universal/00-project-overview.md)
@@ -22,10 +28,9 @@
 
 ## Passive ESP32 boot sniffer
 
+- Beginner sniffer wiring: [`hardware/sniffer-wiring.md`](hardware/sniffer-wiring.md)
 - Boot sniffer capture workflow: [`sniffer/10-boot-sniffer.md`](sniffer/10-boot-sniffer.md)
 - Passive sniffer wiring: [`../hardware/sniffer/passive-boot-sniffer-wiring.md`](../hardware/sniffer/passive-boot-sniffer-wiring.md)
-- Good-stick baseline: [`../logs/examples/sniffer/good-stick-boot-0x53-baseline.txt`](../logs/examples/sniffer/good-stick-boot-0x53-baseline.txt)
-- Bad-stick divergence: [`../logs/examples/sniffer/bad-stick-boot-divergence.txt`](../logs/examples/sniffer/bad-stick-boot-divergence.txt)
 - Good-vs-bad sniffer analysis: [`../investigations/good-vs-bad-boot-sniffer-divergence.md`](../investigations/good-vs-bad-boot-sniffer-divergence.md)
 
 ## Investigations and conclusions

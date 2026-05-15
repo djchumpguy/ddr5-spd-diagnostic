@@ -129,19 +129,20 @@ capability, but they are not the current active failure conclusion.
 ## Post-repair suspect-module evidence
 
 The suspect module originally had corrupted SPD contents. A known-good SPD
-payload was written and verified, and the MR12/MR13 protection-map mismatch was
-corrected. Post-repair logs show stable SPD/HUB/PMIC access and MATCH results,
-but the module still hangs during motherboard boot/training. That supports the
-current conclusion of likely DRAM-side / training-path failure after
-SPD/HUB/PMIC management-plane repair and validation.
+payload was written and verified at the management-plane level. Historical
+MR12/MR13 protected/unprotected differences are kept as diagnostic context, not
+as the active final diagnosis. Post-repair examples show stable SPD/HUB/PMIC
+access and MATCH-style evidence, but the module still hangs during motherboard
+boot/training. That supports the current conclusion of likely DRAM-side /
+training-path failure after management-plane repair evidence.
 
-- [`bad-post-repair-stability-suite.txt`](../../logs/examples/spd-tool/bad-post-repair-stability-suite.txt)
-- [`bad-post-repair-mapall-normal.txt`](../../logs/examples/spd-tool/bad-post-repair-mapall-normal.txt)
-- [`bad-post-repair-spd-verify-known-good.txt`](../../logs/examples/spd-tool/bad-post-repair-spd-verify-known-good.txt)
-- [`bad-post-repair-bios-style-reads.txt`](../../logs/examples/spd-tool/bad-post-repair-bios-style-reads.txt)
-- [`bad-post-repair-hub-register-snapshot.txt`](../../logs/examples/spd-tool/bad-post-repair-hub-register-snapshot.txt)
-- [`bad-post-repair-pmic-snapshot.txt`](../../logs/examples/spd-tool/bad-post-repair-pmic-snapshot.txt)
-- [`bad-post-repair-0x50-management-plane-clean.txt`](../../logs/examples/spd-tool/bad-post-repair-0x50-management-plane-clean.txt)
+- [`bad-stick-repair-stability-suite.txt`](../examples/repair-cases/oloy-d5u0852382b-k69-bad-stick-management-plane-evidence/bad-stick-repair-stability-suite.txt)
+- [`bad-post-repair-mapall.txt`](../examples/repair-cases/oloy-d5u0852382b-k69-bad-stick-management-plane-evidence/bad-post-repair-mapall.txt)
+- [`bad-stick-spd-payload-verifies-against-known-good.txt`](../examples/repair-cases/oloy-d5u0852382b-k69-bad-stick-management-plane-evidence/bad-stick-spd-payload-verifies-against-known-good.txt)
+- [`bad-stick-bios-style-reads.txt`](../examples/repair-cases/oloy-d5u0852382b-k69-bad-stick-management-plane-evidence/bad-stick-bios-style-reads.txt)
+- [`bad-stick-hub-register-snapshot.txt`](../examples/repair-cases/oloy-d5u0852382b-k69-bad-stick-management-plane-evidence/bad-stick-hub-register-snapshot.txt)
+- [`bad-stick-pmic-snapshot.txt`](../examples/repair-cases/oloy-d5u0852382b-k69-bad-stick-management-plane-evidence/bad-stick-pmic-snapshot.txt)
+- [`bad-post-repair-0x50-management-plane-clean.txt`](../examples/repair-cases/oloy-d5u0852382b-k69-bad-stick-management-plane-evidence/bad-post-repair-0x50-management-plane-clean.txt)
 
 ## Advanced workflow: PMIC behavior exploration
 
