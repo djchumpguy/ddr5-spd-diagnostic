@@ -37,18 +37,18 @@ Do not mix the wiring assumptions. The active SPD tool is **not** piggybacking o
 
 The proven basic direct-read setup in this project used:
 
-- DDR5 extension adapter or breakout,
-- ESP32 dev board,
-- two 10 kOhm resistors for PWR_EN and PWR_GOOD pull-ups to 3.3 V,
-- 5 V source for DIMM VIN_BULK,
+- ESP32 development board,
+- DDR5 UDIMM extension adapter or breakout,
+- two 10 kΩ resistors for PWR_EN and PWR_GOOD pull-ups to 3.3 V,
+- stable 5 V source for DIMM VIN_BULK,
 - ESP32 USB power or equivalent,
-- shared ground between the DIMM supply and ESP32,
-- soldering iron and wire for the adapter pins,
-- multimeter.
+- shared ground between the ESP32 and DIMM power source,
+- wire/soldering tools and strain relief,
+- multimeter, preferably with a current-limited supply.
 
 No PCA9306 level shifter and no external SDA/SCL pull-ups were needed for the proven basic direct-read setup. The ESP32 internal pull-ups worked for direct SPD/PMIC communication in this lab harness.
 
-A proper adapter PCB, strain relief, protection, and cleaner power distribution are still better for repeated use.
+The active SPD tool should use an adapter/breakout connection. Piggyback/tap wiring belongs to the passive sniffer setup, not the normal active-tool harness. For repeated use, build or buy a proper adapter PCB.
 
 ## Basic Wiring
 
