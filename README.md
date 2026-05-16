@@ -1,91 +1,86 @@
-# DDR5 SPD Diagnostic Tooling
+# DDR5 SPD Diagnostic / ESP32 SPD Tool
 
-This repo documents a DIY ESP32 tool for reading and comparing DDR5 SPD hub and PMIC management-plane state, plus a separate passive boot sniffer used during a failed-DIMM investigation.
-
-The beginner path is read-only: wire a DDR5 extension adapter/breakout to an ESP32, power the DIMM sideband path, scan the bus, dump SPD, and compare results. The advanced write/edit features are documented, but they are not where a normal user should start.
+The main project here is the **ESP32 SPD Tool**: a Web UI plus serial fallback tool for reading DDR5 SPD, SPD hub, and PMIC management-plane state from a simple active adapter/breakout harness. A passive DDR5 boot sniffer is also included as a secondary companion tool for motherboard boot-sideband captures.
 
 > [!WARNING]
-> This is lab-proven for this project, not a universal consumer-safe DDR5 repair kit. Wiring mistakes, wrong voltage rails, bad grounds, power sequencing errors, probing mistakes, or write commands can damage DIMMs, ESP32 boards, motherboards, power supplies, or USB ports.
+> This is lab-proven DIY hardware, not a universal consumer-safe DDR5 repair kit. Wiring mistakes, wrong voltage rails, bad grounds, probing mistakes, power sequencing errors, or write commands can damage DIMMs, ESP32 boards, motherboards, power supplies, or USB ports.
 
-Most users do not need to download the whole repository. Once release packages are published, users who only want to flash and use the ESP32 SPD Tool should download the latest firmware package from Releases. Clone or download the full repo only if you want the source code, documentation, examples, or to modify/build the firmware yourself.
+Most users do not need to download the whole repository. If you only want to flash and use the ESP32 SPD Tool, download the firmware ZIP from Releases. Clone the full repo only if you want source code, docs, examples, captures, or to modify/build the firmware yourself.
 
-## Quick Navigation
+## Start Here: ESP32 SPD Tool
 
-| Need | Link |
+1. **Download firmware**
+   - [ESP32 SPD Tool v0.1.0 ZIP](https://github.com/djchumpguy/ddr5-spd-diagnostic/releases/download/v0.1.0/esp32-spd-tool-v0.1.0.zip)
+   - [All releases](https://github.com/djchumpguy/ddr5-spd-diagnostic/releases)
+
+2. **Flash and wire**
+   - [Flashing guide](docs/flashing.md)
+   - [Quick start](docs/quick-start.md)
+   - [SPD Tool wiring](docs/hardware/spd-tool-wiring.md)
+
+3. **Run safe read-only diagnostics**
+   - `scan`
+   - `autodetect`
+   - `dump`
+   - diagnostic reference / compare workflows
+   - speed/stability tests as management-plane read stability only
+
+## Compact Navigation
+
+| Main path | Link |
 | --- | --- |
-| First read-only walkthrough | [Quick start](docs/quick-start.md) |
-| Flashing/install paths | [Flashing](docs/flashing.md) |
-| ESP32 SPD Tool commands | [Command reference](docs/spd-tool/command-reference.md) |
-| Safety boundaries | [Safety](docs/safety.md) |
-| Active ESP32 SPD tool wiring | [SPD tool wiring](docs/hardware/spd-tool-wiring.md) |
-| Passive boot sniffer wiring | [Sniffer wiring](docs/hardware/sniffer-wiring.md) |
-| Reference vs checkpoint | [Diagnostic reference vs tweak checkpoint](docs/reference-vs-checkpoint.md) |
-| Experimental SPD editing | [Advanced SPD editing](docs/advanced-spd-editing.md) |
-| Problems and interpretation | [Troubleshooting](docs/troubleshooting.md) |
-| Example evidence | [Examples](docs/examples/README.md) |
-| Full docs index | [Docs](docs/README.md) |
+| Download SPD Tool firmware | [esp32-spd-tool-v0.1.0.zip](https://github.com/djchumpguy/ddr5-spd-diagnostic/releases/download/v0.1.0/esp32-spd-tool-v0.1.0.zip) |
+| Flashing guide | [docs/flashing.md](docs/flashing.md) |
+| Quick start | [docs/quick-start.md](docs/quick-start.md) |
+| SPD Tool wiring | [docs/hardware/spd-tool-wiring.md](docs/hardware/spd-tool-wiring.md) |
+| Command reference | [docs/spd-tool/command-reference.md](docs/spd-tool/command-reference.md) |
 
-## The Two Setups
+| Advanced | Link |
+| --- | --- |
+| Advanced SPD editing | [docs/advanced-spd-editing.md](docs/advanced-spd-editing.md) |
+| Examples and comparisons | [docs/examples/comparisons/README.md](docs/examples/comparisons/README.md) |
+| Troubleshooting | [docs/troubleshooting.md](docs/troubleshooting.md) |
+| Full docs index | [docs/README.md](docs/README.md) |
 
-There are two separate harnesses:
+| Sniffer | Link |
+| --- | --- |
+| Download sniffer firmware | [esp32-ddr5-sniffer-v0.1.0.zip](https://github.com/djchumpguy/ddr5-spd-diagnostic/releases/download/v0.1.0/esp32-ddr5-sniffer-v0.1.0.zip) |
+| Sniffer quick start | [docs/sniffer/quick-start.md](docs/sniffer/quick-start.md) |
+| Sniffer wiring | [docs/hardware/sniffer-wiring.md](docs/hardware/sniffer-wiring.md) |
+| Boot sniffer deep dive | [docs/sniffer/10-boot-sniffer.md](docs/sniffer/10-boot-sniffer.md) |
 
-| Setup | What it does | Wiring style |
-| --- | --- | --- |
-| Active ESP32 SPD/PMIC tool | Reads SPD, SPD hub, and PMIC state through the ESP32 Web UI/serial command surface | Direct adapter/breakout wiring to the DIMM sideband pins |
-| Passive boot sniffer | Watches motherboard-driven SDA/SCL traffic during boot | Taps the motherboard/DIMM sideband lines without driving them |
+## Minimum Active SPD Tool Hardware
 
-Do not mix the wiring assumptions. The active SPD tool is **not** piggybacking off a motherboard.
+The proven basic direct-read adapter harness used:
 
-## Minimum Hardware For The Active SPD Tool
+- ESP32 development board.
+- DDR5 UDIMM extension adapter / breakout.
+- Two 10 kΩ resistors:
+  - PWR_EN pull-up to 3.3 V.
+  - PWR_GOOD pull-up to 3.3 V.
+- Stable 5 V source for DIMM VIN_BULK.
+- ESP32 USB power or equivalent.
+- Shared ground between ESP32 and DIMM power source.
+- Wire/soldering tools and strain relief.
+- Multimeter; current-limited supply preferred.
 
-The proven basic direct-read setup in this project used:
+ESP32 SDA/SCL connected directly to DIMM HSDA/HSCL worked for the proven basic direct-read adapter harness. No PCA9306 level shifter and no external SDA/SCL pull-ups were required for that setup. External SDA/SCL pull-ups or level shifting are optional troubleshooting/alternate-harness items, not the beginner minimum.
 
-- ESP32 development board,
-- DDR5 UDIMM extension adapter or breakout,
-- two 10 kΩ resistors for PWR_EN and PWR_GOOD pull-ups to 3.3 V,
-- stable 5 V source for DIMM VIN_BULK,
-- ESP32 USB power or equivalent,
-- shared ground between the ESP32 and DIMM power source,
-- wire/soldering tools and strain relief,
-- multimeter, preferably with a current-limited supply.
+The active SPD Tool should use an adapter/breakout connection. Piggyback/tap wiring belongs to the passive sniffer setup, not the normal active-tool harness.
 
-No PCA9306 level shifter and no external SDA/SCL pull-ups were needed for the proven basic direct-read setup. The ESP32 internal pull-ups worked for direct SPD/PMIC communication in this lab harness.
-
-The active SPD tool should use an adapter/breakout connection. Piggyback/tap wiring belongs to the passive sniffer setup, not the normal active-tool harness. For repeated use, build or buy a proper adapter PCB.
-
-## Basic Wiring
-
-For the active tool:
+## Basic Active Wiring
 
 | Connection | Minimum direct-read wiring |
 | --- | --- |
 | ESP32 GPIO21 | DIMM/adapter HSDA/SDA |
 | ESP32 GPIO22 | DIMM/adapter HSCL/SCL |
-| PWR_EN | 10 kOhm pull-up to 3.3 V |
-| PWR_GOOD | 10 kOhm pull-up to 3.3 V, and ESP32 input if monitored |
-| DIMM VIN_BULK | 5 V source |
-| ESP32 power | USB or other ESP32-safe 5 V source |
-| Grounds | DIMM power ground and ESP32 ground shared |
+| PWR_EN | 10 kΩ pull-up to 3.3 V |
+| PWR_GOOD | 10 kΩ pull-up to 3.3 V, and ESP32 GPIO34 if monitored |
+| DIMM VIN_BULK | stable 5 V source |
+| ESP32 power | USB or other ESP32-safe source |
+| Grounds | ESP32 and DIMM supply grounds shared |
 
 ![Active ESP32 SPD tool wiring](docs/images/spd-tool/esp32-spd-tool-basic-wiring-overview.jpg)
-
-See [SPD tool wiring](docs/hardware/spd-tool-wiring.md) for the full wiring page.
-
-## Safe Read-Only First Commands
-
-After wiring and verifying rails:
-
-1. Open the ESP32 SPD tool Web UI.
-2. Check hardware/status.
-3. Run `scan`.
-4. Run `autodetect`.
-5. Run `health` or `diagquick`.
-6. Run `dump`.
-7. Save references only after you know which module and state you are saving.
-
-See the [ESP32 SPD Tool command reference](docs/spd-tool/command-reference.md) for syntax, aliases, safety classification, and examples.
-
-![Terminal showing discovered devices](docs/images/ui/esp32-spd-tool-terminal-discovered-devices-dark.png)
 
 ## What Success Looks Like
 
@@ -104,7 +99,7 @@ That is not the same as proving the DIMM will boot. These tests are I2C/SPD/PMIC
 
 This project does not prove that a DIMM is electrically healthy, that DRAM cells are good, that a BIOS will train the module, or that an SPD write made the stick bootable.
 
-The documented bad-stick case is management-plane evidence only. Cloning/restoring a known-good SPD payload to the corrupt DIMM is mostly proven at the SPD management-plane level: write/readback/compare/CRC, hub access, PMIC access, and read stability checks can pass. The repaired bad stick still did not work.
+The documented bad-stick case is management-plane evidence only. Cloning/restoring a known-good SPD payload to the corrupt DIMM is mostly proven at the SPD management-plane level: write/readback/compare/CRC, hub access, PMIC access, and read stability checks can pass. The bad stick still did not work.
 
 Current best conclusion: evidence points toward DRAM-side/training-path failure, not an active SPD hub MR12/MR13 mismatch. MR12/MR13 protected/unprotected differences are historical diagnostic context only.
 
@@ -114,20 +109,27 @@ Before/after comparisons: see [docs/examples/comparisons](docs/examples/comparis
 
 Advanced SPD editing is experimental and is not a beginner workflow. The DDR5-5600 EXPO/XMP edit path only proves preview/write/readback/CRC behavior. It does not prove BIOS/POST/memory stability.
 
-![Advanced SPD editing warning](docs/images/ui/esp32-spd-tool-advanced-spd-editing-warning-dark.png)
-
 See [Advanced SPD editing](docs/advanced-spd-editing.md).
+
+## Passive Boot Sniffer
+
+The passive boot sniffer is separate from the active SPD Tool. Use it when you want to observe motherboard-driven DDR5 sideband traffic during boot. This is the setup that uses piggyback/tap wiring, and it is more advanced than the active SPD Tool read-only workflow.
+
+- [Download sniffer firmware v0.1.0](https://github.com/djchumpguy/ddr5-spd-diagnostic/releases/download/v0.1.0/esp32-ddr5-sniffer-v0.1.0.zip)
+- [Sniffer quick start](docs/sniffer/quick-start.md)
+- [Sniffer easy wiring guide](docs/hardware/sniffer-wiring.md)
+- [Deeper sniffer docs](docs/sniffer/10-boot-sniffer.md)
 
 ## Repository Layout
 
 | Path | Contents |
 | --- | --- |
-| `firmware/esp32-spd-tool/` | Active ESP32 SPD/PMIC PlatformIO firmware |
+| `firmware/esp32-spd-tool/` | Active ESP32 SPD/PMIC PlatformIO firmware source |
 | `docs/` | Beginner and technical documentation |
 | `docs/images/spd-tool/` | Active tool hardware photos |
 | `docs/images/sniffer/` | Passive sniffer hardware photos |
 | `docs/images/ui/` | Web UI screenshots |
-| `docs/examples/` | Curated dumps, hub-register examples, and repair-case evidence |
+| `docs/examples/` | Curated dumps, comparisons, and repair-case evidence |
 | `hardware/` | Older/deeper hardware notes and references |
 | `investigations/` | Failure-analysis notes |
 

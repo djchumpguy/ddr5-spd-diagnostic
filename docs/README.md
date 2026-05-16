@@ -2,7 +2,7 @@
 
 ## Universal project docs
 
-- Firmware-only users should start with the release package path in [`flashing.md`](flashing.md) and the read-only flow in [`quick-start.md`](quick-start.md). Once release packages are published, the full repo should not be required for basic flashing/use.
+- Firmware-only users should start with [`flashing.md`](flashing.md) and the read-only flow in [`quick-start.md`](quick-start.md). The full repo is not required for basic flashing/use.
 - Repo users can browse docs, examples, firmware source, and hardware notes here.
 
 - Beginner quick start: [`quick-start.md`](quick-start.md)
@@ -34,6 +34,7 @@
 
 ## Passive ESP32 boot sniffer
 
+- Sniffer quick start: [`sniffer/quick-start.md`](sniffer/quick-start.md)
 - Beginner sniffer wiring: [`hardware/sniffer-wiring.md`](hardware/sniffer-wiring.md)
 - Boot sniffer capture workflow: [`sniffer/10-boot-sniffer.md`](sniffer/10-boot-sniffer.md)
 - Passive sniffer wiring: [`../hardware/sniffer/passive-boot-sniffer-wiring.md`](../hardware/sniffer/passive-boot-sniffer-wiring.md)

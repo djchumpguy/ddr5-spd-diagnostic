@@ -1,6 +1,6 @@
 # Passive Boot Sniffer Wiring
 
-[Back to README](../../README.md) | [Safety](../safety.md) | [Examples](../examples/README.md)
+[Back to README](../../README.md) | [Sniffer quick start](../sniffer/quick-start.md) | [Safety](../safety.md) | [Examples](../examples/README.md)
 
 This is the piggyback/tap setup. It is separate from the active ESP32 SPD/PMIC tool.
 
