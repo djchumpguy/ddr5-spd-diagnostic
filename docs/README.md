@@ -2,7 +2,9 @@
 
 ## Universal project docs
 
-- Firmware-only users should start with [`flashing.md`](flashing.md) and the read-only flow in [`quick-start.md`](quick-start.md). The full repo is not required for basic flashing/use.
+- Firmware-only users should start with [`flashing.md`](flashing.md) and the read-only
+  flow in [`quick-start.md`](quick-start.md). The full repo is not required for basic
+  flashing/use.
 - Repo users can browse docs, examples, firmware source, and hardware notes here.
 
 - Beginner quick start: [`quick-start.md`](quick-start.md)
