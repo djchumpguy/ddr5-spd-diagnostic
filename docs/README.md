@@ -53,4 +53,6 @@
 
 ## Maintenance note
 
-Unless this project gains serious traction or more bad DDR5 modules become available for testing, updates may slow down. The current repo is intended to preserve the working tool, wiring notes, captures, and investigation results.
+Unless this project gains serious traction or more bad DDR5 modules become available for
+testing, updates may slow down. The current repo is intended to preserve the working
+tool, wiring notes, captures, and investigation results.

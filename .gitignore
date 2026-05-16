@@ -2,6 +2,8 @@
 logs/raw/
 logs/private/
 *.log
+
+# Binary capture/build outputs
 *.bin
 *.elf
 *.map
@@ -10,6 +12,8 @@ logs/private/
 *.capture
 *.pcap
 *.pcapng
+
+# Sensitive or stick-specific firmware dumps
 *full_flash*.bin
 *nvs*.bin
 *known-good*.bin
@@ -32,12 +36,14 @@ Thumbs.db
 .vscode/
 .idea/
 
-# Build/cache artifacts
+# Generic build/cache artifacts
 __pycache__/
 *.pyc
 node_modules/
 dist/
 build/
+
+# PlatformIO build artifacts
 .pio/
 .pioenvs/
 .piolibdeps/

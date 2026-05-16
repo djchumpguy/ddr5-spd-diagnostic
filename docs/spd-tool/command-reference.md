@@ -2,7 +2,10 @@
 
 [Back to README](../../README.md) | [Quick start](../quick-start.md) | [Safety](../safety.md)
 
-This reference is based on the checked-in firmware command parser in `firmware/esp32-spd-tool/src/Cli.cpp`, plus the current SPD edit/tweak helpers. The same command surface is exposed through the serial fallback and the Web UI terminal/run actions.
+This reference is based on the checked-in firmware command parser in
+`firmware/esp32-spd-tool/src/Cli.cpp`, plus the current SPD edit/tweak helpers. The same
+command surface is exposed through the serial fallback and the Web UI terminal/run
+actions.
 
 Classifications:
 
@@ -11,7 +14,8 @@ Classifications:
 - **Saved-reference write**: writes ESP32 flash/NVS reference data, not the DIMM.
 - **DIMM write-capable**: can write SPD/hub/PMIC/module state.
 
-Observed SPD/HUB address is evidence only. Declared hardware config matters, especially for HSA, VIN_BULK, PWR_EN, PWR_GOOD, and I2C wiring mode.
+Observed SPD/HUB address is evidence only. Declared hardware config matters, especially
+for HSA, VIN_BULK, PWR_EN, PWR_GOOD, and I2C wiring mode.
 
 ## Safe / Read-Only Basics
 
@@ -46,7 +50,9 @@ clearlog
 
 ## Hardware State / Harness Controls
 
-These commands only affect hardware when the declared hardware config says the ESP32 GPIO is authoritative. If the config says a signal is pull-up-only, external, locked-on, or physically strapped, the firmware warns or ignores the GPIO command.
+These commands only affect hardware when the declared hardware config says the ESP32
+GPIO is authoritative. If the config says a signal is pull-up-only, external, locked-on,
+or physically strapped, the firmware warns or ignores the GPIO command.
 
 | Command | Aliases | Class | What it does |
 | --- | --- | --- | --- |
@@ -65,7 +71,9 @@ These commands only affect hardware when the declared hardware config says the E
 | `hsa release` | `float`, `floating`, `normal`, `high` | Control | Releases GPIO27 when `hwconfig hsa=gpio`. Cold-cycle VIN_BULK before treating as effective. |
 | `hsa ground` | `gnd`, `write`, `low` | Control | Drives GPIO27 low when `hwconfig hsa=gpio`. Cold-cycle VIN_BULK before treating as effective. |
 
-The `minimum_direct` preset describes the simple direct adapter setup: HSA tied GND, VIN_BULK externally on, PWR_EN pull-up, direct ESP32 3.3 V I2C. The tested observed address was `0x50`, but address is evidence only.
+The `minimum_direct` preset describes the simple direct adapter setup: HSA tied GND,
+VIN_BULK externally on, PWR_EN pull-up, direct ESP32 3.3 V I2C. The tested observed
+address was `0x50`, but address is evidence only.
 
 ## BIOS-Style / Legacy SPD Reads
 
@@ -76,11 +84,14 @@ The `minimum_direct` preset describes the simple direct adapter setup: HSA tied 
 | `biosdump [addr] [off] [n]` | `bdump` | Read-only | BIOS-style legacy dump. |
 | `biosinteresting [addr]` | `bint` | Read-only | Reads `0x0D7`, `0x0D9`, `0x0DA`, `0x0DB`, `0x0DC`. |
 
-MR11 is a volatile legacy page/pointer register and may change depending on the access path and previous reads/dumps. Do not treat an MR11 value alone as a permanent module diagnosis.
+MR11 is a volatile legacy page/pointer register and may change depending on the access
+path and previous reads/dumps. Do not treat an MR11 value alone as a permanent module
+diagnosis.
 
 ## Diagnostic SPD Reference
 
-The diagnostic SPD reference is a saved known-good/original comparison target in ESP32 flash/NVS. It is different from the tweak checkpoint.
+The diagnostic SPD reference is a saved known-good/original comparison target in ESP32
+flash/NVS. It is different from the tweak checkpoint.
 
 | Command | Aliases | Class | What it does |
 | --- | --- | --- | --- |
@@ -98,11 +109,13 @@ compare 0x50
 wg yes 0x50
 ```
 
-`writegood` is dangerous. It can write the wrong payload to the wrong module/address if your reference or address is wrong.
+`writegood` is dangerous. It can write the wrong payload to the wrong module/address if
+your reference or address is wrong.
 
 ## Tweak Checkpoint / Backup / Restore
 
-The tweak checkpoint is a rollback/checkpoint image for experimental SPD edits. It is not the diagnostic SPD reference.
+The tweak checkpoint is a rollback/checkpoint image for experimental SPD edits. It is
+not the diagnostic SPD reference.
 
 | Command | Aliases | Class | What it does |
 | --- | --- | --- | --- |
@@ -120,11 +133,14 @@ backupinfo
 restorelast 0x50 YES_RESTORE_SPD_BACKUP
 ```
 
-Restore does not change the diagnostic reference. Readback verification confirms what was written, not that the DIMM will boot.
+Restore does not change the diagnostic reference. Readback verification confirms what
+was written, not that the DIMM will boot.
 
 ## Advanced SPD Editing
 
-Advanced SPD editing is experimental. It is not a beginner workflow. DDR5-5600 EXPO/XMP editing has proven preview/write/readback/CRC behavior only, not BIOS/POST/memory stability.
+Advanced SPD editing is experimental. It is not a beginner workflow. DDR5-5600 EXPO/XMP
+editing has proven preview/write/readback/CRC behavior only, not BIOS/POST/memory
+stability.
 
 | Command | Aliases | Class | What it does |
 | --- | --- | --- | --- |
@@ -138,7 +154,9 @@ Advanced SPD editing is experimental. It is not a beginner workflow. DDR5-5600 E
 | `spdedit preview field=value...` | | Read-only preview | Previews profile edits and CRC/checksum repair. |
 | `spdedit apply LABMODE field=value...` | | DIMM write-capable | Applies verified profile edits with CRC repair and readback verification. |
 
-The Web UI exposes friendly and raw edit fields, profile selection, preview details, guarded apply controls, EXPO/XMP checksum/CRC repair status, and readback verification results.
+The Web UI exposes friendly and raw edit fields, profile selection, preview details,
+guarded apply controls, EXPO/XMP checksum/CRC repair status, and readback verification
+results.
 
 Data-rate/tCK note:
 
@@ -146,7 +164,8 @@ Data-rate/tCK note:
 tCK_ps = 2000000 / DDR data rate MT/s
 ```
 
-Integer picosecond storage can make DDR5-5600 display as a derived rate around DDR5-5602. Voltage editing uses verified encodings only.
+Integer picosecond storage can make DDR5-5600 display as a derived rate around
+DDR5-5602. Voltage editing uses verified encodings only.
 
 ## PMIC Tools
 
@@ -162,7 +181,8 @@ Integer picosecond storage can make DDR5-5600 display as a derived rate around D
 
 ## Stability / Timing Diagnostics
 
-These commands test management-plane bus-read stability only. They do not test DRAM cells, RAM bandwidth, or memory-controller training stability.
+These commands test management-plane bus-read stability only. They do not test DRAM
+cells, RAM bandwidth, or memory-controller training stability.
 
 | Command | Aliases | Class | What it does |
 | --- | --- | --- | --- |
@@ -173,7 +193,9 @@ These commands test management-plane bus-read stability only. They do not test D
 | `timespd [addr] [off] [len] [passes]` | `tspd` | Read-only | Repeats SPD NVM reads and timing/compare; default `0x50 0x0000 32 20`. |
 | `timereg [addr] [reg] [len] [passes]` | `treg` | Read-only | Repeats register reads and timing/compare; default `0x50 0x00 16 20`. |
 
-The Web UI includes Quick Health Check, Speed / Stability Test, and Full System Diagnostic cards. The Speed / Stability Test has scan and PMIC toggles that map to `noscan` and `nopmic`.
+The Web UI includes Quick Health Check, Speed / Stability Test, and Full System
+Diagnostic cards. The Speed / Stability Test has scan and PMIC toggles that map to
+`noscan` and `nopmic`.
 
 ## Dangerous Register Writes
 
@@ -186,7 +208,9 @@ The Web UI includes Quick Health Check, Speed / Stability Test, and Full System 
 | `spdedit apply LABMODE field=value...` | DIMM write-capable | Writes experimental profile edits. |
 | `spdtweak apply [addr] field=value ... YES_WRITE_SPD_TWEAK` | DIMM write-capable | Writes experimental supported byte changes. |
 
-Use write-capable commands only on hardware you can afford to lose. Save diagnostic references and tweak checkpoints before writing. CRC/checksum repair and readback verification confirm bytes and payload math, not bootability.
+Use write-capable commands only on hardware you can afford to lose. Save diagnostic
+references and tweak checkpoints before writing. CRC/checksum repair and readback
+verification confirm bytes and payload math, not bootability.
 
 ## Disabled / Compatibility Commands
 

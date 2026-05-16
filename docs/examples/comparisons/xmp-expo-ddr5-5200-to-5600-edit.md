@@ -2,7 +2,8 @@
 
 [Comparisons](README.md) | [Advanced SPD editing](../../advanced-spd-editing.md) | [Back to README](../../../README.md)
 
-This page documents one successful **management-plane** edit test. It does not prove BIOS/POST success, memory-controller training, or DRAM stability.
+This page documents one successful **management-plane** edit test. It does not prove
+BIOS/POST success, memory-controller training, or DRAM stability.
 
 ## Summary
 
@@ -58,7 +59,10 @@ This page documents one successful **management-plane** edit test. It does not p
 
 ## Why Some Raw Timing Bytes Decrease
 
-Some timing bytes decrease even though the cycle counts increase. The profile fields are encoded as absolute-ish time values, while the displayed cycle count depends on tCK. Raising the data rate lowers tCK, so the same or lower raw absolute time can decode as more cycles under the faster tCK.
+Some timing bytes decrease even though the cycle counts increase. The profile fields are
+encoded as absolute-ish time values, while the displayed cycle count depends on tCK.
+Raising the data rate lowers tCK, so the same or lower raw absolute time can decode as
+more cycles under the faster tCK.
 
 The firmware uses:
 
@@ -66,7 +70,8 @@ The firmware uses:
 tCK_ps = 2000000 / DDR data rate MT/s
 ```
 
-Integer picosecond storage can make DDR5-5600 display as a derived rate around DDR5-5602.
+Integer picosecond storage can make DDR5-5600 display as a derived rate around
+DDR5-5602.
 
 ## What This Proved
 

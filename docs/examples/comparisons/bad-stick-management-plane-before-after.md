@@ -2,21 +2,30 @@
 
 [Comparisons](README.md) | [Repair case files](../repair-cases/oloy-d5u0852382b-k69-bad-stick-management-plane-evidence/README.md) | [Back to README](../../../README.md)
 
-This page explains the bad-stick evidence in human terms. It is not a confirmed DIMM repair story.
+This page explains the bad-stick evidence in human terms. It is not a confirmed DIMM
+repair story.
 
 ## Short Version
 
-The suspect DIMM originally had corrupted/suspect SPD management-plane state. A known-good/original SPD payload was restored and then verified through management-plane reads. Afterward, the SPD payload compared cleanly, hub access worked, PMIC access worked, and repeat-read stability checks passed.
+The suspect DIMM originally had corrupted/suspect SPD management-plane state. A
+known-good/original SPD payload was restored and then verified through management-plane
+reads. Afterward, the SPD payload compared cleanly, hub access worked, PMIC access
+worked, and repeat-read stability checks passed.
 
-The DIMM still did not boot/work. Current best conclusion remains DRAM-side/training-path failure, not an active SPD hub MR12/MR13 mismatch.
+The DIMM still did not boot/work. Current best conclusion remains
+DRAM-side/training-path failure, not an active SPD hub MR12/MR13 mismatch.
 
 ## Before
 
-The investigation began with a bad stick that did not work normally and had suspect/corrupt SPD-side state. Historical hub-register captures also showed protected/unprotected differences, including MR12/MR13 differences, but those are diagnostic context rather than the final active diagnosis.
+The investigation began with a bad stick that did not work normally and had
+suspect/corrupt SPD-side state. Historical hub-register captures also showed
+protected/unprotected differences, including MR12/MR13 differences, but those are
+diagnostic context rather than the final active diagnosis.
 
 ## After Management-Plane Restoration
 
-The known-good SPD payload was restored to the suspect DIMM and read back. The available evidence shows:
+The known-good SPD payload was restored to the suspect DIMM and read back. The available
+evidence shows:
 
 - SPD payload compared against the known-good reference with `COMPARE: MATCH`.
 - Scan/autodetect found expected management-plane devices.

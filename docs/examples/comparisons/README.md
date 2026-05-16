@@ -2,11 +2,13 @@
 
 [Examples](../README.md) | [Back to README](../../../README.md)
 
-The files under `docs/examples` are curated evidence, not generic DDR5 truth tables. Read them as snapshots from one lab setup, one module family, and one investigation.
+The files under `docs/examples` are curated evidence, not generic DDR5 truth tables.
+Read them as snapshots from one lab setup, one module family, and one investigation.
 
 ## How To Read These Examples
 
-Start with the comparison pages, then open the raw files when you want to verify the original command output.
+Start with the comparison pages, then open the raw files when you want to verify the
+original command output.
 
 - [XMP/EXPO DDR5-5200 to DDR5-5600 edit](xmp-expo-ddr5-5200-to-5600-edit.md)
 - [Bad-stick management-plane before/after](bad-stick-management-plane-before-after.md)
@@ -24,4 +26,7 @@ Start with the comparison pages, then open the raw files when you want to verify
 
 ## Evidence Boundary
 
-The examples prove management-plane behavior only: SPD bytes, hub access, PMIC access, CRC/checksum status, compare results, and repeat-read stability. The documented bad stick still did not boot/work. Current best conclusion points toward DRAM-side/training-path failure, not an active MR12/MR13 mismatch.
+The examples prove management-plane behavior only: SPD bytes, hub access, PMIC access,
+CRC/checksum status, compare results, and repeat-read stability. The documented bad
+stick still did not boot/work. Current best conclusion points toward
+DRAM-side/training-path failure, not an active MR12/MR13 mismatch.

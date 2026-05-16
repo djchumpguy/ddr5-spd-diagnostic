@@ -19,12 +19,21 @@ These snapshots preserve historical SPD hub register context from the investigat
 
 ## Why This Was Useful
 
-The protected/unprotected comparison helped separate SPD payload corruption from SPD hub mode/register state. It also showed why HSA/address mode and access path must be recorded when interpreting hub registers.
+The protected/unprotected comparison helped separate SPD payload corruption from SPD hub
+mode/register state. It also showed why HSA/address mode and access path must be
+recorded when interpreting hub registers.
 
 ## Why It Is Not The Final Diagnosis
 
-These register differences are historical diagnostic context only. Later management-plane evidence showed restored SPD payload, hub access, PMIC access, and repeat-read stability could pass while the DIMM still failed. Current best conclusion points toward DRAM-side/training-path failure, not an active MR12/MR13 mismatch.
+These register differences are historical diagnostic context only. Later
+management-plane evidence showed restored SPD payload, hub access, PMIC access, and
+repeat-read stability could pass while the DIMM still failed. Current best conclusion
+points toward DRAM-side/training-path failure, not an active MR12/MR13 mismatch.
 
 ## HSA / Address Interpretation
 
-HSA and address behavior are harness-dependent. Direct-ground/offline-style access around `0x50`, normal/resistor-strapped behavior around `0x53`, and floating/high behavior around `0x57` were observations from this project. Record the physical HSA strap, declared hardware config, observed address, and whether VIN_BULK was cold-cycled before comparing hub registers.
+HSA and address behavior are harness-dependent. Direct-ground/offline-style access
+around `0x50`, normal/resistor-strapped behavior around `0x53`, and floating/high
+behavior around `0x57` were observations from this project. Record the physical HSA
+strap, declared hardware config, observed address, and whether VIN_BULK was cold-cycled
+before comparing hub registers.
