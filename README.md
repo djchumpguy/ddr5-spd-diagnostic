@@ -1,9 +1,17 @@
 # DDR5 SPD Diagnostic / ESP32 SPD Tool
 
-The main project here is the **ESP32 SPD Tool**: a Web UI plus serial fallback tool for
-reading DDR5 SPD, SPD hub, and PMIC management-plane state from a simple active
-adapter/breakout harness. A passive DDR5 boot sniffer is also included as a secondary
-companion tool for motherboard boot-sideband captures.
+[![Release](https://img.shields.io/github/v/release/djchumpguy/ddr5-spd-diagnostic)](https://github.com/djchumpguy/ddr5-spd-diagnostic/releases)
+[![License](https://img.shields.io/github/license/djchumpguy/ddr5-spd-diagnostic)](LICENSE.md)
+![PlatformIO ESP32](https://img.shields.io/badge/PlatformIO-ESP32-orange)
+
+The main project here is the **ESP32 DDR5 SPD Tool**: a Web UI plus serial
+fallback **DDR5 SPD/PMIC diagnostic tool** for reading DDR5 SPD, dumping SPD
+contents, and inspecting SPD hub / PMIC management-plane state from a simple
+active adapter/breakout harness.
+
+In normal use, it works as a DDR5 SPD reader / dumper for SPD hub, PMIC, and
+DDR5 I2C sideband debugging. A **passive DDR5 boot sniffer** is also included as
+a secondary companion tool for motherboard boot-sideband captures.
 
 > [!WARNING]
 > This is lab-proven DIY hardware, not a universal consumer-safe DDR5 repair kit. Wiring
@@ -159,6 +167,21 @@ workflow.
 | `docs/examples/` | Curated dumps, comparisons, and repair-case evidence |
 | `hardware/` | Older/deeper hardware notes and references |
 | `investigations/` | Failure-analysis notes |
+
+## Related Topics / Search Terms
+
+People looking for these topics may find this project useful:
+
+- DDR5 SPD diagnostic
+- ESP32 DDR5 SPD reader
+- DDR5 SPD dump
+- DDR5 PMIC diagnostic
+- SPD5118 / SPD5119 SPD hub
+- DDR5 I2C sideband
+- DDR5 boot sniffer
+- DDR5 RAM repair research
+- memory module diagnostics
+- hardware debugging
 
 ## Maintenance Note
 
