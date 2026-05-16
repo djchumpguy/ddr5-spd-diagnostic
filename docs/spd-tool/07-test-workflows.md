@@ -88,7 +88,7 @@ compare
 
 - GPIO32 switching is convenient, not mandatory.
 - Direct stable 5 V or a manual switch can power VIN_BULK.
-- PWR_EN is not required for basic SPD/PMIC sideband reads.
+- PWR_EN must be pulled up for the documented basic harness, but it does not need to be toggled from GPIO33 for basic SPD/PMIC sideband reads.
 - If PWR_GOOD is LOW, stop and check wiring/readiness before trusting scan/read results.
 - Save logs under `logs/YYYY-MM-DD-stick-id/` locally.
 - Commit only sanitized summaries unless the raw logs are intentionally cleaned.
@@ -265,11 +265,11 @@ Do not trust failed SPD/PMIC reads while PWR_GOOD is LOW.
 
 PWR_GOOD LOW is not immediate proof of bad silicon.
 
-## Workflow 6 — Optional PMIC VR / DRAM rail experiment
+## Workflow 6 — Optional GPIO33 PMIC VR / DRAM Rail Experiment
 
 Use this only when intentionally observing PMIC output regulator / DRAM rail behavior.
 
-PWR_EN belongs here, not in the basic SPD/PMIC read workflow.
+GPIO33-controlled PWR_EN toggling belongs here, not in the basic SPD/PMIC read workflow. The PWR_EN pull-up itself is still required in the documented basic harness.
 
 Goal:
 
@@ -291,9 +291,9 @@ vr_enable off
 
 ### Notes
 
-- PWR_EN / GPIO33 is optional PMIC VR enable / DRAM rail enable.
+- PWR_EN pull-up is required; GPIO33 control is optional PMIC VR enable / DRAM rail disable control.
 - PWR_EN is not SPD hub enable.
-- PWR_EN is not required for basic SPD/PMIC sideband access.
+- PWR_EN must not float in the documented basic harness.
 - PWR_EN is not a replacement for VIN_BULK cold cycling.
 - Record this separately from read-only baseline diagnostics.
 
@@ -433,6 +433,7 @@ PWR_GOOD LOW:
 
 PMIC VR experiment:
   optional
+  PWR_EN pull-up required; GPIO33 control optional
   PWR_EN is VR/DRAM rail enable, not hub enable
 
 Write/recovery:

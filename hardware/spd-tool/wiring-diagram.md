@@ -7,8 +7,9 @@ Key points:
 - VIN_BULK can be powered through the optional ESP32-controlled MOSFET switch **or** directly/manual-switched from stable 5 V.
 - HSA is preferably controlled by manual strap during bench testing.
 - GPIO27 HSA control was only an optional experiment.
-- PWR_EN is optional PMIC VR / DRAM rail enable, **not** SPD hub enable.
-- PWR_GOOD is a readiness/wiring indicator.
+- PWR_EN pull-up is required in the documented basic harness; GPIO33 control is optional.
+- PWR_EN is PMIC VR / DRAM rail enable, **not** SPD hub enable.
+- PWR_GOOD pull-up is required/recommended and is monitored by GPIO34 as a readiness/wiring indicator.
 - The minimum proven setup uses direct ESP32 GPIO21/GPIO22 wiring to HSDA/HSCL on a DDR5 adapter/breakout.
 - PCA9306 level shifting is an optional conservative/alternate approach, not required for the proven basic direct-read setup.
 
@@ -39,7 +40,7 @@ flowchart LR
     GPIO27["ESP32 GPIO27 optional HSA experiment"] -. "1k series" .-> HSA
     HSA -. "optional 100k pull-up" .-> V33["3.3 V"]
 
-    GPIO33["ESP32 GPIO33 optional VR enable"] --> PWREN["DIMM PWR_EN pin 151"]
+    GPIO33["ESP32 GPIO33 optional PWR_EN control"] --> PWREN["DIMM PWR_EN pin 151"]
     PWREN -- "10k pull-up" --> V33
     PWREN --> VRNOTE["PWR_EN equals PMIC VR / DRAM rail enable"]
 
@@ -85,8 +86,11 @@ flowchart LR
 
     HSA["DIMM HSA pin 148"] --> STRAP["Manual HSA strap"]
 
+    PWREN["DIMM PWR_EN pin 151"] -- "10k pull-up required" --> V33["3.3 V"]
+    GPIO33["ESP32 GPIO33 optional control"] -. "optional" .-> PWREN
+
     PWRGOOD["DIMM PWR_GOOD pin 147"] --> GPIO34["ESP32 GPIO34"]
-    PWRGOOD -- "10k pull-up" --> V33["3.3 V"]
+    PWRGOOD -- "10k pull-up required/recommended" --> V33
 
     GPIO21["ESP32 GPIO21 SDA"] -. "direct 3.3 V open-drain" .-> HSDA["DIMM HSDA pin 5"]
     GPIO22["ESP32 GPIO22 SCL"] -. "direct 3.3 V open-drain" .-> HSCL["DIMM HSCL pin 4"]
@@ -124,11 +128,15 @@ HSA:
   full VIN_BULK cold-cycle required after change
 
 PWR_EN:
-  optional PMIC VR / DRAM rail enable
+  10k pull-up to 3.3 V required in the documented basic harness
+  GPIO33 control optional
+  PMIC VR / DRAM rail enable
   not SPD hub enable
 
 PWR_GOOD:
-  readiness/wiring indicator
+  10k pull-up to 3.3 V required/recommended
+  monitored by GPIO34
+  readiness/wiring indicator, not enable control
   LOW = check harness first
 
 I2C:

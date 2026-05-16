@@ -13,9 +13,9 @@ This page only tracks the management/debug pins used by the current harness. It 
 | 10 | VSS / GND | Common ground |
 | 145 | VIN_BULK | 5 V module input; tied with pins 1 and 146 |
 | 146 | VIN_BULK | 5 V module input; tied with pins 1 and 145 |
-| 147 | PWR_GOOD | Readiness/wiring indicator to ESP32 GPIO34 |
+| 147 | PWR_GOOD | Pull-up required/recommended; readiness/wiring indicator to ESP32 GPIO34 |
 | 148 | HSA | Manual strap / address-mode selector sampled at power-up |
-| 151 | PWR_EN | Optional PMIC VR enable / DRAM rail enable via ESP32 GPIO33 |
+| 151 | PWR_EN | Pull-up required; optional PMIC VR enable / DRAM rail control via ESP32 GPIO33 |
 
 ## VIN_BULK — pins 1, 145, 146
 
@@ -62,11 +62,11 @@ SDA/SCL must be treated as open-drain I2C lines. Do not actively drive either li
 
 ## PWR_GOOD — pin 147
 
-PWR_GOOD goes to ESP32 GPIO34.
+PWR_GOOD is pulled up to 3.3 V through 10 kOhm and goes to ESP32 GPIO34 in the documented basic harness.
 
 GPIO34 is input-only, which is a good fit for this status signal.
 
-PWR_GOOD is a readiness/wiring indicator before trusting SPD/PMIC communication.
+PWR_GOOD is a readiness/wiring indicator before trusting SPD/PMIC communication, not an enable control.
 
 Project observation:
 
@@ -146,7 +146,7 @@ Even with GPIO27 control, HSA changes still require a true VIN_BULK cold power c
 
 ## PWR_EN — pin 151
 
-PWR_EN goes to ESP32 GPIO33 in the lab harness.
+PWR_EN must be pulled up to 3.3 V through 10 kOhm in the documented basic harness. ESP32 GPIO33 connection is optional; use it only if you want firmware control to pull PWR_EN LOW and disable regulators.
 
 Earlier notes called this “hub enable,” but that wording is misleading.
 
@@ -167,9 +167,9 @@ SPD hub enable
 | LOW / output-low | PMIC switching regulators / DRAM rails disabled |
 | HIGH / released | PMIC VR enable allowed through pull-up |
 
-PWR_EN is optional for basic SPD hub / PMIC sideband communication in this diagnostic setup.
+PWR_EN pull-up is required for the documented basic harness. GPIO33 control is the optional part.
 
-PWR_EN is useful when intentionally observing PMIC regulator / DRAM rail behavior, but it is not required for normal SPD/PMIC reads and it is not a replacement for VIN_BULK cold cycling.
+PWR_EN/GPIO33 control is useful when intentionally observing PMIC regulator / DRAM rail behavior, but GPIO33 control is not required for normal SPD/PMIC reads and PWR_EN is not a replacement for VIN_BULK cold cycling.
 
 ## Important distinctions
 
@@ -178,8 +178,8 @@ PWR_EN is useful when intentionally observing PMIC regulator / DRAM rail behavio
 | VIN_BULK | Supplies 5 V module input power |
 | VIN_BULK cold cycle | Forces the hub to re-sample HSA at power-up |
 | HSA | Selects address/mode behavior at power-up |
-| PWR_EN | Optional PMIC VR / DRAM rail enable |
-| PWR_GOOD | Readiness/wiring indicator before trusting bus results |
+| PWR_EN | PMIC VR / DRAM rail enable; pull-up required, GPIO33 control optional |
+| PWR_GOOD | Pull-up required/recommended; readiness/wiring indicator before trusting bus results |
 | HSCL/HSDA | Sideband I2C access to SPD hub / PMIC path |
 
 ## Short version
@@ -190,5 +190,5 @@ Set HSA manually.
 Cold-cycle VIN_BULK after HSA changes.
 Wait/check PWR_GOOD.
 Use HSCL/HSDA for SPD/PMIC sideband access.
-Treat PWR_EN as optional VR/DRAM rail enable, not hub enable.
+Treat PWR_EN as required-pull-up VR/DRAM rail enable, not hub enable. GPIO33 control is optional.
 ```

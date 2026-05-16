@@ -14,8 +14,8 @@ This is the lab-proven minimum setup for this project:
 | --- | --- |
 | ESP32 GPIO21 | DIMM/adapter HSDA/SDA |
 | ESP32 GPIO22 | DIMM/adapter HSCL/SCL |
-| PWR_EN | 10 kOhm pull-up to 3.3 V |
-| PWR_GOOD | 10 kOhm pull-up to 3.3 V, and ESP32 input if monitored |
+| PWR_EN | 10 kOhm pull-up to 3.3 V required; ESP32 GPIO33 control optional |
+| PWR_GOOD | 10 kOhm pull-up to 3.3 V required/recommended; monitored by ESP32 GPIO34 input |
 | DIMM VIN_BULK | 5 V source to the DIMM VIN_BULK pins |
 | ESP32 power | USB or another ESP32-safe power source |
 | Ground | DIMM power ground and ESP32 ground must be shared |
@@ -28,7 +28,7 @@ The ESP32 internal SDA/SCL pull-ups worked for direct SPD/PMIC communication in 
 
 - DDR5 extension adapter or breakout,
 - ESP32 dev board,
-- two 10 kOhm resistors for PWR_EN and PWR_GOOD,
+- two 10 kOhm resistors for PWR_EN and PWR_GOOD pull-ups,
 - 5 V source for DIMM VIN_BULK,
 - USB or other ESP32 power,
 - shared ground between the ESP32 and DIMM supply,
@@ -42,7 +42,9 @@ Verify rails before connecting a DIMM. The DIMM VIN_BULK supply and ESP32 must s
 
 ![Bench power module example](../images/spd-tool/bench-3v3-5v-power-module-example.jpg)
 
-PWR_EN and PWR_GOOD are pulled to 3.3 V through 10 kOhm resistors in the documented simple harness. PWR_GOOD is only meaningful if your hardware config and wiring actually monitor it.
+PWR_EN must be pulled to 3.3 V through 10 kOhm in the documented simple harness; without that pull-up, the PMIC/VR enable path may stay disabled and the module can appear dead. Connecting ESP32 GPIO33 to PWR_EN is optional and only needed when you want firmware-controlled regulator disable.
+
+PWR_GOOD is pulled to 3.3 V through 10 kOhm and monitored by ESP32 GPIO34 in the basic setup. GPIO34 is input-only. Treat PWR_GOOD as a readiness/wiring indicator, not an enable control.
 
 ## Optional/Alternate Wiring
 

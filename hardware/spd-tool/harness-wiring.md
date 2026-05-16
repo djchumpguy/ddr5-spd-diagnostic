@@ -183,8 +183,8 @@ In short: the same stick can appear at different addresses depending on whether 
 | LOW / output-low | PMIC switching regulators / DRAM rails disabled |
 | HIGH / released | PMIC VR enable allowed through pull-up |
 
-GPIO33 PWR_EN control can be treated as optional PMIC VR enable / DRAM rail
-enable control in the full harness.
+GPIO33 PWR_EN control is optional. It can be used as PMIC VR enable / DRAM rail
+disable control in the full harness.
 
 For the experimental minimum direct-wire setup, PWR_EN itself is required and
 must be pulled/enabled. GPIO33 control/readback is optional, but the PWR_EN line
@@ -202,7 +202,7 @@ PWR_EN is not a substitute for full DIMM power removal.
 
 GPIO34 is input-only, which makes it a good fit for PWR_GOOD.
 
-PWR_GOOD is useful as a readiness/wiring indicator before trusting SPD/PMIC communication.
+PWR_GOOD is useful as a readiness/wiring indicator before trusting SPD/PMIC communication. It is not an enable control.
 
 Project observation:
 
@@ -311,7 +311,7 @@ Pin 148 ---- 1k ---- GPIO27
 Pin 148 ---- 100k ---- 3.3V
 ```
 
-### PWR_EN / optional VR enable
+### PWR_EN / required pull-up, optional GPIO33 VR control
 
 ```text
 Pin 151 ---- GPIO33

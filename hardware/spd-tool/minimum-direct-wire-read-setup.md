@@ -60,8 +60,8 @@ accessible adapter pads instead of soldering directly to a DDR5 DIMM.
 | HSCL | `4` | ESP32 GPIO22 / SCL | direct wire, no PCA9306 |
 | HSDA | `5` | ESP32 GPIO21 / SDA | direct wire, no PCA9306 |
 | HSA | `148` | GND | direct-ground / hard-low / offline-style `0x50` behavior |
-| PWR_EN | `151` | ESP32 GPIO33 plus 10k pull-up to 3.3 V | must be pulled/enabled |
-| PWR_GOOD | `147` | ESP32 GPIO34 plus 10k pull-up to 3.3 V | diagnostic/readback |
+| PWR_EN | `151` | 10k pull-up to 3.3 V; optional ESP32 GPIO33 control | pull-up required; GPIO33 control optional |
+| PWR_GOOD | `147` | ESP32 GPIO34 plus 10k pull-up to 3.3 V | pull-up required/recommended; readiness/readback |
 
 ## Pull-Up Requirements
 
@@ -74,8 +74,9 @@ For this minimum setup, PWR_EN must be pulled high/enabled.
 PWR_EN readback/control through ESP32 GPIO33 is optional, but the PWR_EN line
 itself must not float.
 
-PWR_GOOD is optional for pure reads, but if connected to the ESP32 it should be
-pulled up:
+PWR_GOOD should be pulled up and monitored by ESP32 GPIO34 in the documented
+basic setup. GPIO34 is input-only, and PWR_GOOD is a readiness/wiring indicator,
+not an enable control:
 
 ```text
 3.3 V -- 10k -- DDR5 pin 147 / PWR_GOOD

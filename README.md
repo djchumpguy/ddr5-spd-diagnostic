@@ -56,8 +56,8 @@ The proven basic direct-read adapter harness used:
 - ESP32 development board.
 - DDR5 UDIMM extension adapter / breakout.
 - Two 10 kΩ resistors:
-  - PWR_EN pull-up to 3.3 V.
-  - PWR_GOOD pull-up to 3.3 V.
+  - PWR_EN pull-up to 3.3 V. This pull-up is required in the documented basic harness.
+  - PWR_GOOD pull-up to 3.3 V. This pull-up is required/recommended and is monitored by GPIO34.
 - Stable 5 V source for DIMM VIN_BULK.
 - ESP32 USB power or equivalent.
 - Shared ground between ESP32 and DIMM power source.
@@ -74,8 +74,8 @@ The active SPD Tool should use an adapter/breakout connection. Piggyback/tap wir
 | --- | --- |
 | ESP32 GPIO21 | DIMM/adapter HSDA/SDA |
 | ESP32 GPIO22 | DIMM/adapter HSCL/SCL |
-| PWR_EN | 10 kΩ pull-up to 3.3 V |
-| PWR_GOOD | 10 kΩ pull-up to 3.3 V, and ESP32 GPIO34 if monitored |
+| PWR_EN | 10 kΩ pull-up to 3.3 V required; ESP32 GPIO33 control optional |
+| PWR_GOOD | 10 kΩ pull-up to 3.3 V required/recommended; monitored by ESP32 GPIO34 input |
 | DIMM VIN_BULK | stable 5 V source |
 | ESP32 power | USB or other ESP32-safe source |
 | Grounds | ESP32 and DIMM supply grounds shared |

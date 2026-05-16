@@ -32,8 +32,8 @@ DDR5 sideband debug has several separate control layers that are easy to acciden
 
 1. **VIN_BULK power** — 5 V feed to module pins 1, 145, and 146.
 2. **Full VIN_BULK cold cycling** — required after changing HSA strap state.
-3. **PWR_EN / VR enable** — PMIC regulator / DRAM rail enable; not SPD hub enable.
-4. **PWR_GOOD** — useful readiness/wiring indicator before trusting bus results.
+3. **PWR_EN / VR enable** — PMIC regulator / DRAM rail enable; pull-up required in the documented basic harness, GPIO33 control optional; not SPD hub enable.
+4. **PWR_GOOD** — pull-up required/recommended and useful as a GPIO34 readiness/wiring indicator before trusting bus results.
 5. **HSA strap state** — sampled by the SPD hub at power-up.
 6. **Sideband bus access** — HSDA/HSCL through either level-shifted or direct open-drain wiring.
 7. **Local devices behind the hub** — PMIC and other sideband clients reached through hub behavior.
@@ -46,7 +46,7 @@ The biggest practical rule:
 
 That cold cycle can be done by GPIO32-controlled switching, a manual inline switch, a bench supply toggle, or removing/restoring the 5 V feed.
 
-PWR_EN is useful for PMIC regulator / DRAM rail experiments, but PWR_EN is not a substitute for removing/restoring VIN_BULK.
+PWR_EN must be pulled up in the documented basic harness. GPIO33 control is useful for PMIC regulator / DRAM rail experiments, but PWR_EN is not a substitute for removing/restoring VIN_BULK.
 
 ## HSA testing model
 

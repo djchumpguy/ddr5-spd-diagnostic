@@ -64,8 +64,8 @@ A cleaner harness would use:
   - nominal 35.7 kΩ / ~36 kΩ resistor-selected strap
   - floating/high experimental
 - VIN_BULK switch or ESP32-controlled MOSFET.
-- Optional PWR_EN switch/GPIO control.
-- PWR_GOOD indicator/input.
+- Required PWR_EN pull-up plus optional GPIO33 switch/control.
+- PWR_GOOD pull-up and GPIO34 indicator/input.
 - Optional labeled I2C interface/protection if your harness needs it.
 - Clear separation between active tool wiring and passive sniffer wiring.
 

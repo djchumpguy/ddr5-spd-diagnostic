@@ -22,8 +22,8 @@ Follow [Flashing](flashing.md). Flashing is separate from DDR5 wiring; do not co
 1. Use a DDR5 extension adapter or breakout.
 2. Connect ESP32 GPIO21 to DIMM/adapter HSDA/SDA.
 3. Connect ESP32 GPIO22 to DIMM/adapter HSCL/SCL.
-4. Pull PWR_EN to 3.3 V with 10 kΩ.
-5. Pull PWR_GOOD to 3.3 V with 10 kΩ, and connect it to ESP32 GPIO34 if you want to monitor it.
+4. Pull PWR_EN to 3.3 V with 10 kΩ. This pull-up is required; ESP32 GPIO33 control is optional.
+5. Pull PWR_GOOD to 3.3 V with 10 kΩ and monitor it with ESP32 GPIO34. GPIO34 is input-only; PWR_GOOD is a readiness/wiring indicator, not an enable control.
 6. Provide stable 5 V to the DIMM VIN_BULK pins.
 7. Power the ESP32, USB is fine.
 8. Share ground between the DIMM power supply and ESP32.

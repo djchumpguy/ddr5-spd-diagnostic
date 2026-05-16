@@ -28,7 +28,9 @@ setup is verified carefully.
 GPIO27-controlled HSA is useful as an experiment, but not required. Manual HSA
 switches or jumpers are often cleaner and easier to reason about.
 
-PWR_EN is optional PMIC VR enable / DRAM rail enable control. It is not a
+PWR_EN itself is required in the documented basic harness: pull it up to 3.3 V
+through 10 kOhm or the PMIC/VR enable path may stay disabled. ESP32 GPIO33
+control is optional PMIC VR enable / DRAM rail disable control. PWR_EN is not a
 substitute for true VIN_BULK cold cycling.
 
 ## Cleaner recommended harness
@@ -40,8 +42,8 @@ A cleaner harness would separate the decisions physically and label them:
   - nominal 35.7 kΩ / ~36 kΩ HSA/HID resistor-selected strap
   - floating/high experimental
 - VIN_BULK switch or ESP32-controlled MOSFET.
-- Optional PWR_EN switch/GPIO control.
-- PWR_GOOD indicator/input.
+- Required PWR_EN pull-up plus optional GPIO33 switch/control.
+- PWR_GOOD pull-up and GPIO34 indicator/input.
 - Optional labeled HSCL/HSDA I2C interface/protection if your harness needs it.
 
 Keep the active SPD/PMIC tool wiring separate from passive boot-sniffer wiring.

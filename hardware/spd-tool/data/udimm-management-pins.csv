@@ -6,6 +6,6 @@ DIMM_Pin,Signal,Wire_Color,Function,Harness_Connection
 10,GND,BLACK,Ground,Common ground
 145,VIN_BULK,RED,5 V module input,"Tied with pins 1/146; feed from stable 5 V, manual switch, or optional GPIO32-controlled MOSFET switch"
 146,VIN_BULK,RED,5 V module input,"Tied with pins 1/145; feed from stable 5 V, manual switch, or optional GPIO32-controlled MOSFET switch"
-147,PWR_GOOD,PURPLE,Readiness/wiring indicator,"10k pull-up to 3.3 V plus ESP32 GPIO34; if LOW, check wiring/readiness before trusting SPD/PMIC reads"
+147,PWR_GOOD,PURPLE,Readiness/wiring indicator,"10k pull-up to 3.3 V required/recommended plus ESP32 GPIO34 monitor; GPIO34 is input-only; if LOW, check wiring/readiness before trusting SPD/PMIC reads"
 148,HSA,BLUE,Address/mode strap sampled at power-up,Preferred bench method is manual strap; optional GPIO27 experiment only; HSA changes require full VIN_BULK cold cycle
-151,PWR_EN,WHITE,PMIC VR / DRAM rail enable,"10k pull-up to 3.3 V required for the documented basic adapter harness; optional ESP32 GPIO33 can pull LOW to disable regulators; not SPD hub enable"
+151,PWR_EN,WHITE,PMIC VR / DRAM rail enable,"PWR_EN pull-up required; GPIO33 control optional. Use 10k pull-up to 3.3 V for the documented basic adapter harness; optional ESP32 GPIO33 can pull LOW to disable regulators; not SPD hub enable"

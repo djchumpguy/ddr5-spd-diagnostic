@@ -18,7 +18,7 @@ That cold cycle can be done with:
 
 GPIO32 switching is convenient, not mandatory.
 
-PWR_EN is not SPD hub enable. Treat PWR_EN as optional PMIC VR / DRAM rail enable.
+PWR_EN is not SPD hub enable. In the documented basic harness, PWR_EN must be pulled up to 3.3 V through 10 kOhm; ESP32 GPIO33 control is optional.
 
 ## Mode 1 — Normal read-only diagnostic mode
 
@@ -90,7 +90,7 @@ compare
 
 ### Notes
 
-- PWR_EN does not need to be toggled for basic SPD/PMIC sideband reads.
+- PWR_EN must be pulled up for the documented basic harness, but it does not need to be toggled from GPIO33 for basic SPD/PMIC sideband reads.
 - If PWR_GOOD is LOW, stop and check wiring/readiness before trusting scan/read results.
 - Do not treat a failed scan with PWR_GOOD LOW as proof of a dead SPD hub or PMIC.
 
@@ -183,11 +183,11 @@ I UNDERSTAND THIS CAN DAMAGE THE MODULE
 - Do not present MR12/MR13 protection cloning as the normal fix path.
 - MR12/MR13 mismatch is historical context, not the current active root cause.
 
-## Mode 4 — Optional PMIC VR / DRAM rail experiment
+## Mode 4 — Optional GPIO33 PMIC VR / DRAM Rail Experiment
 
 Use this only when intentionally observing PMIC output regulator / DRAM rail behavior.
 
-PWR_EN belongs here, not in the basic SPD/PMIC read workflow.
+GPIO33-controlled PWR_EN toggling belongs here, not in the basic SPD/PMIC read workflow. The PWR_EN pull-up itself is still required in the documented basic harness.
 
 ### Goal
 
@@ -209,9 +209,9 @@ vr_enable off
 
 ### Notes
 
-- PWR_EN / GPIO33 should be treated as optional PMIC VR enable / DRAM rail enable.
+- PWR_EN pull-up is required; GPIO33 control is optional PMIC VR enable / DRAM rail disable control.
 - PWR_EN is not SPD hub enable.
-- PWR_EN is not required for basic SPD/PMIC sideband access.
+- PWR_EN must not float in the documented basic harness.
 - PWR_EN is not a replacement for VIN_BULK cold cycling.
 
 ## Why PWR_EN alone is not enough
@@ -289,7 +289,8 @@ Direct-GND/offline tester:
   Write only with explicit confirmation
 
 PWR_EN:
-  Optional PMIC VR / DRAM rail enable
+  10k pull-up required in the documented basic harness
+  GPIO33 control optional
+  PMIC VR / DRAM rail enable
   Not hub enable
-  Not needed for basic SPD/PMIC reads
 ```

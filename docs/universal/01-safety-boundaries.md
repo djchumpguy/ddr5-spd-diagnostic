@@ -102,9 +102,9 @@ For this project, PWR_EN should be treated as:
 PMIC VR enable / DRAM rail enable
 ```
 
-PWR_EN is optional for basic SPD/PMIC sideband access.
+PWR_EN pull-up is required for the documented basic harness. GPIO33 control is the optional part.
 
-Use PWR_EN only when intentionally experimenting with PMIC regulator / DRAM rail behavior.
+Use GPIO33-controlled PWR_EN changes only when intentionally experimenting with PMIC regulator / DRAM rail behavior.
 
 | PWR_EN state | Meaning |
 |---|---|

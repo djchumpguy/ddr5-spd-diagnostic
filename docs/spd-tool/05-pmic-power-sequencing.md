@@ -13,13 +13,13 @@ For this ESP32 diagnostic setup, separate these ideas:
 | VIN_BULK | 5 V module input rail / main PMIC input path |
 | VIN_MGMT | Management supply domain used for PMIC register/NVM access and LDO support |
 | Sideband access | SPD hub / PMIC communication path over HSDA/HSCL |
-| PWR_EN | Optional PMIC VR enable / DRAM rail enable |
-| PWR_GOOD | Readiness/wiring indicator before trusting bus results |
+| PWR_EN | PMIC VR enable / DRAM rail enable; pull-up required in the documented basic harness, GPIO33 control optional |
+| PWR_GOOD | Pull-up required/recommended; GPIO34-monitored readiness/wiring indicator before trusting bus results |
 | HSA | Strap sampled by the SPD hub at power-up |
 
 The diagnostic tool can read SPD/PMIC sideband state without treating PWR_EN as “hub enable.”
 
-PWR_EN should be reserved for intentional PMIC regulator / DRAM rail experiments.
+PWR_EN itself must be pulled up in the documented basic harness. GPIO33 control of PWR_EN should be reserved for intentional PMIC regulator / DRAM rail experiments.
 
 ## Rails and management power
 
@@ -75,7 +75,7 @@ PWR_EN = SPD hub enable
 
 PWR_EN is useful when intentionally observing or testing PMIC output regulator / DRAM rail behavior.
 
-PWR_EN is not required for basic SPD hub / PMIC sideband access in the diagnostic workflow.
+PWR_EN pull-up is required for the documented basic harness. The optional part is GPIO33 control; basic SPD hub / PMIC sideband reads do not require toggling PWR_EN from firmware.
 
 ## VR enable timing caution
 
@@ -88,7 +88,7 @@ Apply VIN_BULK
 → wait/check PWR_GOOD/readiness
 → verify sideband access
 → read PMIC status
-→ only then consider VR enable
+→ only then consider GPIO33-controlled VR enable experiments
 ```
 
 For the referenced RTQ5119A-style behavior:
@@ -101,7 +101,7 @@ For the referenced RTQ5119A-style behavior:
 
 ## PWR_GOOD interpretation
 
-PWR_GOOD is useful as a readiness/wiring indicator before trusting SPD/PMIC communication.
+PWR_GOOD is pulled up to 3.3 V through 10 kOhm and monitored by ESP32 GPIO34 in the basic setup. GPIO34 is input-only. PWR_GOOD is a readiness/wiring indicator before trusting SPD/PMIC communication, not an enable control.
 
 Project observation:
 
@@ -143,7 +143,7 @@ Read PMIC ID/status/registers
 Dump SPD/PMIC state as needed
 ```
 
-PWR_EN does not need to be toggled for this workflow.
+PWR_EN must already be pulled up for the documented harness, but it does not need to be toggled from GPIO33 for this workflow.
 
 ## Optional PMIC VR / DRAM rail experiment
 
@@ -163,7 +163,7 @@ vr_enable off
 
 Notes:
 
-- This is not required for basic SPD/PMIC sideband communication.
+- GPIO33 control is not required for basic SPD/PMIC sideband communication, but the PWR_EN pull-up still is.
 - Record this separately from normal read-only diagnostics.
 - Do not use VR enable as a casual “maybe it helps” step.
 - If PWR_GOOD is LOW, stop and fix wiring/readiness before interpreting PMIC behavior.
@@ -211,9 +211,10 @@ PMIC notes remain useful because they document how sideband access, VR enable, P
 ```text
 VIN_BULK powers the module.
 GPIO32 switching is convenient, not mandatory.
-PWR_EN is optional PMIC VR / DRAM rail enable, not SPD hub enable.
+PWR_EN pull-up is required; GPIO33 control is optional.
+PWR_EN is PMIC VR / DRAM rail enable, not SPD hub enable.
 PWR_GOOD LOW means check wiring/readiness first.
-SPD/PMIC sideband reads do not require casual DRAM rail enable experiments.
+SPD/PMIC sideband reads do not require casual GPIO33-controlled DRAM rail enable experiments.
 Read PMIC status before VR enable.
 VR enable is a deliberate experiment, not a default read workflow step.
 ```
